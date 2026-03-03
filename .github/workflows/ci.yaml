@@ -1,0 +1,107 @@
+name: CI/CD
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "packages/**"
+      - "Dockerfile"
+      - "docker-bake.hcl"
+      - "compose.yaml"
+      - "package.json"
+      - "bun.lock"
+      - "tsconfig.json"
+      - "biome.json"
+      - ".github/workflows/**"
+  pull_request:
+    paths:
+      - "packages/**"
+      - "Dockerfile"
+      - "docker-bake.hcl"
+      - "compose.yaml"
+      - "package.json"
+      - "bun.lock"
+      - "tsconfig.json"
+      - "biome.json"
+      - ".github/workflows/**"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+  contents: write
+  pull-requests: write
+  id-token: write
+
+env:
+  TZ: Europe/Paris
+
+jobs:
+  # ===========================================
+  # TypeScript: Lint, Format, Build
+  # ===========================================
+  typescript:
+    name: TypeScript
+    runs-on: ubuntu-latest
+    env:
+      PORT: 3000
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Setup bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.3.10
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile --ignore-scripts
+
+      - name: Linting
+        run: bun run lint
+
+      - name: Type check
+        run: bun run check
+
+      - name: Build
+        run: bun run build
+
+  # ===========================================
+  # Docker: Build (PR) or Build & Push (main)
+  # ===========================================
+  docker:
+    name: Docker
+    runs-on: ubuntu-latest
+    needs: typescript
+    if: github.event_name != 'pull_request' || !startsWith(github.event.pull_request.title, 'WIP')
+    env:
+      TAG: ${{ github.sha }}
+    steps:
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - uses: actions/checkout@v5
+
+      # PR: Build only (no push)
+      - name: Build (PR validation)
+        if: github.event_name == 'pull_request'
+        shell: bash
+        run: docker buildx bake --file ./docker-bake.hcl app
+
+      # Only login and push on main branch
+      - name: Login to Container registry
+        if: github.ref == 'refs/heads/main'
+        uses: docker/login-action@v3
+        with:
+          username: ${{ vars.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      # Main: Build and push
+      - name: Build and push
+        if: github.ref == 'refs/heads/main'
+        shell: bash
+        run: docker buildx bake --file ./docker-bake.hcl --push

@@ -60,7 +60,7 @@ docker run -p 3000:3000 \
   -e PANGOLIN_MAIN_SITE_NAME=your-site \
   -e PANGOLIN_MAIN_DOMAIN=example.com \
   -e PANGOLIN_API_BASE_URL=https://api.pangolin.com \
-  boyer-nicolas/dokploy-hook-pangolin
+  boyern/dokploy-hook-pangolin
 ```
 
 ### With Docker Compose
@@ -70,7 +70,7 @@ docker run -p 3000:3000 \
 ```yaml
 services:
   hook:
-    image: boyer-nicolas/dokploy-hook-pangolin:latest
+    image: boyern/dokploy-hook-pangolin:latest
     ports:
       - "3000:3000"
     environment:
@@ -243,7 +243,7 @@ Webhook endpoint for Dokploy events
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/boyer-nicolas/hook.git
+git clone https://github.com/boyer-nicolas/dokploy-to-pangolin.git
 cd dokploy-hook-pangolin
 ```
 
