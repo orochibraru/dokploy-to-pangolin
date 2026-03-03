@@ -60,7 +60,7 @@ docker run -p 3000:3000 \
   -e PANGOLIN_MAIN_SITE_NAME=your-site \
   -e PANGOLIN_MAIN_DOMAIN=example.com \
   -e PANGOLIN_API_BASE_URL=https://api.pangolin.com \
-  boyern/dokploy-hook-pangolin
+  orochibraru/dokploy-hook-pangolin
 ```
 
 ### With Docker Compose
@@ -69,18 +69,18 @@ docker run -p 3000:3000 \
 
 ```yaml
 services:
-  hook:
-    image: boyern/dokploy-hook-pangolin:latest
-    ports:
-      - "3000:3000"
-    environment:
-      - PORT=3000
-      - WEBHOOK_SECRET=${WEBHOOK_SECRET}
-      - PANGOLIN_API_KEY=${PANGOLIN_API_KEY}
-      - PANGOLIN_ORG_ID=${PANGOLIN_ORG_ID}
-      - PANGOLIN_MAIN_SITE_NAME=${PANGOLIN_MAIN_SITE_NAME}
-      - PANGOLIN_MAIN_DOMAIN=${PANGOLIN_MAIN_DOMAIN}
-      - PANGOLIN_API_BASE_URL=${PANGOLIN_API_BASE_URL}
+    hook:
+        image: orochibraru/dokploy-hook-pangolin:latest
+        ports:
+            - "3000:3000"
+        environment:
+            - PORT=3000
+            - WEBHOOK_SECRET=${WEBHOOK_SECRET}
+            - PANGOLIN_API_KEY=${PANGOLIN_API_KEY}
+            - PANGOLIN_ORG_ID=${PANGOLIN_ORG_ID}
+            - PANGOLIN_MAIN_SITE_NAME=${PANGOLIN_MAIN_SITE_NAME}
+            - PANGOLIN_MAIN_DOMAIN=${PANGOLIN_MAIN_DOMAIN}
+            - PANGOLIN_API_BASE_URL=${PANGOLIN_API_BASE_URL}
 ```
 
 ## Configuration
@@ -129,13 +129,13 @@ Webhook endpoint for Dokploy events
 
 ```json
 {
-  "title": "Build Success",
-  "message": "Application deployed successfully",
-  "timestamp": "2026-03-03T12:00:00Z",
-  "type": "build",
-  "status": "success",
-  "projectName": "my-app",
-  "domains": "my-app.example.com"
+    "title": "Build Success",
+    "message": "Application deployed successfully",
+    "timestamp": "2026-03-03T12:00:00Z",
+    "type": "build",
+    "status": "success",
+    "projectName": "my-app",
+    "domains": "my-app.example.com"
 }
 ```
 
@@ -150,27 +150,27 @@ Webhook endpoint for Dokploy events
 ### Workflow
 
 1. **Dokploy Deploy Event**
-   - User deploys an application in Dokploy
-   - Dokploy sends a webhook to `/webhook` endpoint
+    - User deploys an application in Dokploy
+    - Dokploy sends a webhook to `/webhook` endpoint
 
 2. **Webhook Validation**
-   - Service validates the webhook secret
-   - Checks if the event type is `build`
-   - Verifies build status is not `error`
+    - Service validates the webhook secret
+    - Checks if the event type is `build`
+    - Verifies build status is not `error`
 
 3. **Domain Check**
-   - Fetches existing Pangolin resources
-   - Checks if domain already exists
+    - Fetches existing Pangolin resources
+    - Checks if domain already exists
 
 4. **Resource Creation** (if needed)
-   - Extracts subdomain from full domain
-   - Creates a new Pangolin resource
-   - Configures HTTP routing and sticky sessions
+    - Extracts subdomain from full domain
+    - Creates a new Pangolin resource
+    - Configures HTTP routing and sticky sessions
 
 5. **Target Setup**
-   - Creates a resource target pointing to main site
-   - Configures HTTPS on port 443
-   - Enables the target
+    - Creates a resource target pointing to main site
+    - Configures HTTPS on port 443
+    - Enables the target
 
 ### Example Flow
 
@@ -222,9 +222,9 @@ Webhook endpoint for Dokploy events
 
 1. In your Dokploy project settings, navigate to Webhooks
 2. Add a new webhook:
-   - **URL**: `http://your-service-url:3000/webhook`
-   - **Secret**: Your configured `WEBHOOK_SECRET`
-   - **Events**: Select "Build" events
+    - **URL**: `http://your-service-url:3000/webhook`
+    - **Secret**: Your configured `WEBHOOK_SECRET`
+    - **Events**: Select "Build" events
 3. Save and deploy your application
 4. Check the logs to verify webhook processing
 
@@ -243,7 +243,7 @@ Webhook endpoint for Dokploy events
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/boyer-nicolas/dokploy-to-pangolin.git
+git clone https://github.com/orochibraru/dokploy-to-pangolin.git
 cd dokploy-hook-pangolin
 ```
 

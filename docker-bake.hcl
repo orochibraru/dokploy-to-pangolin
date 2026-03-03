@@ -14,7 +14,7 @@ group "default" {
 target "app" {
   context    = "."
   dockerfile = "./Dockerfile"
-  tags       = ["boyern/dokploy-to-pangolin:latest","boyern/dokploy-to-pangolin:${TAG}"]
+  tags       = ["orochibraru/dokploy-to-pangolin:latest","orochibraru/dokploy-to-pangolin:${TAG}"]
   platforms = ["linux/amd64", "linux/arm64"]
   cache-from = ["type=gha"]
   cache-to = ["type=gha,mode=max"]
