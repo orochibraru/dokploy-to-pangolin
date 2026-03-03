@@ -30,15 +30,15 @@ This service acts as a bridge between [Dokploy](https://dokploy.com/) (deploymen
 
 ## Features
 
-- ✅ Automatic resource creation in Pangolin when new domains are deployed
-- ✅ Intelligent domain matching to avoid duplicates
-- ✅ Webhook authentication with secret token
-- ✅ Comprehensive error handling and logging
-- ✅ Graceful shutdown handling (SIGINT/SIGTERM)
-- ✅ Full TypeScript support with custom types
-- ✅ 90%+ test coverage
-- ✅ Docker & Docker Compose support
-- ✅ Built with Bun & Hono for performance
+- Automatic resource creation in Pangolin when new domains are deployed
+- Intelligent domain matching to avoid duplicates
+- Webhook authentication with secret token
+- Comprehensive error handling and logging
+- Graceful shutdown handling (SIGINT/SIGTERM)
+- Full TypeScript support with custom types
+- 90%+ test coverage
+- Docker & Docker Compose support
+- Built with Bun & Hono for performance
 
 ## Prerequisites
 
@@ -238,6 +238,8 @@ Webhook endpoint for Dokploy events
 
 ## Development
 
+### Getting started
+
 1. Clone the repository:
 
 ```bash
@@ -308,7 +310,7 @@ bun test
 bun test --coverage
 ```
 
-## Tech Stack
+### Tech Stack
 
 - **Runtime**: [Bun](https://bun.sh/) - Fast JavaScript runtime
 - **Framework**: [Hono](https://hono.dev/) - Lightweight web framework
@@ -316,6 +318,11 @@ bun test --coverage
 - **Linter**: [Biome](https://biomejs.dev/) - Fast linter and formatter
 - **Testing**: Bun's built-in test runner
 - **Container**: Docker with Alpine Linux
+
+### A note on AI generated code
+
+Some code in this project was generated with the help of AI tools. This only concerns tests and markdown (which is already bad enough). The core logic and implementation **were written by hand**.
+Please follow this pattern when contributing to ensure code quality and consistency, to ensure we don't mutually destroy our Homelabs ❤️
 
 ## Contributing
 
