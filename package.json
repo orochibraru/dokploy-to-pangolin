@@ -9,11 +9,13 @@
 		"start": "bun ./build/index.js",
 		"gen:api": "openapi-typescript ./pangolin-openapi.yml --output lib/pangolin.d.ts",
 		"lint:fix": "biome check --write .",
-		"lint": "biome check ."
+		"lint": "biome check .",
+		"prepare": "husky"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "2.4.5",
 		"@types/bun": "latest",
+		"husky": "^9.1.7",
 		"openapi-typescript": "^7.13.0"
 	},
 	"peerDependencies": {
