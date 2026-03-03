@@ -4,7 +4,7 @@
 	"type": "module",
 	"private": true,
 	"scripts": {
-		"preinstall": "bunx only-allow bun@1.3.10",
+		"preinstall": "bunx only-allow bun",
 		"dev": "bun run --watch ./src/index.ts",
 		"build": "bun run build.ts",
 		"start": "bun ./build/index.js",
