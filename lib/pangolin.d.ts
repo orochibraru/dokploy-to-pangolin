@@ -4,3649 +4,3680 @@
  */
 
 export interface paths {
-    "/org/{orgId}/site/{niceId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description Get a site by orgId and niceId. NiceId is a readable ID for the site and unique on a per org basis. */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    orgId: string;
-                    niceId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/site/{siteId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description Get a site by siteId. */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    siteId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        put?: never;
-        /** @description Update a site. */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    siteId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
-                        name?: string;
-                        niceId?: string;
-                        dockerSocketEnabled?: boolean;
-                    };
-                };
-            };
-            responses: never;
-        };
-        /** @description Delete a site and all its associated data. */
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    siteId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/org/{orgId}/site": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        /** @description Create a new site. */
-        put: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    orgId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
-                        name: string;
-                        exitNodeId?: number;
-                        pubKey?: string;
-                        subnet?: string;
-                        newtId?: string;
-                        secret?: string;
-                        address?: string;
-                        /** @enum {string} */
-                        type: "newt" | "wireguard" | "local";
-                    };
-                };
-            };
-            responses: never;
-        };
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/org/{orgId}/site-resource": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        /** @description Create a new site resource. */
-        put: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    orgId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
-                        name: string;
-                        /** @enum {string} */
-                        mode: "host" | "cidr" | "port";
-                        siteId: number;
-                        destination: string;
-                        /** @default true */
-                        enabled?: boolean;
-                        alias?: string;
-                        userIds: string[];
-                        roleIds: number[];
-                        clientIds: number[];
-                        tcpPortRangeString?: string;
-                        udpPortRangeString?: string;
-                        disableIcmp?: boolean;
-                        authDaemonPort?: number;
-                        /** @enum {string} */
-                        authDaemonMode?: "site" | "remote";
-                    };
-                };
-            };
-            responses: never;
-        };
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/site-resource/{siteResourceId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description Get a specific site resource by siteResourceId. */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    siteResourceId: number;
-                    siteId: number;
-                    orgId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        put?: never;
-        /** @description Update a site resource. */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    siteResourceId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
-                        name?: string;
-                        siteId: number;
-                        /** @enum {string} */
-                        mode?: "host" | "cidr";
-                        destination?: string;
-                        enabled?: boolean;
-                        alias?: string | null;
-                        userIds: string[];
-                        roleIds: number[];
-                        clientIds: number[];
-                        tcpPortRangeString?: string;
-                        udpPortRangeString?: string;
-                        disableIcmp?: boolean;
-                        authDaemonPort?: number | null;
-                        /** @enum {string} */
-                        authDaemonMode?: "site" | "remote";
-                    };
-                };
-            };
-            responses: never;
-        };
-        /** @description Delete a site resource. */
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    siteResourceId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/org/{orgId}/site/{siteId}/resource/nice/{niceId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description Get a specific site resource by niceId. */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    niceId: string;
-                    siteId: number;
-                    orgId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/org/{orgId}/site/{siteId}/resources": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description List site resources for a site. */
-        get: {
-            parameters: {
-                query?: {
-                    limit?: string;
-                    offset?: string;
-                    /** @description Field to sort by */
-                    sort_by?: "name";
-                    /** @description Sort order */
-                    order?: "asc" | "desc";
-                };
-                header?: never;
-                path: {
-                    siteId: string;
-                    orgId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/org/{orgId}/site-resources": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description List all site resources for an organization. */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description Number of items per page */
-                    pageSize?: number;
-                    /** @description Page number to retrieve */
-                    page?: number;
-                    query?: string;
-                    /** @description Filter site resources by mode */
-                    mode?: "host" | "cidr";
-                    /** @description Field to sort by */
-                    sort_by?: "name";
-                    /** @description Sort order */
-                    order?: "asc" | "desc";
-                };
-                header?: never;
-                path: {
-                    orgId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/site-resource/{siteResourceId}/roles": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description List all roles for a site resource. */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    siteResourceId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        put?: never;
-        /** @description Set roles for a site resource. This will replace all existing roles. */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    siteResourceId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
-                        roleIds: number[];
-                    };
-                };
-            };
-            responses: never;
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/site-resource/{siteResourceId}/users": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description List all users for a site resource. */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    siteResourceId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        put?: never;
-        /** @description Set users for a site resource. This will replace all existing users. */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    siteResourceId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
-                        userIds: string[];
-                    };
-                };
-            };
-            responses: never;
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/site-resource/{siteResourceId}/clients": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description List all clients for a site resource. */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    siteResourceId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        put?: never;
-        /** @description Set clients for a site resource. This will replace all existing clients. Clients with a userId cannot be added. */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    siteResourceId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
-                        clientIds: number[];
-                    };
-                };
-            };
-            responses: never;
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/site-resource/{siteResourceId}/roles/add": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** @description Add a single role to a site resource. */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    siteResourceId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
-                        roleId: number;
-                    };
-                };
-            };
-            responses: never;
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/site-resource/{siteResourceId}/roles/remove": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** @description Remove a single role from a site resource. */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    siteResourceId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
-                        roleId: number;
-                    };
-                };
-            };
-            responses: never;
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/site-resource/{siteResourceId}/users/add": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** @description Add a single user to a site resource. */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    siteResourceId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
-                        userId: string;
-                    };
-                };
-            };
-            responses: never;
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/site-resource/{siteResourceId}/users/remove": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** @description Remove a single user from a site resource. */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    siteResourceId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
-                        userId: string;
-                    };
-                };
-            };
-            responses: never;
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/site-resource/{siteResourceId}/clients/add": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** @description Add a single client to a site resource. Clients with a userId cannot be added. */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    siteResourceId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
-                        clientId: number;
-                    };
-                };
-            };
-            responses: never;
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/site-resource/{siteResourceId}/clients/remove": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** @description Remove a single client from a site resource. Clients with a userId cannot be removed. */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    siteResourceId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
-                        clientId: number;
-                    };
-                };
-            };
-            responses: never;
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/target/{targetId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description Get a target. */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    targetId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        put?: never;
-        /** @description Update a target. */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    targetId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
-                        siteId: number;
-                        ip: string;
-                        method?: string | null;
-                        port?: number;
-                        enabled?: boolean;
-                        hcEnabled?: boolean | null;
-                        hcPath?: string | null;
-                        hcScheme?: string | null;
-                        hcMode?: string | null;
-                        hcHostname?: string | null;
-                        hcPort?: number | null;
-                        hcInterval?: number | null;
-                        hcUnhealthyInterval?: number | null;
-                        hcTimeout?: number | null;
-                        hcHeaders?: {
-                            name: string;
-                            value: string;
-                        }[] | null;
-                        hcFollowRedirects?: boolean | null;
-                        hcMethod?: string | null;
-                        hcStatus?: number | null;
-                        hcTlsServerName?: string | null;
-                        path?: string | null;
-                        /** @enum {string|null} */
-                        pathMatchType?: "exact" | "prefix" | "regex" | null;
-                        rewritePath?: string | null;
-                        /** @enum {string|null} */
-                        rewritePathType?: "exact" | "prefix" | "regex" | "stripPrefix" | null;
-                        priority?: number;
-                    };
-                };
-            };
-            responses: never;
-        };
-        /** @description Delete a target. */
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    targetId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/resource/{resourceId}/target": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        /** @description Create a target for a resource. */
-        put: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    resourceId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
-                        siteId: number;
-                        ip: string;
-                        method?: string | null;
-                        port: number;
-                        /** @default true */
-                        enabled?: boolean;
-                        hcEnabled?: boolean;
-                        hcPath?: string | null;
-                        hcScheme?: string | null;
-                        hcMode?: string | null;
-                        hcHostname?: string | null;
-                        hcPort?: number | null;
-                        hcInterval?: number | null;
-                        hcUnhealthyInterval?: number | null;
-                        hcTimeout?: number | null;
-                        hcHeaders?: {
-                            name: string;
-                            value: string;
-                        }[] | null;
-                        hcFollowRedirects?: boolean | null;
-                        hcMethod?: string | null;
-                        hcStatus?: number | null;
-                        hcTlsServerName?: string | null;
-                        path?: string | null;
-                        /** @enum {string|null} */
-                        pathMatchType?: "exact" | "prefix" | "regex" | null;
-                        rewritePath?: string | null;
-                        /** @enum {string|null} */
-                        rewritePathType?: "exact" | "prefix" | "regex" | "stripPrefix" | null;
-                        priority?: number | null;
-                    };
-                };
-            };
-            responses: never;
-        };
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/resource/{resourceId}/targets": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description List targets for a resource. */
-        get: {
-            parameters: {
-                query?: {
-                    limit?: string;
-                    offset?: string;
-                };
-                header?: never;
-                path: {
-                    resourceId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/org/{orgId}/sites": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description List all sites in an organization */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description Number of items per page */
-                    pageSize?: number;
-                    /** @description Page number to retrieve */
-                    page?: number;
-                    query?: string;
-                    /** @description Field to sort by */
-                    sort_by?: "name" | "megabytesIn" | "megabytesOut";
-                    /** @description Sort order */
-                    order?: "asc" | "desc";
-                    /** @description Filter by online status */
-                    online?: boolean;
-                };
-                header?: never;
-                path: {
-                    orgId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/org/{orgId}/pick-site-defaults": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description Return pre-requisite data for creating a site, such as the exit node, subnet, Newt credentials, etc. */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    orgId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/org/{orgId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description Get an organization */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    orgId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        put?: never;
-        /** @description Update an organization */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    orgId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
-                        name?: string;
-                        requireTwoFactor?: boolean;
-                        maxSessionLengthHours?: number | null;
-                        passwordExpiryDays?: number | null;
-                        settingsLogRetentionDaysRequest?: number;
-                        settingsLogRetentionDaysAccess?: number;
-                        settingsLogRetentionDaysAction?: number;
-                    };
-                };
-            };
-            responses: never;
-        };
-        /** @description Delete an organization */
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    orgId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/resource/{resourceId}/roles": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description List all roles for a resource. */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    resourceId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        put?: never;
-        /** @description Set roles for a resource. This will replace all existing roles. */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    resourceId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
-                        roleIds: number[];
-                    };
-                };
-            };
-            responses: never;
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/org/{orgId}/role": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        /** @description Create a role. */
-        put: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    orgId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
-                        name: string;
-                        description?: string;
-                        requireDeviceApproval?: boolean;
-                        allowSsh?: boolean;
-                        /** @enum {string} */
-                        sshSudoMode?: "none" | "full" | "commands";
-                        sshSudoCommands?: string[];
-                        sshCreateHomeDir?: boolean;
-                        sshUnixGroups?: string[];
-                    };
-                };
-            };
-            responses: never;
-        };
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/role/{roleId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description Get a role. */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    roleId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        put?: never;
-        /** @description Update a role. */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    roleId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
-                        name?: string;
-                        description?: string;
-                        requireDeviceApproval?: boolean;
-                        allowSsh?: boolean;
-                        /** @enum {string} */
-                        sshSudoMode?: "none" | "full" | "commands";
-                        sshSudoCommands?: string[];
-                        sshCreateHomeDir?: boolean;
-                        sshUnixGroups?: string[];
-                    };
-                };
-            };
-            responses: never;
-        };
-        /** @description Delete a role. */
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    roleId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
-                        roleId: string;
-                    };
-                };
-            };
-            responses: never;
-        };
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/org/{orgId}/roles": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description List roles. */
-        get: {
-            parameters: {
-                query?: {
-                    limit?: string;
-                    offset?: string;
-                };
-                header?: never;
-                path: {
-                    orgId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/org": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        /** @description Create a new organization */
-        put: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
-                        orgId: string;
-                        name: string;
-                        subnet: string;
-                        utilitySubnet: string;
-                    };
-                };
-            };
-            responses: never;
-        };
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/orgs": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description List all organizations in the system. */
-        get: {
-            parameters: {
-                query?: {
-                    limit?: string;
-                    offset?: string;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/org/{orgId}/user/{userId}/check": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description Check a user's access in an organization. */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    userId: string;
-                    orgId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/org/{orgId}/resource/{niceId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description Get a resource by orgId and niceId. NiceId is a readable ID for the resource and unique on a per org basis. */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    orgId: string;
-                    niceId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/resource/{resourceId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description Get a resource by resourceId. */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    resourceId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        put?: never;
-        /** @description Update a resource. */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    resourceId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
-                        name?: string;
-                        niceId?: string;
-                        subdomain?: string | null;
-                        ssl?: boolean;
-                        sso?: boolean;
-                        blockAccess?: boolean;
-                        emailWhitelistEnabled?: boolean;
-                        applyRules?: boolean;
-                        domainId?: string;
-                        enabled?: boolean;
-                        stickySession?: boolean;
-                        tlsServerName?: string | null;
-                        setHostHeader?: string | null;
-                        skipToIdpId?: number | null;
-                        headers?: {
-                            name: string;
-                            value: string;
-                        }[] | null;
-                        maintenanceModeEnabled?: boolean;
-                        /** @enum {string} */
-                        maintenanceModeType?: "forced" | "automatic";
-                        maintenanceTitle?: string | null;
-                        maintenanceMessage?: string | null;
-                        maintenanceEstimatedTime?: string | null;
-                        postAuthPath?: string | null;
-                    } & {
-                        name?: string;
-                        niceId?: string;
-                        proxyPort?: number;
-                        stickySession?: boolean;
-                        enabled?: boolean;
-                        proxyProtocol?: boolean;
-                        proxyProtocolVersion?: number;
-                    };
-                };
-            };
-            responses: never;
-        };
-        /** @description Delete a resource. */
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    resourceId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/org/{orgId}/resource": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        /** @description Create a resource. */
-        put: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    orgId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
-                        name: string;
-                        subdomain?: string | null;
-                        http: boolean;
-                        /** @enum {string} */
-                        protocol: "tcp" | "udp";
-                        domainId: string;
-                        stickySession?: boolean;
-                        postAuthPath?: string | null;
-                    } | {
-                        name: string;
-                        http: boolean;
-                        /** @enum {string} */
-                        protocol: "tcp" | "udp";
-                        proxyPort: number;
-                    };
-                };
-            };
-            responses: never;
-        };
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/org/{orgId}/resources": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description List resources for an organization. */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description Number of items per page */
-                    pageSize?: number;
-                    /** @description Page number to retrieve */
-                    page?: number;
-                    query?: string;
-                    /** @description Field to sort by */
-                    sort_by?: "name";
-                    /** @description Sort order */
-                    order?: "asc" | "desc";
-                    /** @description Filter resources based on enabled status */
-                    enabled?: boolean;
-                    /** @description Filter resources based on authentication state. `protected` means the resource has at least one auth mechanism (password, pincode, header auth, SSO, or email whitelist). `not_protected` means the resource has no auth mechanisms. `none` means the resource is not protected by HTTP (i.e. it has no auth mechanisms and http is false). */
-                    authState?: "protected" | "not_protected" | "none";
-                    /** @description Filter resources based on health status of their targets. `healthy` means all targets are healthy. `degraded` means at least one target is unhealthy, but not all are unhealthy. `offline` means all targets are unhealthy. `unknown` means all targets have unknown health status. `no_targets` means the resource has no targets. */
-                    healthStatus?: "no_targets" | "healthy" | "degraded" | "offline" | "unknown";
-                };
-                header?: never;
-                path: {
-                    orgId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/resource/{resourceId}/users": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description List all users for a resource. */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    resourceId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        put?: never;
-        /** @description Set users for a resource. This will replace all existing users. */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    resourceId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
-                        userIds: string[];
-                    };
-                };
-            };
-            responses: never;
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/resource/{resourceId}/password": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** @description Set the password for a resource. Setting the password to null will remove it. */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    resourceId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
-                        password: string | null;
-                    };
-                };
-            };
-            responses: never;
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/resource/{resourceId}/pincode": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** @description Set the PIN code for a resource. Setting the PIN code to null will remove it. */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    resourceId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
-                        pincode: string | unknown;
-                    };
-                };
-            };
-            responses: never;
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/resource/{resourceId}/whitelist": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description Get the whitelist of emails for a specific resource. */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    resourceId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        put?: never;
-        /** @description Set email whitelist for a resource. This will replace all existing emails. */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    resourceId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
-                        emails: (string)[];
-                    };
-                };
-            };
-            responses: never;
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/resource/{resourceId}/rule": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        /** @description Create a resource rule. */
-        put: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    resourceId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
-                        /** @enum {string} */
-                        action: "ACCEPT" | "DROP" | "PASS";
-                        /** @enum {string} */
-                        match: "CIDR" | "IP" | "PATH" | "COUNTRY" | "ASN";
-                        value: string;
-                        priority: number;
-                        enabled?: boolean;
-                    };
-                };
-            };
-            responses: never;
-        };
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/resource/{resourceId}/rule/{ruleId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** @description Update a resource rule. */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    ruleId: string;
-                    resourceId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
-                        /** @enum {string} */
-                        action?: "ACCEPT" | "DROP" | "PASS";
-                        /** @enum {string} */
-                        match?: "CIDR" | "IP" | "PATH" | "COUNTRY" | "ASN";
-                        value?: string;
-                        priority: number;
-                        enabled?: boolean;
-                    };
-                };
-            };
-            responses: never;
-        };
-        /** @description Delete a resource rule. */
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    ruleId: string;
-                    resourceId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/resource/{resourceId}/rules": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description List rules for a resource. */
-        get: {
-            parameters: {
-                query?: {
-                    limit?: string;
-                    offset?: string;
-                };
-                header?: never;
-                path: {
-                    resourceId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/resource/{resourceId}/header-auth": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** @description Set or update the header authentication for a resource. If user and password is not provided, it will remove the header authentication. */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    resourceId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
-                        user: string | null;
-                        password: string | null;
-                        extendedCompatibility: boolean | null;
-                    };
-                };
-            };
-            responses: never;
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/resource/{resourceId}/whitelist/add": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** @description Add a single email to the resource whitelist. */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    resourceId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
-                        email: string;
-                    };
-                };
-            };
-            responses: never;
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/resource/{resourceId}/whitelist/remove": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** @description Remove a single email from the resource whitelist. */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    resourceId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
-                        email: string;
-                    };
-                };
-            };
-            responses: never;
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/resource/{resourceId}/roles/add": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** @description Add a single role to a resource. */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    resourceId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
-                        roleId: number;
-                    };
-                };
-            };
-            responses: never;
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/resource/{resourceId}/roles/remove": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** @description Remove a single role from a resource. */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    resourceId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
-                        roleId: number;
-                    };
-                };
-            };
-            responses: never;
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/resource/{resourceId}/users/add": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** @description Add a single user to a resource. */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    resourceId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
-                        userId: string;
-                    };
-                };
-            };
-            responses: never;
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/resource/{resourceId}/users/remove": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** @description Remove a single user from a resource. */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    resourceId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
-                        userId: string;
-                    };
-                };
-            };
-            responses: never;
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/org/{orgId}/resources-names": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description List all resource names for an organization. */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    orgId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/org/{orgId}/domains": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description List all domains for a organization. */
-        get: {
-            parameters: {
-                query?: {
-                    limit?: string;
-                    offset?: string;
-                };
-                header?: never;
-                path: {
-                    orgId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/org/{orgId}/domain/{domainId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description Get a domain by domainId. */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    domainId: string;
-                    orgId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        /** @description Update a domain by domainId. */
-        patch: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    domainId: string;
-                    orgId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        trace?: never;
-    };
-    "/org/{orgId}/domain/{domainId}/dns-records": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description Get all DNS records for a domain by domainId. */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    domainId: string;
-                    orgId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/org/{orgId}/user/{userId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description Get a user in an organization. */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    userId: string;
-                    orgId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        put?: never;
-        /** @description Update a user in an org. */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    userId: string;
-                    orgId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
-                        autoProvisioned?: boolean;
-                    };
-                };
-            };
-            responses: never;
-        };
-        /** @description Remove a user from an organization. */
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    userId: string;
-                    orgId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/org/{orgId}/users": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description List users in an organization. */
-        get: {
-            parameters: {
-                query?: {
-                    limit?: string;
-                    offset?: string;
-                };
-                header?: never;
-                path: {
-                    orgId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/role/{roleId}/add/{userId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** @description Add a role to a user. */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    userId: string;
-                    roleId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/org/{orgId}/create-invite": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** @description Invite a user to join an organization. */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    orgId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
-                        /** Format: email */
-                        email: string;
-                        roleId: number;
-                        validHours: number;
-                        sendEmail?: boolean;
-                        regenerate?: boolean;
-                    };
-                };
-            };
-            responses: never;
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/org/{orgId}/user-by-username": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description Get a user in an organization by username. When idpId is not passed, only internal users are searched (username is globally unique for them). For external (OIDC) users, pass idpId to search by username within that identity provider. */
-        get: {
-            parameters: {
-                query: {
-                    username: string;
-                    idpId?: string;
-                };
-                header?: never;
-                path: {
-                    orgId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/user/{userId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description Get a user by ID. */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    userId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/org/{orgId}/invitations": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description List invitations in an organization. */
-        get: {
-            parameters: {
-                query?: {
-                    limit?: string;
-                    offset?: string;
-                };
-                header?: never;
-                path: {
-                    orgId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/org/{orgId}/invitations/{inviteId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        /** @description Remove an open invitation from an organization */
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    orgId: string;
-                    inviteId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/org/{orgId}/user": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        /** @description Create an organization user. */
-        put: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    orgId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
-                        /** Format: email */
-                        email?: string;
-                        username: string;
-                        name?: string;
-                        /** @enum {string} */
-                        type?: "internal" | "oidc";
-                        idpId?: number;
-                        roleId: number;
-                    };
-                };
-            };
-            responses: never;
-        };
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/user/{userId}/2fa": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** @description Update a user's 2FA status. */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    userId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
-                        twoFactorSetupRequested: boolean;
-                    };
-                };
-            };
-            responses: never;
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/org/{orgId}/pick-client-defaults": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description Return pre-requisite data for creating a client. */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    orgId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/org/{orgId}/client": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        /** @description Create a new client for an organization. */
-        put: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    orgId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
-                        name: string;
-                        olmId: string;
-                        secret: string;
-                        subnet: string;
-                        /** @enum {string} */
-                        type: "olm";
-                    };
-                };
-            };
-            responses: never;
-        };
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/client/{clientId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description Get a client by its client ID. */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    clientId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        put?: never;
-        /** @description Update a client by its client ID. */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    clientId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
-                        name?: string;
-                        niceId?: string;
-                    };
-                };
-            };
-            responses: never;
-        };
-        /** @description Delete a client by its client ID. */
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    clientId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/client/{clientId}/archive": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** @description Archive a client by its client ID. */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    clientId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/client/{clientId}/unarchive": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** @description Unarchive a client by its client ID. */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    clientId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/client/{clientId}/block": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** @description Block a client by its client ID. */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    clientId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/client/{clientId}/unblock": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** @description Unblock a client by its client ID. */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    clientId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/org/{orgId}/clients": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description List all clients for an organization. */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description Number of items per page */
-                    pageSize?: number;
-                    /** @description Page number to retrieve */
-                    page?: number;
-                    query?: string;
-                    /** @description Field to sort by */
-                    sort_by?: "name" | "megabytesIn" | "megabytesOut";
-                    /** @description Sort order */
-                    order?: "asc" | "desc";
-                    /** @description Filter by online status */
-                    online?: boolean;
-                    /** @description Filter by client status. Can be a comma-separated list of values. Defaults to 'active'. */
-                    status?: ("active" | "blocked" | "archived")[];
-                };
-                header?: never;
-                path: {
-                    orgId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/org/{orgId}/user-devices": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description List all user devices for an organization. */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description Number of items per page */
-                    pageSize?: number;
-                    /** @description Page number to retrieve */
-                    page?: number;
-                    query?: string;
-                    /** @description Field to sort by */
-                    sort_by?: "megabytesIn" | "megabytesOut";
-                    /** @description Sort order */
-                    order?: "asc" | "desc";
-                    /** @description Filter by online status */
-                    online?: boolean;
-                    /** @description Filter by agent type. Use 'unknown' to filter clients with no agent detected. */
-                    agent?: "windows" | "android" | "cli" | "olm" | "macos" | "ios" | "ipados" | "unknown";
-                    /** @description Filter by device status. Can include multiple values separated by commas. 'active' means not archived, not blocked, and if approval is enabled, approved. 'pending' and 'denied' are only applicable if approval is enabled. */
-                    status?: ("active" | "pending" | "denied" | "blocked" | "archived")[];
-                };
-                header?: never;
-                path: {
-                    orgId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/org/{orgId}/client/{niceId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description Get a client by orgId and niceId. NiceId is a readable ID for the site and unique on a per org basis. */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    orgId: string;
-                    niceId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/org/{orgId}/user/{userId}/client": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        /** @description Create a new client for a user and associate it with an existing olm. */
-        put: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    orgId: string;
-                    userId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
-                        name: string;
-                        olmId: string;
-                        subnet: string;
-                        /** @enum {string} */
-                        type: "olm";
-                    };
-                };
-            };
-            responses: never;
-        };
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/resource/{resourceId}/access-token": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** @description Generate a new access token for a resource. */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    resourceId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
-                        validForSeconds?: number;
-                        title?: string;
-                        description?: string;
-                    };
-                };
-            };
-            responses: never;
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/org/{orgId}/access-tokens": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description List all access tokens in an organization. */
-        get: {
-            parameters: {
-                query?: {
-                    limit?: string;
-                    offset?: string;
-                };
-                header?: never;
-                path: {
-                    orgId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/resource/{resourceId}/access-tokens": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description List all access tokens in an organization. */
-        get: {
-            parameters: {
-                query?: {
-                    limit?: string;
-                    offset?: string;
-                };
-                header?: never;
-                path: {
-                    resourceId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/access-token/{accessTokenId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        /** @description Delete a access token. */
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    accessTokenId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/idp/oidc": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        /** @description Create an OIDC IdP. */
-        put: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
-                        name: string;
-                        clientId: string;
-                        clientSecret: string;
-                        /** Format: uri */
-                        authUrl: string;
-                        /** Format: uri */
-                        tokenUrl: string;
-                        identifierPath: string;
-                        emailPath?: string;
-                        namePath?: string;
-                        scopes: string;
-                        autoProvision?: boolean;
-                        tags?: string;
-                    };
-                };
-            };
-            responses: never;
-        };
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/idp/{idpId}/oidc": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** @description Update an OIDC IdP. */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    idpId: number | null;
-                };
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
-                        name?: string;
-                        clientId?: string;
-                        clientSecret?: string;
-                        authUrl?: string;
-                        tokenUrl?: string;
-                        identifierPath?: string;
-                        emailPath?: string;
-                        namePath?: string;
-                        scopes?: string;
-                        autoProvision?: boolean;
-                        defaultRoleMapping?: string;
-                        defaultOrgMapping?: string;
-                        tags?: string;
-                    };
-                };
-            };
-            responses: never;
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/idp/{idpId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description Get an IDP by its IDP ID. */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    idpId: number | null;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        put?: never;
-        post?: never;
-        /** @description Delete IDP. */
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    orgId: string;
-                    idpId: number | null;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/idp": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description List all IDP in the system. */
-        get: {
-            parameters: {
-                query?: {
-                    limit?: string;
-                    offset?: string;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/idp/{idpId}/org/{orgId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        /** @description Create an IDP policy for an existing IDP on an organization. */
-        put: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    idpId: number | null;
-                    orgId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
-                        roleMapping?: string;
-                        orgMapping?: string;
-                    };
-                };
-            };
-            responses: never;
-        };
-        /** @description Update an IDP org policy. */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    idpId: number | null;
-                    orgId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
-                        roleMapping?: string;
-                        orgMapping?: string;
-                    };
-                };
-            };
-            responses: never;
-        };
-        /** @description Create an OIDC IdP for an organization. */
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    idpId: number | null;
-                    orgId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/idp/{idpId}/org": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description List all org policies on an IDP. */
-        get: {
-            parameters: {
-                query?: {
-                    limit?: string;
-                    offset?: string;
-                };
-                header?: never;
-                path: {
-                    idpId: number | null;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/org/{orgId}/blueprints": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description List all blueprints for a organization. */
-        get: {
-            parameters: {
-                query?: {
-                    limit?: string;
-                    offset?: string;
-                };
-                header?: never;
-                path: {
-                    orgId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/org/{orgId}/blueprint": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        /** @description Apply a base64 encoded JSON blueprint to an organization */
-        put: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    orgId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
-                        blueprint: string;
-                    };
-                };
-            };
-            responses: never;
-        };
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/org/{orgId}/blueprint/{blueprintId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description Get a blueprint by its blueprint ID. */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    blueprintId: string;
-                    orgId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/org/{orgId}/api-key/{apiKeyId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        /** @description Delete an API key. */
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    apiKeyId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/org/{orgId}/api-key/{apiKeyId}/actions": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description List all actions set for an API key. */
-        get: {
-            parameters: {
-                query?: {
-                    limit?: string;
-                    offset?: string;
-                };
-                header?: never;
-                path: {
-                    apiKeyId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        put?: never;
-        /** @description Set actions for an API key. This will replace any existing actions. */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    apiKeyId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
-                        actionIds: string[];
-                    };
-                };
-            };
-            responses: never;
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/org/{orgId}/api-keys": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description List all API keys for an organization */
-        get: {
-            parameters: {
-                query?: {
-                    limit?: string;
-                    offset?: string;
-                };
-                header?: never;
-                path: {
-                    orgId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/org/{orgId}/api-key": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        /** @description Create a new API key scoped to the organization. */
-        put: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    orgId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": {
-                        name: string;
-                    };
-                };
-            };
-            responses: never;
-        };
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/org/{orgId}/logs/request": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description Query the request audit log for an organization */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description Start time as ISO date string (defaults to 7 days ago) */
-                    timeStart?: string;
-                    /** @description End time as ISO date string (defaults to current time) */
-                    timeEnd?: string;
-                    action?: boolean | string;
-                    method?: "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
-                    reason?: string;
-                    resourceId?: string;
-                    actor?: string;
-                    location?: string;
-                    host?: string;
-                    path?: string;
-                };
-                header?: never;
-                path: {
-                    orgId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/org/{orgId}/logs/analytics": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description Query the request audit analytics for an organization */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description Start time as ISO date string (defaults to 7 days ago) */
-                    timeStart?: string;
-                    /** @description End time as ISO date string (defaults to current time) */
-                    timeEnd?: string;
-                    resourceId?: string;
-                };
-                header?: never;
-                path: {
-                    orgId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description Health check */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: never;
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
+	"/org/{orgId}/site/{niceId}": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/** @description Get a site by orgId and niceId. NiceId is a readable ID for the site and unique on a per org basis. */
+		get: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					orgId: string;
+					niceId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: never;
+			responses: never;
+		};
+		put?: never;
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/site/{siteId}": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/** @description Get a site by siteId. */
+		get: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					siteId: number;
+				};
+				cookie?: never;
+			};
+			requestBody?: never;
+			responses: never;
+		};
+		put?: never;
+		/** @description Update a site. */
+		post: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					siteId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: {
+				content: {
+					"application/json": {
+						name?: string;
+						niceId?: string;
+						dockerSocketEnabled?: boolean;
+					};
+				};
+			};
+			responses: never;
+		};
+		/** @description Delete a site and all its associated data. */
+		delete: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					siteId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: never;
+			responses: never;
+		};
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/org/{orgId}/site": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		get?: never;
+		/** @description Create a new site. */
+		put: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					orgId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: {
+				content: {
+					"application/json": {
+						name: string;
+						exitNodeId?: number;
+						pubKey?: string;
+						subnet?: string;
+						newtId?: string;
+						secret?: string;
+						address?: string;
+						/** @enum {string} */
+						type: "newt" | "wireguard" | "local";
+					};
+				};
+			};
+			responses: never;
+		};
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/org/{orgId}/site-resource": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		get?: never;
+		/** @description Create a new site resource. */
+		put: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					orgId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: {
+				content: {
+					"application/json": {
+						name: string;
+						/** @enum {string} */
+						mode: "host" | "cidr" | "port";
+						siteId: number;
+						destination: string;
+						/** @default true */
+						enabled?: boolean;
+						alias?: string;
+						userIds: string[];
+						roleIds: number[];
+						clientIds: number[];
+						tcpPortRangeString?: string;
+						udpPortRangeString?: string;
+						disableIcmp?: boolean;
+						authDaemonPort?: number;
+						/** @enum {string} */
+						authDaemonMode?: "site" | "remote";
+					};
+				};
+			};
+			responses: never;
+		};
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/site-resource/{siteResourceId}": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/** @description Get a specific site resource by siteResourceId. */
+		get: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					siteResourceId: number;
+					siteId: number;
+					orgId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: never;
+			responses: never;
+		};
+		put?: never;
+		/** @description Update a site resource. */
+		post: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					siteResourceId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: {
+				content: {
+					"application/json": {
+						name?: string;
+						siteId: number;
+						/** @enum {string} */
+						mode?: "host" | "cidr";
+						destination?: string;
+						enabled?: boolean;
+						alias?: string | null;
+						userIds: string[];
+						roleIds: number[];
+						clientIds: number[];
+						tcpPortRangeString?: string;
+						udpPortRangeString?: string;
+						disableIcmp?: boolean;
+						authDaemonPort?: number | null;
+						/** @enum {string} */
+						authDaemonMode?: "site" | "remote";
+					};
+				};
+			};
+			responses: never;
+		};
+		/** @description Delete a site resource. */
+		delete: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					siteResourceId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: never;
+			responses: never;
+		};
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/org/{orgId}/site/{siteId}/resource/nice/{niceId}": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/** @description Get a specific site resource by niceId. */
+		get: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					niceId: string;
+					siteId: number;
+					orgId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: never;
+			responses: never;
+		};
+		put?: never;
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/org/{orgId}/site/{siteId}/resources": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/** @description List site resources for a site. */
+		get: {
+			parameters: {
+				query?: {
+					limit?: string;
+					offset?: string;
+					/** @description Field to sort by */
+					sort_by?: "name";
+					/** @description Sort order */
+					order?: "asc" | "desc";
+				};
+				header?: never;
+				path: {
+					siteId: string;
+					orgId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: never;
+			responses: never;
+		};
+		put?: never;
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/org/{orgId}/site-resources": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/** @description List all site resources for an organization. */
+		get: {
+			parameters: {
+				query?: {
+					/** @description Number of items per page */
+					pageSize?: number;
+					/** @description Page number to retrieve */
+					page?: number;
+					query?: string;
+					/** @description Filter site resources by mode */
+					mode?: "host" | "cidr";
+					/** @description Field to sort by */
+					sort_by?: "name";
+					/** @description Sort order */
+					order?: "asc" | "desc";
+				};
+				header?: never;
+				path: {
+					orgId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: never;
+			responses: never;
+		};
+		put?: never;
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/site-resource/{siteResourceId}/roles": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/** @description List all roles for a site resource. */
+		get: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					siteResourceId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: never;
+			responses: never;
+		};
+		put?: never;
+		/** @description Set roles for a site resource. This will replace all existing roles. */
+		post: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					siteResourceId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: {
+				content: {
+					"application/json": {
+						roleIds: number[];
+					};
+				};
+			};
+			responses: never;
+		};
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/site-resource/{siteResourceId}/users": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/** @description List all users for a site resource. */
+		get: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					siteResourceId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: never;
+			responses: never;
+		};
+		put?: never;
+		/** @description Set users for a site resource. This will replace all existing users. */
+		post: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					siteResourceId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: {
+				content: {
+					"application/json": {
+						userIds: string[];
+					};
+				};
+			};
+			responses: never;
+		};
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/site-resource/{siteResourceId}/clients": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/** @description List all clients for a site resource. */
+		get: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					siteResourceId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: never;
+			responses: never;
+		};
+		put?: never;
+		/** @description Set clients for a site resource. This will replace all existing clients. Clients with a userId cannot be added. */
+		post: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					siteResourceId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: {
+				content: {
+					"application/json": {
+						clientIds: number[];
+					};
+				};
+			};
+			responses: never;
+		};
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/site-resource/{siteResourceId}/roles/add": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		get?: never;
+		put?: never;
+		/** @description Add a single role to a site resource. */
+		post: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					siteResourceId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: {
+				content: {
+					"application/json": {
+						roleId: number;
+					};
+				};
+			};
+			responses: never;
+		};
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/site-resource/{siteResourceId}/roles/remove": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		get?: never;
+		put?: never;
+		/** @description Remove a single role from a site resource. */
+		post: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					siteResourceId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: {
+				content: {
+					"application/json": {
+						roleId: number;
+					};
+				};
+			};
+			responses: never;
+		};
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/site-resource/{siteResourceId}/users/add": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		get?: never;
+		put?: never;
+		/** @description Add a single user to a site resource. */
+		post: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					siteResourceId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: {
+				content: {
+					"application/json": {
+						userId: string;
+					};
+				};
+			};
+			responses: never;
+		};
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/site-resource/{siteResourceId}/users/remove": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		get?: never;
+		put?: never;
+		/** @description Remove a single user from a site resource. */
+		post: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					siteResourceId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: {
+				content: {
+					"application/json": {
+						userId: string;
+					};
+				};
+			};
+			responses: never;
+		};
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/site-resource/{siteResourceId}/clients/add": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		get?: never;
+		put?: never;
+		/** @description Add a single client to a site resource. Clients with a userId cannot be added. */
+		post: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					siteResourceId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: {
+				content: {
+					"application/json": {
+						clientId: number;
+					};
+				};
+			};
+			responses: never;
+		};
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/site-resource/{siteResourceId}/clients/remove": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		get?: never;
+		put?: never;
+		/** @description Remove a single client from a site resource. Clients with a userId cannot be removed. */
+		post: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					siteResourceId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: {
+				content: {
+					"application/json": {
+						clientId: number;
+					};
+				};
+			};
+			responses: never;
+		};
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/target/{targetId}": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/** @description Get a target. */
+		get: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					targetId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: never;
+			responses: never;
+		};
+		put?: never;
+		/** @description Update a target. */
+		post: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					targetId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: {
+				content: {
+					"application/json": {
+						siteId: number;
+						ip: string;
+						method?: string | null;
+						port?: number;
+						enabled?: boolean;
+						hcEnabled?: boolean | null;
+						hcPath?: string | null;
+						hcScheme?: string | null;
+						hcMode?: string | null;
+						hcHostname?: string | null;
+						hcPort?: number | null;
+						hcInterval?: number | null;
+						hcUnhealthyInterval?: number | null;
+						hcTimeout?: number | null;
+						hcHeaders?:
+							| {
+									name: string;
+									value: string;
+							  }[]
+							| null;
+						hcFollowRedirects?: boolean | null;
+						hcMethod?: string | null;
+						hcStatus?: number | null;
+						hcTlsServerName?: string | null;
+						path?: string | null;
+						/** @enum {string|null} */
+						pathMatchType?: "exact" | "prefix" | "regex" | null;
+						rewritePath?: string | null;
+						/** @enum {string|null} */
+						rewritePathType?:
+							| "exact"
+							| "prefix"
+							| "regex"
+							| "stripPrefix"
+							| null;
+						priority?: number;
+					};
+				};
+			};
+			responses: never;
+		};
+		/** @description Delete a target. */
+		delete: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					targetId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: never;
+			responses: never;
+		};
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/resource/{resourceId}/target": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		get?: never;
+		/** @description Create a target for a resource. */
+		put: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					resourceId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: {
+				content: {
+					"application/json": {
+						siteId: number;
+						ip: string;
+						method?: string | null;
+						port: number;
+						/** @default true */
+						enabled?: boolean;
+						hcEnabled?: boolean;
+						hcPath?: string | null;
+						hcScheme?: string | null;
+						hcMode?: string | null;
+						hcHostname?: string | null;
+						hcPort?: number | null;
+						hcInterval?: number | null;
+						hcUnhealthyInterval?: number | null;
+						hcTimeout?: number | null;
+						hcHeaders?:
+							| {
+									name: string;
+									value: string;
+							  }[]
+							| null;
+						hcFollowRedirects?: boolean | null;
+						hcMethod?: string | null;
+						hcStatus?: number | null;
+						hcTlsServerName?: string | null;
+						path?: string | null;
+						/** @enum {string|null} */
+						pathMatchType?: "exact" | "prefix" | "regex" | null;
+						rewritePath?: string | null;
+						/** @enum {string|null} */
+						rewritePathType?:
+							| "exact"
+							| "prefix"
+							| "regex"
+							| "stripPrefix"
+							| null;
+						priority?: number | null;
+					};
+				};
+			};
+			responses: never;
+		};
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/resource/{resourceId}/targets": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/** @description List targets for a resource. */
+		get: {
+			parameters: {
+				query?: {
+					limit?: string;
+					offset?: string;
+				};
+				header?: never;
+				path: {
+					resourceId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: never;
+			responses: never;
+		};
+		put?: never;
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/org/{orgId}/sites": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/** @description List all sites in an organization */
+		get: {
+			parameters: {
+				query?: {
+					/** @description Number of items per page */
+					pageSize?: number;
+					/** @description Page number to retrieve */
+					page?: number;
+					query?: string;
+					/** @description Field to sort by */
+					sort_by?: "name" | "megabytesIn" | "megabytesOut";
+					/** @description Sort order */
+					order?: "asc" | "desc";
+					/** @description Filter by online status */
+					online?: boolean;
+				};
+				header?: never;
+				path: {
+					orgId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: never;
+			responses: never;
+		};
+		put?: never;
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/org/{orgId}/pick-site-defaults": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/** @description Return pre-requisite data for creating a site, such as the exit node, subnet, Newt credentials, etc. */
+		get: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					orgId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: never;
+			responses: never;
+		};
+		put?: never;
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/org/{orgId}": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/** @description Get an organization */
+		get: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					orgId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: never;
+			responses: never;
+		};
+		put?: never;
+		/** @description Update an organization */
+		post: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					orgId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: {
+				content: {
+					"application/json": {
+						name?: string;
+						requireTwoFactor?: boolean;
+						maxSessionLengthHours?: number | null;
+						passwordExpiryDays?: number | null;
+						settingsLogRetentionDaysRequest?: number;
+						settingsLogRetentionDaysAccess?: number;
+						settingsLogRetentionDaysAction?: number;
+					};
+				};
+			};
+			responses: never;
+		};
+		/** @description Delete an organization */
+		delete: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					orgId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: never;
+			responses: never;
+		};
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/resource/{resourceId}/roles": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/** @description List all roles for a resource. */
+		get: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					resourceId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: never;
+			responses: never;
+		};
+		put?: never;
+		/** @description Set roles for a resource. This will replace all existing roles. */
+		post: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					resourceId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: {
+				content: {
+					"application/json": {
+						roleIds: number[];
+					};
+				};
+			};
+			responses: never;
+		};
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/org/{orgId}/role": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		get?: never;
+		/** @description Create a role. */
+		put: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					orgId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: {
+				content: {
+					"application/json": {
+						name: string;
+						description?: string;
+						requireDeviceApproval?: boolean;
+						allowSsh?: boolean;
+						/** @enum {string} */
+						sshSudoMode?: "none" | "full" | "commands";
+						sshSudoCommands?: string[];
+						sshCreateHomeDir?: boolean;
+						sshUnixGroups?: string[];
+					};
+				};
+			};
+			responses: never;
+		};
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/role/{roleId}": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/** @description Get a role. */
+		get: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					roleId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: never;
+			responses: never;
+		};
+		put?: never;
+		/** @description Update a role. */
+		post: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					roleId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: {
+				content: {
+					"application/json": {
+						name?: string;
+						description?: string;
+						requireDeviceApproval?: boolean;
+						allowSsh?: boolean;
+						/** @enum {string} */
+						sshSudoMode?: "none" | "full" | "commands";
+						sshSudoCommands?: string[];
+						sshCreateHomeDir?: boolean;
+						sshUnixGroups?: string[];
+					};
+				};
+			};
+			responses: never;
+		};
+		/** @description Delete a role. */
+		delete: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					roleId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: {
+				content: {
+					"application/json": {
+						roleId: string;
+					};
+				};
+			};
+			responses: never;
+		};
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/org/{orgId}/roles": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/** @description List roles. */
+		get: {
+			parameters: {
+				query?: {
+					limit?: string;
+					offset?: string;
+				};
+				header?: never;
+				path: {
+					orgId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: never;
+			responses: never;
+		};
+		put?: never;
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/org": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		get?: never;
+		/** @description Create a new organization */
+		put: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path?: never;
+				cookie?: never;
+			};
+			requestBody?: {
+				content: {
+					"application/json": {
+						orgId: string;
+						name: string;
+						subnet: string;
+						utilitySubnet: string;
+					};
+				};
+			};
+			responses: never;
+		};
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/orgs": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/** @description List all organizations in the system. */
+		get: {
+			parameters: {
+				query?: {
+					limit?: string;
+					offset?: string;
+				};
+				header?: never;
+				path?: never;
+				cookie?: never;
+			};
+			requestBody?: never;
+			responses: never;
+		};
+		put?: never;
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/org/{orgId}/user/{userId}/check": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/** @description Check a user's access in an organization. */
+		get: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					userId: string;
+					orgId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: never;
+			responses: never;
+		};
+		put?: never;
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/org/{orgId}/resource/{niceId}": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/** @description Get a resource by orgId and niceId. NiceId is a readable ID for the resource and unique on a per org basis. */
+		get: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					orgId: string;
+					niceId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: never;
+			responses: never;
+		};
+		put?: never;
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/resource/{resourceId}": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/** @description Get a resource by resourceId. */
+		get: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					resourceId: number;
+				};
+				cookie?: never;
+			};
+			requestBody?: never;
+			responses: never;
+		};
+		put?: never;
+		/** @description Update a resource. */
+		post: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					resourceId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: {
+				content: {
+					"application/json": {
+						name?: string;
+						niceId?: string;
+						subdomain?: string | null;
+						ssl?: boolean;
+						sso?: boolean;
+						blockAccess?: boolean;
+						emailWhitelistEnabled?: boolean;
+						applyRules?: boolean;
+						domainId?: string;
+						enabled?: boolean;
+						stickySession?: boolean;
+						tlsServerName?: string | null;
+						setHostHeader?: string | null;
+						skipToIdpId?: number | null;
+						headers?:
+							| {
+									name: string;
+									value: string;
+							  }[]
+							| null;
+						maintenanceModeEnabled?: boolean;
+						/** @enum {string} */
+						maintenanceModeType?: "forced" | "automatic";
+						maintenanceTitle?: string | null;
+						maintenanceMessage?: string | null;
+						maintenanceEstimatedTime?: string | null;
+						postAuthPath?: string | null;
+					} & {
+						name?: string;
+						niceId?: string;
+						proxyPort?: number;
+						stickySession?: boolean;
+						enabled?: boolean;
+						proxyProtocol?: boolean;
+						proxyProtocolVersion?: number;
+					};
+				};
+			};
+			responses: never;
+		};
+		/** @description Delete a resource. */
+		delete: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					resourceId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: never;
+			responses: never;
+		};
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/org/{orgId}/resource": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		get?: never;
+		/** @description Create a resource. */
+		put: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					orgId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: {
+				content: {
+					"application/json":
+						| {
+								name: string;
+								subdomain?: string | null;
+								http: boolean;
+								/** @enum {string} */
+								protocol: "tcp" | "udp";
+								domainId: string;
+								stickySession?: boolean;
+								postAuthPath?: string | null;
+						  }
+						| {
+								name: string;
+								http: boolean;
+								/** @enum {string} */
+								protocol: "tcp" | "udp";
+								proxyPort: number;
+						  };
+				};
+			};
+			responses: never;
+		};
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/org/{orgId}/resources": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/** @description List resources for an organization. */
+		get: {
+			parameters: {
+				query?: {
+					/** @description Number of items per page */
+					pageSize?: number;
+					/** @description Page number to retrieve */
+					page?: number;
+					query?: string;
+					/** @description Field to sort by */
+					sort_by?: "name";
+					/** @description Sort order */
+					order?: "asc" | "desc";
+					/** @description Filter resources based on enabled status */
+					enabled?: boolean;
+					/** @description Filter resources based on authentication state. `protected` means the resource has at least one auth mechanism (password, pincode, header auth, SSO, or email whitelist). `not_protected` means the resource has no auth mechanisms. `none` means the resource is not protected by HTTP (i.e. it has no auth mechanisms and http is false). */
+					authState?: "protected" | "not_protected" | "none";
+					/** @description Filter resources based on health status of their targets. `healthy` means all targets are healthy. `degraded` means at least one target is unhealthy, but not all are unhealthy. `offline` means all targets are unhealthy. `unknown` means all targets have unknown health status. `no_targets` means the resource has no targets. */
+					healthStatus?:
+						| "no_targets"
+						| "healthy"
+						| "degraded"
+						| "offline"
+						| "unknown";
+				};
+				header?: never;
+				path: {
+					orgId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: never;
+			responses: never;
+		};
+		put?: never;
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/resource/{resourceId}/users": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/** @description List all users for a resource. */
+		get: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					resourceId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: never;
+			responses: never;
+		};
+		put?: never;
+		/** @description Set users for a resource. This will replace all existing users. */
+		post: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					resourceId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: {
+				content: {
+					"application/json": {
+						userIds: string[];
+					};
+				};
+			};
+			responses: never;
+		};
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/resource/{resourceId}/password": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		get?: never;
+		put?: never;
+		/** @description Set the password for a resource. Setting the password to null will remove it. */
+		post: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					resourceId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: {
+				content: {
+					"application/json": {
+						password: string | null;
+					};
+				};
+			};
+			responses: never;
+		};
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/resource/{resourceId}/pincode": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		get?: never;
+		put?: never;
+		/** @description Set the PIN code for a resource. Setting the PIN code to null will remove it. */
+		post: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					resourceId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: {
+				content: {
+					"application/json": {
+						pincode: string | unknown;
+					};
+				};
+			};
+			responses: never;
+		};
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/resource/{resourceId}/whitelist": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/** @description Get the whitelist of emails for a specific resource. */
+		get: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					resourceId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: never;
+			responses: never;
+		};
+		put?: never;
+		/** @description Set email whitelist for a resource. This will replace all existing emails. */
+		post: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					resourceId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: {
+				content: {
+					"application/json": {
+						emails: string[];
+					};
+				};
+			};
+			responses: never;
+		};
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/resource/{resourceId}/rule": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		get?: never;
+		/** @description Create a resource rule. */
+		put: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					resourceId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: {
+				content: {
+					"application/json": {
+						/** @enum {string} */
+						action: "ACCEPT" | "DROP" | "PASS";
+						/** @enum {string} */
+						match: "CIDR" | "IP" | "PATH" | "COUNTRY" | "ASN";
+						value: string;
+						priority: number;
+						enabled?: boolean;
+					};
+				};
+			};
+			responses: never;
+		};
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/resource/{resourceId}/rule/{ruleId}": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		get?: never;
+		put?: never;
+		/** @description Update a resource rule. */
+		post: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					ruleId: string;
+					resourceId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: {
+				content: {
+					"application/json": {
+						/** @enum {string} */
+						action?: "ACCEPT" | "DROP" | "PASS";
+						/** @enum {string} */
+						match?: "CIDR" | "IP" | "PATH" | "COUNTRY" | "ASN";
+						value?: string;
+						priority: number;
+						enabled?: boolean;
+					};
+				};
+			};
+			responses: never;
+		};
+		/** @description Delete a resource rule. */
+		delete: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					ruleId: string;
+					resourceId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: never;
+			responses: never;
+		};
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/resource/{resourceId}/rules": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/** @description List rules for a resource. */
+		get: {
+			parameters: {
+				query?: {
+					limit?: string;
+					offset?: string;
+				};
+				header?: never;
+				path: {
+					resourceId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: never;
+			responses: never;
+		};
+		put?: never;
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/resource/{resourceId}/header-auth": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		get?: never;
+		put?: never;
+		/** @description Set or update the header authentication for a resource. If user and password is not provided, it will remove the header authentication. */
+		post: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					resourceId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: {
+				content: {
+					"application/json": {
+						user: string | null;
+						password: string | null;
+						extendedCompatibility: boolean | null;
+					};
+				};
+			};
+			responses: never;
+		};
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/resource/{resourceId}/whitelist/add": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		get?: never;
+		put?: never;
+		/** @description Add a single email to the resource whitelist. */
+		post: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					resourceId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: {
+				content: {
+					"application/json": {
+						email: string;
+					};
+				};
+			};
+			responses: never;
+		};
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/resource/{resourceId}/whitelist/remove": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		get?: never;
+		put?: never;
+		/** @description Remove a single email from the resource whitelist. */
+		post: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					resourceId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: {
+				content: {
+					"application/json": {
+						email: string;
+					};
+				};
+			};
+			responses: never;
+		};
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/resource/{resourceId}/roles/add": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		get?: never;
+		put?: never;
+		/** @description Add a single role to a resource. */
+		post: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					resourceId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: {
+				content: {
+					"application/json": {
+						roleId: number;
+					};
+				};
+			};
+			responses: never;
+		};
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/resource/{resourceId}/roles/remove": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		get?: never;
+		put?: never;
+		/** @description Remove a single role from a resource. */
+		post: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					resourceId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: {
+				content: {
+					"application/json": {
+						roleId: number;
+					};
+				};
+			};
+			responses: never;
+		};
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/resource/{resourceId}/users/add": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		get?: never;
+		put?: never;
+		/** @description Add a single user to a resource. */
+		post: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					resourceId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: {
+				content: {
+					"application/json": {
+						userId: string;
+					};
+				};
+			};
+			responses: never;
+		};
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/resource/{resourceId}/users/remove": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		get?: never;
+		put?: never;
+		/** @description Remove a single user from a resource. */
+		post: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					resourceId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: {
+				content: {
+					"application/json": {
+						userId: string;
+					};
+				};
+			};
+			responses: never;
+		};
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/org/{orgId}/resources-names": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/** @description List all resource names for an organization. */
+		get: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					orgId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: never;
+			responses: never;
+		};
+		put?: never;
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/org/{orgId}/domains": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/** @description List all domains for a organization. */
+		get: {
+			parameters: {
+				query?: {
+					limit?: string;
+					offset?: string;
+				};
+				header?: never;
+				path: {
+					orgId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: never;
+			responses: never;
+		};
+		put?: never;
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/org/{orgId}/domain/{domainId}": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/** @description Get a domain by domainId. */
+		get: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					domainId: string;
+					orgId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: never;
+			responses: never;
+		};
+		put?: never;
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		/** @description Update a domain by domainId. */
+		patch: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					domainId: string;
+					orgId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: never;
+			responses: never;
+		};
+		trace?: never;
+	};
+	"/org/{orgId}/domain/{domainId}/dns-records": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/** @description Get all DNS records for a domain by domainId. */
+		get: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					domainId: string;
+					orgId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: never;
+			responses: never;
+		};
+		put?: never;
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/org/{orgId}/user/{userId}": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/** @description Get a user in an organization. */
+		get: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					userId: string;
+					orgId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: never;
+			responses: never;
+		};
+		put?: never;
+		/** @description Update a user in an org. */
+		post: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					userId: string;
+					orgId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: {
+				content: {
+					"application/json": {
+						autoProvisioned?: boolean;
+					};
+				};
+			};
+			responses: never;
+		};
+		/** @description Remove a user from an organization. */
+		delete: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					userId: string;
+					orgId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: never;
+			responses: never;
+		};
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/org/{orgId}/users": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/** @description List users in an organization. */
+		get: {
+			parameters: {
+				query?: {
+					limit?: string;
+					offset?: string;
+				};
+				header?: never;
+				path: {
+					orgId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: never;
+			responses: never;
+		};
+		put?: never;
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/role/{roleId}/add/{userId}": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		get?: never;
+		put?: never;
+		/** @description Add a role to a user. */
+		post: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					userId: string;
+					roleId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: never;
+			responses: never;
+		};
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/org/{orgId}/create-invite": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		get?: never;
+		put?: never;
+		/** @description Invite a user to join an organization. */
+		post: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					orgId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: {
+				content: {
+					"application/json": {
+						/** Format: email */
+						email: string;
+						roleId: number;
+						validHours: number;
+						sendEmail?: boolean;
+						regenerate?: boolean;
+					};
+				};
+			};
+			responses: never;
+		};
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/org/{orgId}/user-by-username": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/** @description Get a user in an organization by username. When idpId is not passed, only internal users are searched (username is globally unique for them). For external (OIDC) users, pass idpId to search by username within that identity provider. */
+		get: {
+			parameters: {
+				query: {
+					username: string;
+					idpId?: string;
+				};
+				header?: never;
+				path: {
+					orgId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: never;
+			responses: never;
+		};
+		put?: never;
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/user/{userId}": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/** @description Get a user by ID. */
+		get: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					userId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: never;
+			responses: never;
+		};
+		put?: never;
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/org/{orgId}/invitations": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/** @description List invitations in an organization. */
+		get: {
+			parameters: {
+				query?: {
+					limit?: string;
+					offset?: string;
+				};
+				header?: never;
+				path: {
+					orgId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: never;
+			responses: never;
+		};
+		put?: never;
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/org/{orgId}/invitations/{inviteId}": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		get?: never;
+		put?: never;
+		post?: never;
+		/** @description Remove an open invitation from an organization */
+		delete: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					orgId: string;
+					inviteId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: never;
+			responses: never;
+		};
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/org/{orgId}/user": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		get?: never;
+		/** @description Create an organization user. */
+		put: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					orgId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: {
+				content: {
+					"application/json": {
+						/** Format: email */
+						email?: string;
+						username: string;
+						name?: string;
+						/** @enum {string} */
+						type?: "internal" | "oidc";
+						idpId?: number;
+						roleId: number;
+					};
+				};
+			};
+			responses: never;
+		};
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/user/{userId}/2fa": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		get?: never;
+		put?: never;
+		/** @description Update a user's 2FA status. */
+		post: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					userId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: {
+				content: {
+					"application/json": {
+						twoFactorSetupRequested: boolean;
+					};
+				};
+			};
+			responses: never;
+		};
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/org/{orgId}/pick-client-defaults": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/** @description Return pre-requisite data for creating a client. */
+		get: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					orgId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: never;
+			responses: never;
+		};
+		put?: never;
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/org/{orgId}/client": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		get?: never;
+		/** @description Create a new client for an organization. */
+		put: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					orgId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: {
+				content: {
+					"application/json": {
+						name: string;
+						olmId: string;
+						secret: string;
+						subnet: string;
+						/** @enum {string} */
+						type: "olm";
+					};
+				};
+			};
+			responses: never;
+		};
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/client/{clientId}": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/** @description Get a client by its client ID. */
+		get: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					clientId: number;
+				};
+				cookie?: never;
+			};
+			requestBody?: never;
+			responses: never;
+		};
+		put?: never;
+		/** @description Update a client by its client ID. */
+		post: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					clientId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: {
+				content: {
+					"application/json": {
+						name?: string;
+						niceId?: string;
+					};
+				};
+			};
+			responses: never;
+		};
+		/** @description Delete a client by its client ID. */
+		delete: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					clientId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: never;
+			responses: never;
+		};
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/client/{clientId}/archive": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		get?: never;
+		put?: never;
+		/** @description Archive a client by its client ID. */
+		post: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					clientId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: never;
+			responses: never;
+		};
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/client/{clientId}/unarchive": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		get?: never;
+		put?: never;
+		/** @description Unarchive a client by its client ID. */
+		post: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					clientId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: never;
+			responses: never;
+		};
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/client/{clientId}/block": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		get?: never;
+		put?: never;
+		/** @description Block a client by its client ID. */
+		post: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					clientId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: never;
+			responses: never;
+		};
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/client/{clientId}/unblock": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		get?: never;
+		put?: never;
+		/** @description Unblock a client by its client ID. */
+		post: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					clientId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: never;
+			responses: never;
+		};
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/org/{orgId}/clients": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/** @description List all clients for an organization. */
+		get: {
+			parameters: {
+				query?: {
+					/** @description Number of items per page */
+					pageSize?: number;
+					/** @description Page number to retrieve */
+					page?: number;
+					query?: string;
+					/** @description Field to sort by */
+					sort_by?: "name" | "megabytesIn" | "megabytesOut";
+					/** @description Sort order */
+					order?: "asc" | "desc";
+					/** @description Filter by online status */
+					online?: boolean;
+					/** @description Filter by client status. Can be a comma-separated list of values. Defaults to 'active'. */
+					status?: ("active" | "blocked" | "archived")[];
+				};
+				header?: never;
+				path: {
+					orgId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: never;
+			responses: never;
+		};
+		put?: never;
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/org/{orgId}/user-devices": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/** @description List all user devices for an organization. */
+		get: {
+			parameters: {
+				query?: {
+					/** @description Number of items per page */
+					pageSize?: number;
+					/** @description Page number to retrieve */
+					page?: number;
+					query?: string;
+					/** @description Field to sort by */
+					sort_by?: "megabytesIn" | "megabytesOut";
+					/** @description Sort order */
+					order?: "asc" | "desc";
+					/** @description Filter by online status */
+					online?: boolean;
+					/** @description Filter by agent type. Use 'unknown' to filter clients with no agent detected. */
+					agent?:
+						| "windows"
+						| "android"
+						| "cli"
+						| "olm"
+						| "macos"
+						| "ios"
+						| "ipados"
+						| "unknown";
+					/** @description Filter by device status. Can include multiple values separated by commas. 'active' means not archived, not blocked, and if approval is enabled, approved. 'pending' and 'denied' are only applicable if approval is enabled. */
+					status?: ("active" | "pending" | "denied" | "blocked" | "archived")[];
+				};
+				header?: never;
+				path: {
+					orgId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: never;
+			responses: never;
+		};
+		put?: never;
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/org/{orgId}/client/{niceId}": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/** @description Get a client by orgId and niceId. NiceId is a readable ID for the site and unique on a per org basis. */
+		get: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					orgId: string;
+					niceId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: never;
+			responses: never;
+		};
+		put?: never;
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/org/{orgId}/user/{userId}/client": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		get?: never;
+		/** @description Create a new client for a user and associate it with an existing olm. */
+		put: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					orgId: string;
+					userId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: {
+				content: {
+					"application/json": {
+						name: string;
+						olmId: string;
+						subnet: string;
+						/** @enum {string} */
+						type: "olm";
+					};
+				};
+			};
+			responses: never;
+		};
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/resource/{resourceId}/access-token": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		get?: never;
+		put?: never;
+		/** @description Generate a new access token for a resource. */
+		post: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					resourceId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: {
+				content: {
+					"application/json": {
+						validForSeconds?: number;
+						title?: string;
+						description?: string;
+					};
+				};
+			};
+			responses: never;
+		};
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/org/{orgId}/access-tokens": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/** @description List all access tokens in an organization. */
+		get: {
+			parameters: {
+				query?: {
+					limit?: string;
+					offset?: string;
+				};
+				header?: never;
+				path: {
+					orgId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: never;
+			responses: never;
+		};
+		put?: never;
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/resource/{resourceId}/access-tokens": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/** @description List all access tokens in an organization. */
+		get: {
+			parameters: {
+				query?: {
+					limit?: string;
+					offset?: string;
+				};
+				header?: never;
+				path: {
+					resourceId: number;
+				};
+				cookie?: never;
+			};
+			requestBody?: never;
+			responses: never;
+		};
+		put?: never;
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/access-token/{accessTokenId}": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		get?: never;
+		put?: never;
+		post?: never;
+		/** @description Delete a access token. */
+		delete: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					accessTokenId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: never;
+			responses: never;
+		};
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/idp/oidc": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		get?: never;
+		/** @description Create an OIDC IdP. */
+		put: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path?: never;
+				cookie?: never;
+			};
+			requestBody?: {
+				content: {
+					"application/json": {
+						name: string;
+						clientId: string;
+						clientSecret: string;
+						/** Format: uri */
+						authUrl: string;
+						/** Format: uri */
+						tokenUrl: string;
+						identifierPath: string;
+						emailPath?: string;
+						namePath?: string;
+						scopes: string;
+						autoProvision?: boolean;
+						tags?: string;
+					};
+				};
+			};
+			responses: never;
+		};
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/idp/{idpId}/oidc": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		get?: never;
+		put?: never;
+		/** @description Update an OIDC IdP. */
+		post: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					idpId: number | null;
+				};
+				cookie?: never;
+			};
+			requestBody?: {
+				content: {
+					"application/json": {
+						name?: string;
+						clientId?: string;
+						clientSecret?: string;
+						authUrl?: string;
+						tokenUrl?: string;
+						identifierPath?: string;
+						emailPath?: string;
+						namePath?: string;
+						scopes?: string;
+						autoProvision?: boolean;
+						defaultRoleMapping?: string;
+						defaultOrgMapping?: string;
+						tags?: string;
+					};
+				};
+			};
+			responses: never;
+		};
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/idp/{idpId}": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/** @description Get an IDP by its IDP ID. */
+		get: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					idpId: number | null;
+				};
+				cookie?: never;
+			};
+			requestBody?: never;
+			responses: never;
+		};
+		put?: never;
+		post?: never;
+		/** @description Delete IDP. */
+		delete: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					orgId: string;
+					idpId: number | null;
+				};
+				cookie?: never;
+			};
+			requestBody?: never;
+			responses: never;
+		};
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/idp": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/** @description List all IDP in the system. */
+		get: {
+			parameters: {
+				query?: {
+					limit?: string;
+					offset?: string;
+				};
+				header?: never;
+				path?: never;
+				cookie?: never;
+			};
+			requestBody?: never;
+			responses: never;
+		};
+		put?: never;
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/idp/{idpId}/org/{orgId}": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		get?: never;
+		/** @description Create an IDP policy for an existing IDP on an organization. */
+		put: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					idpId: number | null;
+					orgId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: {
+				content: {
+					"application/json": {
+						roleMapping?: string;
+						orgMapping?: string;
+					};
+				};
+			};
+			responses: never;
+		};
+		/** @description Update an IDP org policy. */
+		post: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					idpId: number | null;
+					orgId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: {
+				content: {
+					"application/json": {
+						roleMapping?: string;
+						orgMapping?: string;
+					};
+				};
+			};
+			responses: never;
+		};
+		/** @description Create an OIDC IdP for an organization. */
+		delete: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					idpId: number | null;
+					orgId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: never;
+			responses: never;
+		};
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/idp/{idpId}/org": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/** @description List all org policies on an IDP. */
+		get: {
+			parameters: {
+				query?: {
+					limit?: string;
+					offset?: string;
+				};
+				header?: never;
+				path: {
+					idpId: number | null;
+				};
+				cookie?: never;
+			};
+			requestBody?: never;
+			responses: never;
+		};
+		put?: never;
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/org/{orgId}/blueprints": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/** @description List all blueprints for a organization. */
+		get: {
+			parameters: {
+				query?: {
+					limit?: string;
+					offset?: string;
+				};
+				header?: never;
+				path: {
+					orgId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: never;
+			responses: never;
+		};
+		put?: never;
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/org/{orgId}/blueprint": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		get?: never;
+		/** @description Apply a base64 encoded JSON blueprint to an organization */
+		put: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					orgId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: {
+				content: {
+					"application/json": {
+						blueprint: string;
+					};
+				};
+			};
+			responses: never;
+		};
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/org/{orgId}/blueprint/{blueprintId}": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/** @description Get a blueprint by its blueprint ID. */
+		get: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					blueprintId: string;
+					orgId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: never;
+			responses: never;
+		};
+		put?: never;
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/org/{orgId}/api-key/{apiKeyId}": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		get?: never;
+		put?: never;
+		post?: never;
+		/** @description Delete an API key. */
+		delete: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					apiKeyId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: never;
+			responses: never;
+		};
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/org/{orgId}/api-key/{apiKeyId}/actions": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/** @description List all actions set for an API key. */
+		get: {
+			parameters: {
+				query?: {
+					limit?: string;
+					offset?: string;
+				};
+				header?: never;
+				path: {
+					apiKeyId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: never;
+			responses: never;
+		};
+		put?: never;
+		/** @description Set actions for an API key. This will replace any existing actions. */
+		post: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					apiKeyId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: {
+				content: {
+					"application/json": {
+						actionIds: string[];
+					};
+				};
+			};
+			responses: never;
+		};
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/org/{orgId}/api-keys": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/** @description List all API keys for an organization */
+		get: {
+			parameters: {
+				query?: {
+					limit?: string;
+					offset?: string;
+				};
+				header?: never;
+				path: {
+					orgId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: never;
+			responses: never;
+		};
+		put?: never;
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/org/{orgId}/api-key": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		get?: never;
+		/** @description Create a new API key scoped to the organization. */
+		put: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					orgId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: {
+				content: {
+					"application/json": {
+						name: string;
+					};
+				};
+			};
+			responses: never;
+		};
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/org/{orgId}/logs/request": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/** @description Query the request audit log for an organization */
+		get: {
+			parameters: {
+				query?: {
+					/** @description Start time as ISO date string (defaults to 7 days ago) */
+					timeStart?: string;
+					/** @description End time as ISO date string (defaults to current time) */
+					timeEnd?: string;
+					action?: boolean | string;
+					method?: "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
+					reason?: string;
+					resourceId?: string;
+					actor?: string;
+					location?: string;
+					host?: string;
+					path?: string;
+				};
+				header?: never;
+				path: {
+					orgId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: never;
+			responses: never;
+		};
+		put?: never;
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/org/{orgId}/logs/analytics": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/** @description Query the request audit analytics for an organization */
+		get: {
+			parameters: {
+				query?: {
+					/** @description Start time as ISO date string (defaults to 7 days ago) */
+					timeStart?: string;
+					/** @description End time as ISO date string (defaults to current time) */
+					timeEnd?: string;
+					resourceId?: string;
+				};
+				header?: never;
+				path: {
+					orgId: string;
+				};
+				cookie?: never;
+			};
+			requestBody?: never;
+			responses: never;
+		};
+		put?: never;
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/** @description Health check */
+		get: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path?: never;
+				cookie?: never;
+			};
+			requestBody?: never;
+			responses: never;
+		};
+		put?: never;
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
 }
 export type webhooks = Record<string, never>;
 export interface components {
-    schemas: never;
-    responses: never;
-    parameters: never;
-    requestBodies: never;
-    headers: never;
-    pathItems: never;
+	schemas: never;
+	responses: never;
+	parameters: never;
+	requestBodies: never;
+	headers: never;
+	pathItems: never;
 }
 export type $defs = Record<string, never>;
 export type operations = Record<string, never>;

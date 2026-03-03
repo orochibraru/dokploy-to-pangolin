@@ -1,23 +1,26 @@
 {
-  "name": "dokploy-hook-pangolin",
-  "module": "index.ts",
-  "type": "module",
-  "private": true,
-  "scripts": {
-    "dev": "bun run --watch ./index.ts",
-    "build": "bun run build.ts",
-    "start": "bun ./build/index.js",
-    "gen:api": "openapi-typescript ./pangolin-openapi.yml --output lib/pangolin.d.ts"
-  },
-  "devDependencies": {
-    "@types/bun": "latest",
-    "openapi-typescript": "^7.13.0"
-  },
-  "peerDependencies": {
-    "typescript": "^5"
-  },
-  "dependencies": {
-    "hono": "^4.12.4",
-    "openapi-fetch": "^0.17.0"
-  }
+	"name": "dokploy-hook-pangolin",
+	"module": "index.ts",
+	"type": "module",
+	"private": true,
+	"scripts": {
+		"dev": "bun run --watch ./index.ts",
+		"build": "bun run build.ts",
+		"start": "bun ./build/index.js",
+		"gen:api": "openapi-typescript ./pangolin-openapi.yml --output lib/pangolin.d.ts",
+		"lint:fix": "biome check --write .",
+		"lint": "biome check ."
+	},
+	"devDependencies": {
+		"@biomejs/biome": "2.4.5",
+		"@types/bun": "latest",
+		"openapi-typescript": "^7.13.0"
+	},
+	"peerDependencies": {
+		"typescript": "^5"
+	},
+	"dependencies": {
+		"hono": "^4.12.4",
+		"openapi-fetch": "^0.17.0"
+	}
 }
