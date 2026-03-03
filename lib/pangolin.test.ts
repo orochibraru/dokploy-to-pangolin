@@ -33,8 +33,15 @@ mock.module("../config", () => ({
 }));
 
 // Import after mocks are set up
-const { fetchMainDomain, getMainSite, listDomains, listResources, listSites } =
-  await import("./pangolin");
+const {
+  createResource,
+  createResourceTarget,
+  fetchMainDomain,
+  getMainSite,
+  listDomains,
+  listResources,
+  listSites,
+} = await import("./pangolin");
 
 describe("Pangolin API Functions", () => {
   beforeEach(() => {
@@ -307,6 +314,237 @@ describe("Pangolin API Functions", () => {
       });
 
       const result = await getMainSite();
+
+      expect(result).toBeUndefined();
+    });
+  });
+
+  describe("createResource", () => {
+    test("should create resource successfully", async () => {
+      const mockDomains: Domain[] = [
+        {
+          baseDomain: "example.com",
+          name: "Main Domain",
+          id: "domain-1",
+          domainId: "domain-id-1",
+        },
+      ];
+
+      const mockResource: Resource = {
+        name: "test-resource",
+        fullDomain: "test.example.com",
+        resourceId: "res-123",
+      };
+
+      mockGET.mockResolvedValue({
+        data: {
+          data: {
+            domains: mockDomains,
+          },
+        },
+        error: undefined,
+      });
+
+      mockPUT.mockResolvedValue({
+        data: {
+          data: mockResource,
+        },
+        error: undefined,
+      });
+
+      const result = await createResource({
+        name: "test-resource",
+        subdomain: "test",
+      });
+
+      expect(result).toEqual(mockResource);
+      expect(mockPUT).toHaveBeenCalledTimes(1);
+      expect(mockPUT.mock.calls[0][0]).toBe("/org/{orgId}/resource");
+      expect(mockPUT.mock.calls[0][1].body).toMatchObject({
+        name: "test-resource",
+        subdomain: "test",
+        http: true,
+        domainId: "domain-id-1",
+        stickySession: true,
+        postAuthPath: "/",
+        protocol: "tcp",
+      });
+    });
+
+    test("should return undefined when main domain not available", async () => {
+      mockGET.mockResolvedValue({
+        data: {
+          data: {
+            domains: [],
+          },
+        },
+        error: undefined,
+      });
+
+      const result = await createResource({
+        name: "test-resource",
+        subdomain: "test",
+      });
+
+      expect(result).toBeUndefined();
+      expect(mockPUT).not.toHaveBeenCalled();
+    });
+
+    test("should return undefined when domain has no domainId", async () => {
+      const mockDomains = [
+        {
+          baseDomain: "example.com",
+          name: "Main Domain",
+          id: "domain-1",
+          domainId: "",
+        },
+      ];
+
+      mockGET.mockResolvedValue({
+        data: {
+          data: {
+            domains: mockDomains,
+          },
+        },
+        error: undefined,
+      });
+
+      const result = await createResource({
+        name: "test-resource",
+        subdomain: "test",
+      });
+
+      expect(result).toBeUndefined();
+      expect(mockPUT).not.toHaveBeenCalled();
+    });
+
+    test("should return undefined on PUT error", async () => {
+      const mockDomains: Domain[] = [
+        {
+          baseDomain: "example.com",
+          name: "Main Domain",
+          id: "domain-1",
+          domainId: "domain-id-1",
+        },
+      ];
+
+      mockGET.mockResolvedValue({
+        data: {
+          data: {
+            domains: mockDomains,
+          },
+        },
+        error: undefined,
+      });
+
+      mockPUT.mockResolvedValue({
+        data: undefined,
+        error: { message: "Creation failed" },
+      });
+
+      const result = await createResource({
+        name: "test-resource",
+        subdomain: "test",
+      });
+
+      expect(result).toBeUndefined();
+    });
+  });
+
+  describe("createResourceTarget", () => {
+    test("should create resource target successfully", async () => {
+      const mockSites: Site[] = [
+        {
+          name: "main-site",
+          siteId: "site-123",
+        },
+      ];
+
+      const mockTarget = {
+        targetId: "target-456",
+        resourceId: "res-789",
+        siteId: "site-123",
+        port: 443,
+        method: "https",
+        enabled: true,
+        ip: "localhost",
+      };
+
+      mockGET.mockResolvedValue({
+        data: {
+          data: {
+            sites: mockSites,
+          },
+        },
+        error: undefined,
+      });
+
+      mockPUT.mockResolvedValue({
+        data: {
+          data: mockTarget,
+        },
+        error: undefined,
+      });
+
+      const result = await createResourceTarget({
+        resourceId: "res-789",
+      });
+
+      expect(result).toEqual(mockTarget);
+      expect(mockPUT).toHaveBeenCalledTimes(1);
+      expect(mockPUT.mock.calls[0][0]).toBe("/resource/{resourceId}/target");
+      expect(mockPUT.mock.calls[0][1].body).toMatchObject({
+        siteId: "site-123",
+        port: 443,
+        method: "https",
+        enabled: true,
+        ip: "localhost",
+      });
+    });
+
+    test("should return undefined when main site not available", async () => {
+      mockGET.mockResolvedValue({
+        data: {
+          data: {
+            sites: [],
+          },
+        },
+        error: undefined,
+      });
+
+      const result = await createResourceTarget({
+        resourceId: "res-789",
+      });
+
+      expect(result).toBeUndefined();
+      expect(mockPUT).not.toHaveBeenCalled();
+    });
+
+    test("should return undefined on PUT error", async () => {
+      const mockSites: Site[] = [
+        {
+          name: "main-site",
+          siteId: "site-123",
+        },
+      ];
+
+      mockGET.mockResolvedValue({
+        data: {
+          data: {
+            sites: mockSites,
+          },
+        },
+        error: undefined,
+      });
+
+      mockPUT.mockResolvedValue({
+        data: undefined,
+        error: { message: "Target creation failed" },
+      });
+
+      const result = await createResourceTarget({
+        resourceId: "res-789",
+      });
 
       expect(result).toBeUndefined();
     });
