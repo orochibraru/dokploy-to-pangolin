@@ -1,15 +1,10 @@
 import { Hono } from "hono";
 import { logger } from "hono/logger";
+import { handleWebhook, type DokployEvent } from "./lib/webhook";
 
 const app = new Hono();
 
 const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET || "mysecret";
-
-type DokployEvent = {
-  title: string;
-  message: string;
-  timestamp: string;
-};
 
 app.use(logger());
 
@@ -27,10 +22,28 @@ app.post("/webhook", async (c) => {
 
   const payload: DokployEvent = await c.req.json();
 
-  console.log("Webhook payload received:", payload);
+  try {
+    const res = await handleWebhook(payload);
 
-  return c.text("Webhook processed", 200);
+    if (!res.success) {
+      console.error("Error processing webhook:", res.message);
+    }
+
+    return c.text(res.message, 200);
+  } catch (error) {
+    console.error("Exception while processing webhook:", error);
+    return c.text("Internal Server Error", 500);
+  }
 });
+
+// Graceful shutdown handling
+const shutdown = () => {
+  console.log("Shutting down gracefully...");
+  process.exit(0);
+};
+
+process.on("SIGINT", shutdown);
+process.on("SIGTERM", shutdown);
 
 export default {
   port: process.env.PORT || 3000,
