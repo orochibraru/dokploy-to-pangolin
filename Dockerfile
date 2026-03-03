@@ -22,5 +22,4 @@ COPY --from=build --chown=bun /app/build/index.js /app/index.js
 
 EXPOSE 3000/tcp
 
-
 CMD ["bun", "run", "/app/index.js"]
