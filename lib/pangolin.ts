@@ -1,8 +1,17 @@
 import createClient, { type Middleware } from "openapi-fetch";
-import type { paths } from "./pangolin.d";
 import { config } from "../config";
+import type {
+  ApiResponse,
+  Domain,
+  DomainsResponse,
+  Resource,
+  ResourcesResponse,
+  ResourceTarget,
+  Site,
+  SitesResponse,
+} from "./types";
 
-const client = createClient<paths>({
+const client = createClient({
   baseUrl: config.pangolin.apiBaseUrl,
 });
 
@@ -15,28 +24,29 @@ const authMiddleware: Middleware = {
 
 client.use(authMiddleware);
 
-export async function listDomains() {
-  const { data, error } = await client.GET("/org/{orgId}/domains", {
+export async function listDomains(): Promise<Domain[] | undefined> {
+  // @ts-expect-error - OAS paths are broken, using custom types
+  const { data, error } = (await client.GET("/org/{orgId}/domains", {
     params: {
       path: {
         orgId: config.pangolin.orgId,
       },
     },
-  });
+  })) as { data?: ApiResponse<DomainsResponse>; error?: unknown };
 
   if (error) {
     console.error("Error fetching Pangolin domains:", error);
     return;
   }
-  console.log(data.data.domains);
+  console.log(data?.data.domains);
 
-  return data.data.domains;
+  return data?.data.domains;
 }
 
-export async function fetchMainDomain() {
+export async function fetchMainDomain(): Promise<Domain | undefined> {
   const domains = await listDomains();
   const main = domains?.find(
-    (d) => d.baseDomain === config.pangolin.mainDomain,
+    (d: Domain) => d.baseDomain === config.pangolin.mainDomain,
   );
 
   if (!main) {
@@ -50,21 +60,22 @@ export async function fetchMainDomain() {
   return main;
 }
 
-export async function listResources() {
-  const { data, error } = await client.GET("/org/{orgId}/resources", {
+export async function listResources(): Promise<Resource[] | undefined> {
+  // @ts-expect-error - OAS paths are broken, using custom types
+  const { data, error } = (await client.GET("/org/{orgId}/resources", {
     params: {
       path: {
         orgId: config.pangolin.orgId,
       },
     },
-  });
+  })) as { data?: ApiResponse<ResourcesResponse>; error?: unknown };
 
   if (error) {
     console.error("Error fetching Pangolin resources:", error);
     return;
   }
 
-  return data.data.resources;
+  return data?.data.resources;
 }
 
 export interface ICreateResourceParams {
@@ -75,7 +86,7 @@ export interface ICreateResourceParams {
 export async function createResource({
   name,
   subdomain,
-}: ICreateResourceParams) {
+}: ICreateResourceParams): Promise<Resource | undefined> {
   const domain = await fetchMainDomain();
 
   if (!domain || !domain.domainId) {
@@ -83,18 +94,8 @@ export async function createResource({
     return;
   }
 
-  // Format
-  // {
-  //   "name": "string",
-  //   "subdomain": "string",
-  //   "http": true,
-  //   "protocol": "tcp",
-  //   "domainId": "string",
-  //   "stickySession": true,
-  //   "postAuthPath": "string"
-  // }
-
-  const { data, error } = await client.PUT("/org/{orgId}/resource", {
+  // @ts-expect-error - OAS paths are broken, using custom types
+  const { data, error } = (await client.PUT("/org/{orgId}/resource", {
     params: {
       path: {
         orgId: config.pangolin.orgId,
@@ -109,22 +110,24 @@ export async function createResource({
       postAuthPath: "/",
       protocol: "tcp",
     },
-  });
+  })) as { data?: ApiResponse<Resource>; error?: unknown };
 
   if (error) {
     console.error("Error creating Pangolin resource:", error);
     return;
   }
 
-  console.log(`Resource created `, data.data);
-  return data.data;
+  console.log(`Resource created `, data?.data);
+  return data?.data;
 }
 
 export interface ICreateTargetParams {
   resourceId: string;
 }
 
-export async function createResourceTarget(params: ICreateTargetParams) {
+export async function createResourceTarget(
+  params: ICreateTargetParams,
+): Promise<ResourceTarget | undefined> {
   const mainSite = await getMainSite();
 
   if (!mainSite) {
@@ -132,53 +135,60 @@ export async function createResourceTarget(params: ICreateTargetParams) {
     return;
   }
 
-  const { data, error } = await client.PUT("/resource/{resourceId}/target", {
-    params: {
-      path: {
-        resourceId: params.resourceId,
+  const { data, error } = (await client.PUT(
+    // @ts-expect-error - OAS paths are broken, using custom types
+    "/resource/{resourceId}/target",
+    {
+      params: {
+        path: {
+          resourceId: params.resourceId,
+        },
+      },
+      body: {
+        siteId: mainSite.siteId,
+        port: 443,
+        method: "https",
+        enabled: true,
+        ip: "localhost",
       },
     },
-    body: {
-      siteId: mainSite.siteId,
-      port: 443,
-      method: "https",
-      enabled: true,
-      ip: "localhost",
-    },
-  });
+  )) as { data?: ApiResponse<ResourceTarget>; error?: unknown };
 
   if (error) {
     console.error("Error creating Pangolin resource target:", error);
     return;
   }
 
-  console.log(`Resource target created `, data.data);
+  console.log(`Resource target created `, data?.data);
 
-  return data.data;
+  return data?.data;
 }
 
-export async function listSites() {
-  const { data, error } = await client.GET("/org/{orgId}/sites", {
+export async function listSites(): Promise<Site[] | undefined> {
+  // @ts-expect-error - OAS paths are broken, using custom types
+  const { data, error } = (await client.GET("/org/{orgId}/sites", {
     params: {
       path: {
         orgId: config.pangolin.orgId,
       },
     },
-  });
+  })) as { data?: ApiResponse<SitesResponse>; error?: unknown };
 
   if (error) {
     console.error("Error fetching Pangolin sites:", error);
     return;
   }
 
-  console.log(data.data.sites);
+  console.log(data?.data.sites);
 
-  return data.data.sites;
+  return data?.data.sites;
 }
 
-export async function getMainSite() {
+export async function getMainSite(): Promise<Site | undefined> {
   const sites = await listSites();
-  const mainSite = sites?.find((s) => s.name === config.pangolin.mainSiteName);
+  const mainSite = sites?.find(
+    (s: Site) => s.name === config.pangolin.mainSiteName,
+  );
 
   if (!mainSite) {
     console.error(
