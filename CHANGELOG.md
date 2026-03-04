@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.2](https://github.com/orochibraru/dokploy-to-pangolin/compare/v1.0.1...v1.0.2) (2026-03-04)
+
+
+### Bug Fixes
+
+* flows ([d08ae24](https://github.com/orochibraru/dokploy-to-pangolin/commit/d08ae24817a8582196b9744813459bbc2934afa1))
+
 ## [1.0.1](https://github.com/orochibraru/dokploy-to-pangolin/compare/v1.0.0...v1.0.1) (2026-03-04)
 
 
