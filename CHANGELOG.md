@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.8](https://github.com/orochibraru/dokploy-to-pangolin/compare/v1.0.7...v1.0.8) (2026-03-04)
+
+
+### Bug Fixes
+
+* docker job trigger ([861ae23](https://github.com/orochibraru/dokploy-to-pangolin/commit/861ae23f44aa6b25f4b6bae00235779bd4ade166))
+
 ## [1.0.7](https://github.com/orochibraru/dokploy-to-pangolin/compare/v1.0.6...v1.0.7) (2026-03-04)
 
 
