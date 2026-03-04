@@ -1,6 +1,6 @@
 # Dokploy Hook Pangolin
 
-[![Docker Hub](https://img.shields.io/docker/v/orochibraru/dokploy-hook-pangolin?sort=semver&logo=docker&label=Docker%20Hub)](https://hub.docker.com/r/orochibraru/dokploy-hook-pangolin)
+[![Docker Hub](https://img.shields.io/docker/v/orochibraru/dokploy-to-pangolin?sort=semver&logo=docker&label=Docker%20Hub)](https://hub.docker.com/r/orochibraru/dokploy-to-pangolin)
 [![codecov](https://codecov.io/gh/orochibraru/dokploy-to-pangolin/branch/main/graph/badge.svg)](https://codecov.io/gh/orochibraru/dokploy-to-pangolin)
 
 A webhook service that automatically registers new Dokploy applications with Pangolin VPN, creating resources and targets for seamless integration.
@@ -63,7 +63,7 @@ docker run -p 3000:3000 \
   -e PANGOLIN_MAIN_SITE_NAME=your-site \
   -e PANGOLIN_MAIN_DOMAIN=example.com \
   -e PANGOLIN_API_BASE_URL=https://api.pangolin.com \
-  orochibraru/dokploy-hook-pangolin
+  orochibraru/dokploy-to-pangolin
 ```
 
 ### With Docker Compose
@@ -73,7 +73,7 @@ docker run -p 3000:3000 \
 ```yaml
 services:
     hook:
-        image: orochibraru/dokploy-hook-pangolin:latest
+        image: orochibraru/dokploy-to-pangolin:latest
         ports:
             - "3000:3000"
         environment:
@@ -247,7 +247,7 @@ Webhook endpoint for Dokploy events
 
 ```bash
 git clone https://github.com/orochibraru/dokploy-to-pangolin.git
-cd dokploy-hook-pangolin
+cd dokploy-to-pangolin
 ```
 
 2. Install dependencies:
