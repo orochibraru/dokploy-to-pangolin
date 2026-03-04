@@ -34,11 +34,3 @@ jobs:
         uses: googleapis/release-please-action@v4
         with:
           release-type: simple
-
-  docker:
-    needs: release-please
-    if: needs.release-please.outputs.release_created == 'true'
-    uses: ./.github/workflows/docker.yaml
-    with:
-      tag: ${{ needs.release-please.outputs.tag_name }}
-    secrets: inherit
