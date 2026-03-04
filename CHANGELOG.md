@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.4](https://github.com/orochibraru/dokploy-to-pangolin/compare/v1.0.3...v1.0.4) (2026-03-04)
+
+
+### Bug Fixes
+
+* docker flow ([0b5df2e](https://github.com/orochibraru/dokploy-to-pangolin/commit/0b5df2e224e4d5a9b30d21b2c534ffe407470349))
+
 ## [1.0.3](https://github.com/orochibraru/dokploy-to-pangolin/compare/v1.0.2...v1.0.3) (2026-03-04)
 
 
