@@ -22,4 +22,6 @@ COPY --from=build --chown=bun /app/build/index.js /app/index.js
 
 EXPOSE 3000/tcp
 
+HEALTHCHECK --interval=30s --timeout=5s CMD wget --no-verbose --tries=1 --spider http://localhost:3000/ || exit 1
+
 CMD ["bun", "run", "/app/index.js"]
