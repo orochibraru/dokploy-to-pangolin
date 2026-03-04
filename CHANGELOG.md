@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.6](https://github.com/orochibraru/dokploy-to-pangolin/compare/v1.0.5...v1.0.6) (2026-03-04)
+
+
+### Bug Fixes
+
+* ci names ([9aba60b](https://github.com/orochibraru/dokploy-to-pangolin/commit/9aba60bfada1b618da024151d2deaa3200af7a9f))
+
 ## [1.0.5](https://github.com/orochibraru/dokploy-to-pangolin/compare/v1.0.4...v1.0.5) (2026-03-04)
 
 
