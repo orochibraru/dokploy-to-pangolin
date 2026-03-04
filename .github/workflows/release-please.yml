@@ -2,7 +2,6 @@ on:
   push:
     branches:
       - main
-    # Don't trigger if tags are pushed
     tags-ignore:
       - "**"
 
