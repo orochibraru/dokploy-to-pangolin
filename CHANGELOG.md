@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.1.0](https://github.com/orochibraru/dokploy-to-pangolin/compare/v1.0.10...v1.1.0) (2026-03-04)
+
+
+### Features
+
+* badges ([2885aa7](https://github.com/orochibraru/dokploy-to-pangolin/commit/2885aa73ccc2e3802917156c0444e541fca745fc))
+
+
+### Bug Fixes
+
+* image name ([c1d0ae2](https://github.com/orochibraru/dokploy-to-pangolin/commit/c1d0ae2d889ef6f1a49f8790911282d2d0b72ca0))
+* test command ([212a90c](https://github.com/orochibraru/dokploy-to-pangolin/commit/212a90c481b3d95ee5e6bd545e0bbf1c3272d5da))
+
 ## [1.0.10](https://github.com/orochibraru/dokploy-to-pangolin/compare/v1.0.9...v1.0.10) (2026-03-04)
 
 
