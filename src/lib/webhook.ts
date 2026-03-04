@@ -79,8 +79,20 @@ export async function handleWebhook(event: DokployEvent): Promise<Result> {
 				};
 			}
 
+			if (!event.applicationName || !event.projectName) {
+				console.error(
+					"No application name or project name provided in the webhook event.",
+				);
+				return {
+					success: false,
+					message: "No application name or project name provided in the event",
+				};
+			}
+
+			const resourceName = `${event.projectName.toLowerCase()}-${event.applicationName.toLowerCase()}`;
+
 			const createdResource = await createResource({
-				name: event.applicationName || event.projectName || "unknown-resource",
+				name: resourceName,
 				subdomain: extractedSubdomain,
 			});
 

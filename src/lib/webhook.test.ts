@@ -120,6 +120,7 @@ describe("handleWebhook", () => {
             type: "build",
             status: "success",
             projectName: "new-project",
+            applicationName: "new-app",
             domains: "new.example.com",
         };
 
@@ -132,7 +133,7 @@ describe("handleWebhook", () => {
         ]);
 
         mockCreateResource.mockResolvedValue({
-            name: "new-project",
+            name: "new-project-new-app",
             fullDomain: "new.example.com",
             resourceId: "res-789",
         });
@@ -153,7 +154,7 @@ describe("handleWebhook", () => {
         expect(result.message).toBe("Webhook processed successfully");
         expect(mockListResources).toHaveBeenCalledTimes(1);
         expect(mockCreateResource).toHaveBeenCalledWith({
-            name: "new-project",
+            name: "new-project-new-app",
             subdomain: "new",
         });
         expect(mockCreateResourceTarget).toHaveBeenCalledWith({
@@ -169,12 +170,13 @@ describe("handleWebhook", () => {
             type: "build",
             status: "success",
             projectName: "api-project",
+            applicationName: "api-app",
             domains: "api.example.com",
         };
 
         mockListResources.mockResolvedValue([]);
         mockCreateResource.mockResolvedValue({
-            name: "api-project",
+            name: "api-project-api-app",
             fullDomain: "api.example.com",
             resourceId: "res-999",
         });
@@ -192,7 +194,7 @@ describe("handleWebhook", () => {
 
         expect(result.success).toBe(true);
         expect(mockCreateResource).toHaveBeenCalledWith({
-            name: "api-project",
+            name: "api-project-api-app",
             subdomain: "api",
         });
     });
@@ -229,6 +231,7 @@ describe("handleWebhook", () => {
             type: "build",
             status: "success",
             projectName: "test-project",
+            applicationName: "test-app",
             domains: "new.example.com",
         };
 
@@ -250,6 +253,7 @@ describe("handleWebhook", () => {
             type: "build",
             status: "success",
             projectName: "test-project",
+            applicationName: "test-app",
             domains: "new.example.com",
         };
 
@@ -267,40 +271,5 @@ describe("handleWebhook", () => {
         expect(result.message).toBe(
             "Failed to create resource target in Pangolin",
         );
-    });
-
-    test("should use default project name when not provided", async () => {
-        const event: DokployEvent = {
-            title: "Build Success",
-            message: "Build completed",
-            timestamp: "2026-03-03T12:00:00Z",
-            type: "build",
-            status: "success",
-            domains: "unnamed.example.com",
-        };
-
-        mockListResources.mockResolvedValue([]);
-        mockCreateResource.mockResolvedValue({
-            name: "project-123456",
-            fullDomain: "unnamed.example.com",
-            resourceId: "res-222",
-        });
-        mockCreateResourceTarget.mockResolvedValue({
-            targetId: "target-222",
-            resourceId: "res-222",
-            siteId: "site-123",
-            port: 443,
-            method: "https",
-            enabled: true,
-            ip: "localhost",
-        });
-
-        const result = await handleWebhook(event);
-
-        expect(result.success).toBe(true);
-        expect(mockCreateResource).toHaveBeenCalled();
-        const call = mockCreateResource.mock.calls[0][0];
-        expect(call.subdomain).toBe("unnamed");
-        expect(call.name).toMatch("unknown-resource");
     });
 });
