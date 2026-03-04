@@ -5,7 +5,7 @@ on:
     types: [released]
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: ${{ github.workflow }}-${{ github.ref }}-docker
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 env:
@@ -32,14 +32,14 @@ jobs:
         run: docker buildx bake --file ./docker-bake.hcl app
 
       - name: Login to Container registry
-        if: github.ref == 'refs/heads/main'
+        if: github.event_name == 'release'
         uses: docker/login-action@v3
         with:
           username: ${{ vars.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      # Main: Build and push
+      # Release: Build and push
       - name: Build and push
-        if: github.ref == 'refs/heads/main'
+        if: github.event_name == 'release'
         shell: bash
         run: docker buildx bake --file ./docker-bake.hcl --push

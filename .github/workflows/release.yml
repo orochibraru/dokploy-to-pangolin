@@ -16,7 +16,7 @@ env:
   TZ: Europe/Paris
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: ${{ github.workflow }}-${{ github.ref }}-release
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:

@@ -4,7 +4,7 @@ on:
   pull_request:
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: ${{ github.workflow }}-${{ github.ref }}-typescript
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 env:
