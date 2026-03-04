@@ -40,8 +40,24 @@ jobs:
       - name: Test
         run: bun test
 
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v5
+      - name: Extract coverage percentage
+        if: github.ref == 'refs/heads/main'
+        id: coverage
+        run: |
+          LH=$(grep -h "^LH:" coverage/lcov.info | awk -F: '{sum+=$2} END {print sum}')
+          LF=$(grep -h "^LF:" coverage/lcov.info | awk -F: '{sum+=$2} END {print sum}')
+          PCT=$(echo "scale=1; $LH * 100 / $LF" | bc)
+          echo "pct=$PCT" >> $GITHUB_OUTPUT
+
+      - name: Update coverage badge
+        if: github.ref == 'refs/heads/main'
+        uses: Schneegans/dynamic-badges-action@v1.7.0
         with:
-          files: ./coverage/lcov.info
-          fail_ci_if_error: false
+          auth: ${{ secrets.GIST_TOKEN }}
+          gistID: ${{ secrets.GIST_ID }}
+          filename: coverage.json
+          label: coverage
+          message: ${{ steps.coverage.outputs.pct }}%
+          valColorRange: ${{ steps.coverage.outputs.pct }}
+          maxColorRange: 100
+          minColorRange: 0
