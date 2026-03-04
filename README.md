@@ -285,9 +285,6 @@ bun run start
 # Run tests
 bun test
 
-# Run tests in watch mode
-bun run test:watch
-
 # Lint and format code
 bun run lint
 
