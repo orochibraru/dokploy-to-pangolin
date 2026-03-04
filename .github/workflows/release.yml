@@ -20,8 +20,12 @@ concurrency:
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
+  typescript:
+    uses: ./.github/workflows/typescript.yaml
+
   release-please:
     runs-on: ubuntu-latest
+    needs: typescript
     outputs:
       release_created: ${{ steps.release.outputs.release_created }}
       tag_name: ${{ steps.release.outputs.tag_name }}
