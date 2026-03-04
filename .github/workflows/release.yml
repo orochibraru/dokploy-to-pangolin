@@ -10,7 +10,7 @@ permissions:
   issues: write
   pull-requests: write
 
-name: release-please
+name: Release
 
 env:
   TZ: Europe/Paris

@@ -1,4 +1,4 @@
-name: Publish
+name: Docker
 on:
   pull_request:
   release:
@@ -13,7 +13,7 @@ env:
 
 jobs:
   docker:
-    name: Docker
+    name: Build & Push
     runs-on: ubuntu-latest
     env:
       TAG: ${{ github.event.release.tag_name }}
