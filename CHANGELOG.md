@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.5](https://github.com/orochibraru/dokploy-to-pangolin/compare/v1.0.4...v1.0.5) (2026-03-04)
+
+
+### Bug Fixes
+
+* docker release ([ce1159a](https://github.com/orochibraru/dokploy-to-pangolin/commit/ce1159ab525c9beef9f7c1aedf92d61df5c85143))
+
 ## [1.0.4](https://github.com/orochibraru/dokploy-to-pangolin/compare/v1.0.3...v1.0.4) (2026-03-04)
 
 
