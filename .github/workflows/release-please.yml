@@ -2,6 +2,9 @@ on:
   push:
     branches:
       - main
+    # Don't trigger if tags are pushed
+    tags-ignore:
+      - "**"
 
 permissions:
   contents: write
@@ -9,6 +12,13 @@ permissions:
   pull-requests: write
 
 name: release-please
+
+env:
+  TZ: Europe/Paris
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   release-please:

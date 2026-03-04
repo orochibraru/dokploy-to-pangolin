@@ -1,39 +1,11 @@
 name: CI/CD
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - "src/**"
-      - "Dockerfile"
-      - "docker-bake.hcl"
-      - "compose.yaml"
-      - "package.json"
-      - "bun.lock"
-      - "tsconfig.json"
-      - "biome.json"
-      - ".github/workflows/**"
   pull_request:
-    paths:
-      - "src/**"
-      - "Dockerfile"
-      - "docker-bake.hcl"
-      - "compose.yaml"
-      - "package.json"
-      - "bun.lock"
-      - "tsconfig.json"
-      - "biome.json"
-      - ".github/workflows/**"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
-
-permissions:
-  contents: write
-  pull-requests: write
-  id-token: write
 
 env:
   TZ: Europe/Paris
