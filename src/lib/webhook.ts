@@ -27,15 +27,18 @@ type Result = {
 export async function handleWebhook(event: DokployEvent): Promise<Result> {
 	if (event.type && event.type === "build") {
 		console.log(
-			`Build event received for project: ${event.projectName}`,
+			`Build event received for project: ${event.projectName} (${event.applicationName})`,
 			event,
 		);
 
 		if (event.status === "error") {
-			console.error(`Build error for project: ${event.projectName}`, event);
+			console.error(
+				`Build error for project: ${event.projectName} (${event.applicationName})`,
+				event,
+			);
 			return {
 				success: false,
-				message: `Build error for project: ${event.projectName}`,
+				message: `Build error for project: ${event.projectName} (${event.applicationName})`,
 			};
 		}
 
@@ -77,7 +80,7 @@ export async function handleWebhook(event: DokployEvent): Promise<Result> {
 			}
 
 			const createdResource = await createResource({
-				name: event.projectName || `project-${Date.now()}`,
+				name: event.applicationName || event.projectName || "unknown-resource",
 				subdomain: extractedSubdomain,
 			});
 
