@@ -39,9 +39,6 @@ env:
   TZ: Europe/Paris
 
 jobs:
-  # ===========================================
-  # TypeScript: Lint, Format, Build
-  # ===========================================
   typescript:
     name: TypeScript
     runs-on: ubuntu-latest
@@ -66,49 +63,3 @@ jobs:
 
       - name: Build
         run: bun run build
-
-        # TESTING
-      - uses: googleapis/release-please-action@v4
-        id: release
-        with:
-          # Use 'node' as the release type; it works perfectly for Bun package.json
-          release-type: node
-
-  # ===========================================
-  # Docker: Build (PR) or Build & Push (main)
-  # ===========================================
-  docker:
-    name: Docker
-    runs-on: ubuntu-latest
-    needs: typescript
-    if: github.event_name != 'pull_request' || !startsWith(github.event.pull_request.title, 'WIP')
-    env:
-      TAG: ${{ github.sha }}
-    steps:
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
-
-      - uses: actions/checkout@v5
-
-      # PR: Build only (no push)
-      - name: Build (PR validation)
-        if: github.event_name == 'pull_request'
-        shell: bash
-        run: docker buildx bake --file ./docker-bake.hcl app
-
-      # Only login and push on main branch
-      - name: Login to Container registry
-        if: github.ref == 'refs/heads/main'
-        uses: docker/login-action@v3
-        with:
-          username: ${{ vars.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      # Main: Build and push
-      - name: Build and push
-        if: github.ref == 'refs/heads/main'
-        shell: bash
-        run: docker buildx bake --file ./docker-bake.hcl --push
