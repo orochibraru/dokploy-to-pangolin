@@ -67,12 +67,12 @@ jobs:
       - name: Build
         run: bun run build
 
-        # TESTING
-      - uses: googleapis/release-please-action@v4
-        id: release
-        with:
-          # Use 'node' as the release type; it works perfectly for Bun package.json
-          release-type: node
+      #   # TESTING
+      # - uses: googleapis/release-please-action@v4
+      #   id: release
+      #   with:
+      #     # Use 'node' as the release type; it works perfectly for Bun package.json
+      #     release-type: node
 
   # ===========================================
   # Docker: Build (PR) or Build & Push (main)
