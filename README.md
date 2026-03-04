@@ -1,5 +1,8 @@
 # Dokploy Hook Pangolin
 
+[![Docker Hub](https://img.shields.io/docker/v/orochibraru/dokploy-hook-pangolin?sort=semver&logo=docker&label=Docker%20Hub)](https://hub.docker.com/r/orochibraru/dokploy-hook-pangolin)
+[![codecov](https://codecov.io/gh/orochibraru/dokploy-to-pangolin/branch/main/graph/badge.svg)](https://codecov.io/gh/orochibraru/dokploy-to-pangolin)
+
 A webhook service that automatically registers new Dokploy applications with Pangolin VPN, creating resources and targets for seamless integration.
 
 ## Overview

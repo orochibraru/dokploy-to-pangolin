@@ -36,3 +36,12 @@ jobs:
 
       - name: Build
         run: bun run build
+
+      - name: Test
+        run: bun run test
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          files: ./coverage/lcov.info
+          fail_ci_if_error: false

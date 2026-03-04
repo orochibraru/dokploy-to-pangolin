@@ -1,3 +1,4 @@
 [test]
 coverage = true
 coverageThreshold = { line = 0.7, function = 0.8, statement = 0.9 }
+coverageReporter = ["text", "lcov"]
