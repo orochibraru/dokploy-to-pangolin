@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.2.0](https://github.com/orochibraru/dokploy-to-pangolin/compare/v1.1.0...v1.2.0) (2026-03-04)
+
+
+### Features
+
+* coverage gist ([a177998](https://github.com/orochibraru/dokploy-to-pangolin/commit/a177998057be0917224e749c978a29826fcdfcb4))
+
+
+### Bug Fixes
+
+* dockerfile & removed coverage badge for now ([339c8a8](https://github.com/orochibraru/dokploy-to-pangolin/commit/339c8a84986beadc56d32a26663af380fa6721aa))
+* gist id ([72f1017](https://github.com/orochibraru/dokploy-to-pangolin/commit/72f101752045f64ab76ff772c21d280e8a185a2c))
+* vars ([1060f5f](https://github.com/orochibraru/dokploy-to-pangolin/commit/1060f5fa7cbfa28db46bbf81324ffdb28b45cdea))
+
 ## [1.1.0](https://github.com/orochibraru/dokploy-to-pangolin/compare/v1.0.10...v1.1.0) (2026-03-04)
 
 
