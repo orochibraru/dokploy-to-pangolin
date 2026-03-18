@@ -17,7 +17,7 @@
     "release": "changelogen release"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.4.6",
+    "@biomejs/biome": "2.4.8",
     "@types/bun": "latest",
     "changelogen": "^0.6.2",
     "husky": "^9.1.7",
