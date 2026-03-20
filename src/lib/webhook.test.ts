@@ -199,7 +199,7 @@ describe("handleWebhook", () => {
         });
     });
 
-    test("should return error when subdomain extraction fails", async () => {
+    test("should not create resource when subdomain extraction fails", async () => {
         const event: DokployEvent = {
             title: "Build Success",
             message: "Build completed",
@@ -211,19 +211,36 @@ describe("handleWebhook", () => {
         };
 
         mockListResources.mockResolvedValue([]);
-        mockCreateResource.mockClear(); // Clear any previous calls
-        mockCreateResourceTarget.mockClear();
 
         const result = await handleWebhook(event);
 
-        expect(result.success).toBe(false);
-        expect(result.message).toBe(
-            "No subdomain extracted from event domains",
-        );
+        expect(result.success).toBe(true);
+        expect(result.message).toBe("Webhook processed successfully");
         expect(mockCreateResource).not.toHaveBeenCalled();
     });
 
-    test("should return error when resource creation fails", async () => {
+    test("should not create resource when projectName or applicationName is missing", async () => {
+        const event: DokployEvent = {
+            title: "Build Success",
+            message: "Build completed",
+            timestamp: "2026-03-03T12:00:00Z",
+            type: "build",
+            status: "success",
+            projectName: "test-project",
+            // applicationName intentionally omitted
+            domains: "new.example.com",
+        };
+
+        mockListResources.mockResolvedValue([]);
+
+        const result = await handleWebhook(event);
+
+        expect(result.success).toBe(true);
+        expect(result.message).toBe("Webhook processed successfully");
+        expect(mockCreateResource).not.toHaveBeenCalled();
+    });
+
+    test("should not create resource target when resource creation fails", async () => {
         const event: DokployEvent = {
             title: "Build Success",
             message: "Build completed",
@@ -240,12 +257,12 @@ describe("handleWebhook", () => {
 
         const result = await handleWebhook(event);
 
-        expect(result.success).toBe(false);
-        expect(result.message).toBe("Failed to create resource in Pangolin");
+        expect(result.success).toBe(true);
+        expect(result.message).toBe("Webhook processed successfully");
         expect(mockCreateResourceTarget).not.toHaveBeenCalled();
     });
 
-    test("should return error when resource target creation fails", async () => {
+    test("should succeed even when resource target creation fails", async () => {
         const event: DokployEvent = {
             title: "Build Success",
             message: "Build completed",
@@ -267,9 +284,55 @@ describe("handleWebhook", () => {
 
         const result = await handleWebhook(event);
 
-        expect(result.success).toBe(false);
-        expect(result.message).toBe(
-            "Failed to create resource target in Pangolin",
-        );
+        expect(result.success).toBe(true);
+        expect(result.message).toBe("Webhook processed successfully");
+    });
+
+    test("should process multiple comma-separated domains independently", async () => {
+        const event: DokployEvent = {
+            title: "Build Success",
+            message: "Build completed",
+            timestamp: "2026-03-03T12:00:00Z",
+            type: "build",
+            status: "success",
+            projectName: "multi-project",
+            applicationName: "multi-app",
+            domains: "first.example.com, second.example.com",
+        };
+
+        mockListResources.mockResolvedValue([
+            {
+                name: "existing",
+                fullDomain: "first.example.com",
+                resourceId: "res-001",
+            },
+        ]);
+        mockCreateResource.mockResolvedValue({
+            name: "multi-project-multi-app",
+            fullDomain: "second.example.com",
+            resourceId: "res-002",
+        });
+        mockCreateResourceTarget.mockResolvedValue({
+            targetId: "target-002",
+            resourceId: "res-002",
+            siteId: "site-123",
+            port: 443,
+            method: "https",
+            enabled: true,
+            ip: "localhost",
+        });
+
+        const result = await handleWebhook(event);
+
+        expect(result.success).toBe(true);
+        expect(result.message).toBe("Webhook processed successfully");
+        expect(mockListResources).toHaveBeenCalledTimes(1);
+        expect(mockCreateResource).toHaveBeenCalledWith({
+            name: "multi-project-multi-app",
+            subdomain: "second",
+        });
+        expect(mockCreateResourceTarget).toHaveBeenCalledWith({
+            resourceId: "res-002",
+        });
     });
 });
