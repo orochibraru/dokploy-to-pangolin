@@ -1,0 +1,48 @@
+name: Fix corrupted bun.lock
+
+on:
+  push:
+    branches-ignore:
+      - main
+    paths:
+      - "bun.lock"
+      - "package.json"
+      - "packages/web/package.json"
+      - "packages/docs/package.json"
+      - "packages/mobile/package.json"
+
+permissions:
+  contents: write
+
+jobs:
+  fix-lockfile:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: Try install (frozen)
+        id: install
+        run: bun install --frozen-lockfile --ignore-scripts
+        continue-on-error: true
+
+      - name: Regenerate lockfile
+        if: steps.install.outcome == 'failure'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          rm -f bun.lock
+          bun install --ignore-scripts
+          git add bun.lock
+          if git diff --cached --quiet -- bun.lock; then
+            echo "bun.lock unchanged after regeneration; skipping commit and push."
+          else
+            git commit -m "fix: regenerate corrupted bun.lock"
+            BRANCH="${GITHUB_REF_NAME:-${{ github.ref_name }}}"
+            git push origin HEAD:"$BRANCH"
+          fi

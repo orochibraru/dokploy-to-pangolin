@@ -4,6 +4,7 @@ import {
 	createResourceTarget,
 	listResources,
 } from "./pangolin";
+import type { Resource } from "./types";
 
 export type DokployEvent = {
 	title: string;
@@ -23,6 +24,84 @@ type Result = {
 	success: boolean;
 	message: string;
 };
+
+interface HandleResourceCreationParams {
+	domain: string;
+	resources?: Resource[];
+	event: DokployEvent;
+}
+
+async function handleResourcecreation({
+	domain,
+	resources,
+	event,
+}: HandleResourceCreationParams) {
+	const match = resources?.find((res) => domain === res.fullDomain);
+
+	if (match) {
+		console.log(
+			`Matching resource found in Pangolin: ${match.name} (${match.fullDomain})`,
+		);
+	} else {
+		console.warn(
+			"No matching resource found in Pangolin for the provided domain.",
+		);
+
+		const extractedSubdomain = domain
+			.replace(`.${config.pangolin.mainDomain}`, "")
+			.trim();
+		if (!extractedSubdomain) {
+			console.error("No subdomain could be extracted from the event domain.");
+			return {
+				success: false,
+				message: "No subdomain extracted from event domain",
+			};
+		}
+
+		if (!event.applicationName || !event.projectName) {
+			console.error(
+				"No application name or project name provided in the webhook event.",
+			);
+			return {
+				success: false,
+				message: "No application name or project name provided in the event",
+			};
+		}
+
+		const resourceName = `${event.projectName.toLowerCase()}-${event.applicationName.toLowerCase()}`;
+
+		const createdResource = await createResource({
+			name: resourceName,
+			subdomain: extractedSubdomain,
+		});
+
+		if (!createdResource) {
+			return {
+				success: false,
+				message: "Failed to create resource in Pangolin",
+			};
+		}
+
+		console.log(
+			`Resource created successfully in Pangolin: ${createdResource.name} (${createdResource.fullDomain})`,
+		);
+
+		const resourceTarget = await createResourceTarget({
+			resourceId: createdResource.resourceId,
+		});
+
+		if (!resourceTarget) {
+			return {
+				success: false,
+				message: "Failed to create resource target in Pangolin",
+			};
+		}
+
+		console.log(
+			`Resource target created successfully in Pangolin for resource: ${createdResource.name}`,
+		);
+	}
+}
 
 export async function handleWebhook(event: DokployEvent): Promise<Result> {
 	if (event.type && event.type === "build") {
@@ -52,75 +131,21 @@ export async function handleWebhook(event: DokployEvent): Promise<Result> {
 			};
 		}
 
+		const domainList = event.domains?.split(",").map((d) => d.trim());
+
+		if (!domainList || domainList.length === 0) {
+			console.warn("No valid domains extracted from the webhook event.");
+			return {
+				success: false,
+				message: "No valid domains extracted from the event",
+			};
+		}
+
+		console.log(`Extracted domains from event: ${domainList.join(", ")}`);
+
 		const resources = await listResources();
-		const match = resources?.find((res) => event.domains === res.fullDomain);
-
-		if (match) {
-			console.log(
-				`Matching resource found in Pangolin: ${match.name} (${match.fullDomain})`,
-			);
-		} else {
-			console.warn(
-				"No matching resource found in Pangolin for the provided domains.",
-			);
-
-			const domain = event.domains as string;
-
-			const extractedSubdomain = domain
-				.replace(`.${config.pangolin.mainDomain}`, "")
-				.trim();
-			if (!extractedSubdomain) {
-				console.error(
-					"No subdomain could be extracted from the event domains.",
-				);
-				return {
-					success: false,
-					message: "No subdomain extracted from event domains",
-				};
-			}
-
-			if (!event.applicationName || !event.projectName) {
-				console.error(
-					"No application name or project name provided in the webhook event.",
-				);
-				return {
-					success: false,
-					message: "No application name or project name provided in the event",
-				};
-			}
-
-			const resourceName = `${event.projectName.toLowerCase()}-${event.applicationName.toLowerCase()}`;
-
-			const createdResource = await createResource({
-				name: resourceName,
-				subdomain: extractedSubdomain,
-			});
-
-			if (!createdResource) {
-				return {
-					success: false,
-					message: "Failed to create resource in Pangolin",
-				};
-			}
-
-			console.log(
-				`Resource created successfully in Pangolin: ${createdResource.name} (${createdResource.fullDomain})`,
-			);
-
-			const resourceTarget = await createResourceTarget({
-				resourceId: createdResource.resourceId,
-			});
-
-			if (!resourceTarget) {
-				return {
-					success: false,
-					message: "Failed to create resource target in Pangolin",
-				};
-			}
-
-			console.log(
-				`Resource target created successfully in Pangolin for resource: ${createdResource.name}`,
-			);
+		for (const domain of domainList) {
+			handleResourcecreation({ domain, resources, event });
 		}
 	} else {
 		console.log("Webhook payload received:", event);
