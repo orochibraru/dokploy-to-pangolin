@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.3.0](https://github.com/orochibraru/dokploy-to-pangolin/compare/v1.2.0...v1.3.0) (2026-03-20)
+
+
+### Features
+
+* flow for dependaboot ([ccb2f53](https://github.com/orochibraru/dokploy-to-pangolin/commit/ccb2f53329a6da8f540cbd3fdc048a9c86707362))
+* handle multiple domains per project ([65e85e2](https://github.com/orochibraru/dokploy-to-pangolin/commit/65e85e2e6bf5f9502c7eb84ec0f5e4af9b3bb104))
+
+
+### Bug Fixes
+
+* automerge flow ([2f455ae](https://github.com/orochibraru/dokploy-to-pangolin/commit/2f455aed7d7d65eda7c87df7ab8f35c589b3a738))
+
 ## [1.2.0](https://github.com/orochibraru/dokploy-to-pangolin/compare/v1.1.0...v1.2.0) (2026-03-04)
 
 
