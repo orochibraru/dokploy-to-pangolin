@@ -27,7 +27,7 @@
     "typescript": "^5.9.3"
   },
   "dependencies": {
-    "hono": "^4.12.8",
+    "hono": "^4.12.9",
     "openapi-fetch": "^0.17.0"
   },
   "packageManager": "bun@1.3.10"
