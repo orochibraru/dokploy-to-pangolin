@@ -2,11 +2,13 @@ import { beforeEach, describe, expect, mock, test } from "bun:test";
 import type { Domain, Resource, Site } from "./types";
 
 // Mock the openapi-fetch client
-const mockGET = mock(() =>
-  Promise.resolve({ data: undefined, error: undefined }),
+const mockGET = mock(
+  (_path: string, _opts?: unknown): Promise<{ data: unknown; error: unknown }> =>
+    Promise.resolve({ data: undefined, error: undefined }),
 );
-const mockPUT = mock(() =>
-  Promise.resolve({ data: undefined, error: undefined }),
+const mockPUT = mock(
+  (_path: string, _opts?: unknown): Promise<{ data: unknown; error: unknown }> =>
+    Promise.resolve({ data: undefined, error: undefined }),
 );
 
 const mockClient = {
@@ -77,7 +79,7 @@ describe("Pangolin API Functions", () => {
 
       expect(result).toEqual(mockDomains);
       expect(mockGET).toHaveBeenCalledTimes(1);
-      expect(mockGET.mock.calls[0][0]).toBe("/org/{orgId}/domains");
+      expect(mockGET).toHaveBeenCalledWith("/org/{orgId}/domains", expect.anything());
     });
 
     test("should return undefined on error", async () => {
@@ -131,7 +133,7 @@ describe("Pangolin API Functions", () => {
 
       expect(result).toEqual(mockResources);
       expect(mockGET).toHaveBeenCalledTimes(1);
-      expect(mockGET.mock.calls[0][0]).toBe("/org/{orgId}/resources");
+      expect(mockGET).toHaveBeenCalledWith("/org/{orgId}/resources", expect.anything());
     });
 
     test("should return undefined on error", async () => {
@@ -172,7 +174,7 @@ describe("Pangolin API Functions", () => {
 
       expect(result).toEqual(mockSites);
       expect(mockGET).toHaveBeenCalledTimes(1);
-      expect(mockGET.mock.calls[0][0]).toBe("/org/{orgId}/sites");
+      expect(mockGET).toHaveBeenCalledWith("/org/{orgId}/sites", expect.anything());
     });
 
     test("should return undefined on error", async () => {
@@ -273,16 +275,17 @@ describe("Pangolin API Functions", () => {
       expect(result).toEqual(mockResource);
       expect(mockGET).not.toHaveBeenCalled();
       expect(mockPUT).toHaveBeenCalledTimes(1);
-      expect(mockPUT.mock.calls[0][0]).toBe("/org/{orgId}/resource");
-      expect(mockPUT.mock.calls[0][1].body).toMatchObject({
-        name: "test-resource",
-        subdomain: "test",
-        http: true,
-        domainId: "domain-id-1",
-        stickySession: true,
-        postAuthPath: "/",
-        protocol: "tcp",
-      });
+      expect(mockPUT).toHaveBeenCalledWith("/org/{orgId}/resource", expect.objectContaining({
+        body: expect.objectContaining({
+          name: "test-resource",
+          subdomain: "test",
+          http: true,
+          domainId: "domain-id-1",
+          stickySession: true,
+          postAuthPath: "/",
+          protocol: "tcp",
+        }),
+      }));
     });
 
     test("should return undefined on PUT error", async () => {
@@ -342,14 +345,15 @@ describe("Pangolin API Functions", () => {
 
       expect(result).toEqual(mockTarget);
       expect(mockPUT).toHaveBeenCalledTimes(1);
-      expect(mockPUT.mock.calls[0][0]).toBe("/resource/{resourceId}/target");
-      expect(mockPUT.mock.calls[0][1].body).toMatchObject({
-        siteId: "site-123",
-        port: 443,
-        method: "https",
-        enabled: true,
-        ip: "localhost",
-      });
+      expect(mockPUT).toHaveBeenCalledWith("/resource/{resourceId}/target", expect.objectContaining({
+        body: expect.objectContaining({
+          siteId: "site-123",
+          port: 443,
+          method: "https",
+          enabled: true,
+          ip: "localhost",
+        }),
+      }));
     });
 
     test("should return undefined when main site not available", async () => {
