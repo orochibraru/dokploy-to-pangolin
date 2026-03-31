@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     // Environment setup & latest features
-    "lib": ["ESNext"],
+    "lib": ["ESNext", "DOM"],
     "target": "ESNext",
     "module": "Preserve",
     "moduleDetection": "force",
@@ -24,8 +24,9 @@
     // Some stricter flags (disabled by default)
     "noUnusedLocals": false,
     "noUnusedParameters": false,
-    "noPropertyAccessFromIndexSignature": false
+    "noPropertyAccessFromIndexSignature": false,
+    "types": ["node", "bun"]
   },
   "include": ["src/**/*.ts"],
-  "exclude": ["src/**/*.test.ts", "node_modules"]
+  "exclude": ["src/**/*.test.ts", "node_modules", "dist"]
 }
