@@ -63,7 +63,7 @@ export async function listResources(): Promise<Resource[] | undefined> {
 
 export interface ICreateResourceParams {
 	name: string;
-	subdomain: string;
+	subdomain: string | null;
 	domainId: string;
 }
 

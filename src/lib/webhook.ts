@@ -64,7 +64,7 @@ async function handleResourcecreation({
 
 		const isRootDomain = domain === matchingDomain.baseDomain;
 		const extractedSubdomain = isRootDomain
-			? ""
+			? null
 			: domain.slice(0, -`.${matchingDomain.baseDomain}`.length).trim();
 
 		if (!isRootDomain && !extractedSubdomain) {
@@ -116,7 +116,7 @@ async function handleResourcecreation({
 		}
 
 		console.log(
-			`Resource target created successfully in Pangolin for resource: ${createdResource.name}`,
+			`Resource target created successfully in Pangolin for resource: ${createdResource.name} with domain ${createdResource.fullDomain}`,
 		);
 	}
 }

@@ -261,7 +261,7 @@ describe("handleWebhook", () => {
         expect(result.success).toBe(true);
         expect(mockCreateResource).toHaveBeenCalledWith({
             name: "root-project-root-app",
-            subdomain: "",
+            subdomain: null,
             domainId: "domain-id-1",
         });
         expect(mockCreateResourceTarget).toHaveBeenCalledWith({

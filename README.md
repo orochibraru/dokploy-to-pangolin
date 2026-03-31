@@ -61,7 +61,6 @@ docker run -p 3000:3000 \
   -e PANGOLIN_API_KEY=your-key \
   -e PANGOLIN_ORG_ID=your-org \
   -e PANGOLIN_MAIN_SITE_NAME=your-site \
-  -e PANGOLIN_MAIN_DOMAIN=example.com \
   -e PANGOLIN_API_BASE_URL=https://api.pangolin.com \
   orochibraru/dokploy-to-pangolin
 ```
@@ -82,7 +81,6 @@ services:
             - PANGOLIN_API_KEY=${PANGOLIN_API_KEY}
             - PANGOLIN_ORG_ID=${PANGOLIN_ORG_ID}
             - PANGOLIN_MAIN_SITE_NAME=${PANGOLIN_MAIN_SITE_NAME}
-            - PANGOLIN_MAIN_DOMAIN=${PANGOLIN_MAIN_DOMAIN}
             - PANGOLIN_API_BASE_URL=${PANGOLIN_API_BASE_URL}
 ```
 
@@ -95,7 +93,6 @@ Configure the following environment variables in your `.env` file:
 | `PANGOLIN_API_KEY`        | Your Pangolin API key                   | `pk_live_abc123...`        |
 | `PANGOLIN_ORG_ID`         | Your Pangolin organization ID           | `org_xyz789`               |
 | `PANGOLIN_MAIN_SITE_NAME` | Name of your main Pangolin site         | `production-site`          |
-| `PANGOLIN_MAIN_DOMAIN`    | Your base domain                        | `example.com`              |
 | `PANGOLIN_API_BASE_URL`   | Pangolin API base URL                   | `https://api.pangolin.com` |
 | `WEBHOOK_SECRET`          | Secret token for webhook authentication | `your-secure-secret-here`  |
 | `PORT`                    | Server port (optional, default: 3000)   | `3000`                     |
@@ -208,13 +205,11 @@ Webhook endpoint for Dokploy events
 
 **"Cannot create resource without main domain"**
 
-- Verify `PANGOLIN_MAIN_DOMAIN` is correctly set
-- Ensure the domain exists in your Pangolin account
+- Ensure the domain exists in your Pangolin instance/account
 
 **"No subdomain extracted from event domains"**
 
 - Domain format should be: `subdomain.maindomain.com`
-- Ensure domains match the configured `PANGOLIN_MAIN_DOMAIN`
 
 **Type errors about "never" types**
 
@@ -226,8 +221,8 @@ Webhook endpoint for Dokploy events
 1. In your Dokploy project settings, navigate to Webhooks
 2. Add a new webhook:
     - **URL**: `http://your-service-url:3000/webhook`
-    - **Secret**: Your configured `WEBHOOK_SECRET`
-    - **Events**: Select "Build" events
+    - **Headers**: Set `x-webhook-secret` to your configured `WEBHOOK_SECRET` environment variable
+    - **Actions**: Select "App Deploy" events
 3. Save and deploy your application
 4. Check the logs to verify webhook processing
 
