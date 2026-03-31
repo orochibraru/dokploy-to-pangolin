@@ -1,6 +1,7 @@
 import { Hono } from "hono";
 import { logger } from "hono/logger";
 import { config, validateConfig } from "./config";
+import { listDomains } from "./lib/pangolin";
 import { type DokployEvent, handleWebhook } from "./lib/webhook";
 
 const app = new Hono();
@@ -50,3 +51,14 @@ export default {
 	port: process.env.PORT || 3000,
 	fetch: app.fetch,
 };
+
+void listDomains()
+	.then((domains) => {
+		console.log(
+			"Domains available in Pangolin:",
+			domains?.map((d) => d.baseDomain),
+		);
+	})
+	.catch((error) => {
+		console.error("Error fetching domains on startup:", error);
+	});

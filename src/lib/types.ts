@@ -1,10 +1,15 @@
 // Custom types for Pangolin API - defined manually since the OAS is broken
 
 export interface Domain {
-	baseDomain: string;
-	name: string;
-	id: string;
 	domainId: string;
+	baseDomain: string;
+	verified: boolean;
+	type: string;
+	failed: boolean;
+	tries: number;
+	configManaged: boolean;
+	certResolver: string | null;
+	preferWildcardCert: boolean;
 }
 
 export interface Resource {

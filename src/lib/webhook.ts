@@ -48,8 +48,8 @@ async function handleResourcecreation({
 		);
 
 		const domains = await listDomains();
-		const matchingDomain = domains?.find((d) =>
-			domain.endsWith(`.${d.baseDomain}`),
+		const matchingDomain = domains?.find(
+			(d) => domain === d.baseDomain || domain.endsWith(`.${d.baseDomain}`),
 		);
 
 		if (!matchingDomain) {
@@ -62,10 +62,12 @@ async function handleResourcecreation({
 			};
 		}
 
-		const extractedSubdomain = domain
-			.slice(0, -`.${matchingDomain.baseDomain}`.length)
-			.trim();
-		if (!extractedSubdomain) {
+		const isRootDomain = domain === matchingDomain.baseDomain;
+		const extractedSubdomain = isRootDomain
+			? ""
+			: domain.slice(0, -`.${matchingDomain.baseDomain}`.length).trim();
+
+		if (!isRootDomain && !extractedSubdomain) {
 			console.error("No subdomain could be extracted from the event domain.");
 			return {
 				success: false,

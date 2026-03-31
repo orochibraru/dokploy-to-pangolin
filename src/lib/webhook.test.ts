@@ -220,6 +220,55 @@ describe("handleWebhook", () => {
         });
     });
 
+    test("should create resource for root-level domain", async () => {
+        const event: DokployEvent = {
+            title: "Build Success",
+            message: "Build completed",
+            timestamp: "2026-03-03T12:00:00Z",
+            type: "build",
+            status: "success",
+            projectName: "root-project",
+            applicationName: "root-app",
+            domains: "example.com",
+        };
+
+        mockListResources.mockResolvedValue([]);
+        mockListDomains.mockResolvedValue([
+            {
+                baseDomain: "example.com",
+                name: "Example Domain",
+                id: "domain-1",
+                domainId: "domain-id-1",
+            },
+        ]);
+        mockCreateResource.mockResolvedValue({
+            name: "root-project-root-app",
+            fullDomain: "example.com",
+            resourceId: "res-root",
+        });
+        mockCreateResourceTarget.mockResolvedValue({
+            targetId: "target-root",
+            resourceId: "res-root",
+            siteId: "site-123",
+            port: 443,
+            method: "https",
+            enabled: true,
+            ip: "localhost",
+        });
+
+        const result = await handleWebhook(event);
+
+        expect(result.success).toBe(true);
+        expect(mockCreateResource).toHaveBeenCalledWith({
+            name: "root-project-root-app",
+            subdomain: "",
+            domainId: "domain-id-1",
+        });
+        expect(mockCreateResourceTarget).toHaveBeenCalledWith({
+            resourceId: "res-root",
+        });
+    });
+
     test("should not create resource when subdomain extraction fails", async () => {
         const event: DokployEvent = {
             title: "Build Success",
