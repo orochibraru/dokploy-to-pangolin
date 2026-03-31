@@ -4,11 +4,13 @@ import { handleWebhook } from "./webhook";
 
 // Mock the pangolin module
 const mockListResources = mock(() => Promise.resolve(undefined));
+const mockListDomains = mock(() => Promise.resolve(undefined));
 const mockCreateResource = mock(() => Promise.resolve(undefined));
 const mockCreateResourceTarget = mock(() => Promise.resolve(undefined));
 
 mock.module("./pangolin", () => ({
     listResources: mockListResources,
+    listDomains: mockListDomains,
     createResource: mockCreateResource,
     createResourceTarget: mockCreateResourceTarget,
 }));
@@ -17,7 +19,6 @@ mock.module("./pangolin", () => ({
 mock.module("../config", () => ({
     config: {
         pangolin: {
-            mainDomain: "example.com",
             apiBaseUrl: "https://api.example.com",
             apiKey: "test-key",
             orgId: "test-org",
@@ -29,6 +30,7 @@ mock.module("../config", () => ({
 describe("handleWebhook", () => {
     beforeEach(() => {
         mockListResources.mockClear();
+        mockListDomains.mockClear();
         mockCreateResource.mockClear();
         mockCreateResourceTarget.mockClear();
     });
@@ -132,6 +134,15 @@ describe("handleWebhook", () => {
             },
         ]);
 
+        mockListDomains.mockResolvedValue([
+            {
+                baseDomain: "example.com",
+                name: "Example Domain",
+                id: "domain-1",
+                domainId: "domain-id-1",
+            },
+        ]);
+
         mockCreateResource.mockResolvedValue({
             name: "new-project-new-app",
             fullDomain: "new.example.com",
@@ -156,6 +167,7 @@ describe("handleWebhook", () => {
         expect(mockCreateResource).toHaveBeenCalledWith({
             name: "new-project-new-app",
             subdomain: "new",
+            domainId: "domain-id-1",
         });
         expect(mockCreateResourceTarget).toHaveBeenCalledWith({
             resourceId: "res-789",
@@ -175,6 +187,14 @@ describe("handleWebhook", () => {
         };
 
         mockListResources.mockResolvedValue([]);
+        mockListDomains.mockResolvedValue([
+            {
+                baseDomain: "example.com",
+                name: "Example Domain",
+                id: "domain-1",
+                domainId: "domain-id-1",
+            },
+        ]);
         mockCreateResource.mockResolvedValue({
             name: "api-project-api-app",
             fullDomain: "api.example.com",
@@ -196,6 +216,7 @@ describe("handleWebhook", () => {
         expect(mockCreateResource).toHaveBeenCalledWith({
             name: "api-project-api-app",
             subdomain: "api",
+            domainId: "domain-id-1",
         });
     });
 
@@ -211,6 +232,14 @@ describe("handleWebhook", () => {
         };
 
         mockListResources.mockResolvedValue([]);
+        mockListDomains.mockResolvedValue([
+            {
+                baseDomain: "example.com",
+                name: "Example Domain",
+                id: "domain-1",
+                domainId: "domain-id-1",
+            },
+        ]);
 
         const result = await handleWebhook(event);
 
@@ -232,6 +261,14 @@ describe("handleWebhook", () => {
         };
 
         mockListResources.mockResolvedValue([]);
+        mockListDomains.mockResolvedValue([
+            {
+                baseDomain: "example.com",
+                name: "Example Domain",
+                id: "domain-1",
+                domainId: "domain-id-1",
+            },
+        ]);
 
         const result = await handleWebhook(event);
 
@@ -253,6 +290,14 @@ describe("handleWebhook", () => {
         };
 
         mockListResources.mockResolvedValue([]);
+        mockListDomains.mockResolvedValue([
+            {
+                baseDomain: "example.com",
+                name: "Example Domain",
+                id: "domain-1",
+                domainId: "domain-id-1",
+            },
+        ]);
         mockCreateResource.mockResolvedValue(undefined);
 
         const result = await handleWebhook(event);
@@ -275,6 +320,14 @@ describe("handleWebhook", () => {
         };
 
         mockListResources.mockResolvedValue([]);
+        mockListDomains.mockResolvedValue([
+            {
+                baseDomain: "example.com",
+                name: "Example Domain",
+                id: "domain-1",
+                domainId: "domain-id-1",
+            },
+        ]);
         mockCreateResource.mockResolvedValue({
             name: "test-project",
             fullDomain: "new.example.com",
@@ -307,6 +360,14 @@ describe("handleWebhook", () => {
                 resourceId: "res-001",
             },
         ]);
+        mockListDomains.mockResolvedValue([
+            {
+                baseDomain: "example.com",
+                name: "Example Domain",
+                id: "domain-1",
+                domainId: "domain-id-1",
+            },
+        ]);
         mockCreateResource.mockResolvedValue({
             name: "multi-project-multi-app",
             fullDomain: "second.example.com",
@@ -330,6 +391,7 @@ describe("handleWebhook", () => {
         expect(mockCreateResource).toHaveBeenCalledWith({
             name: "multi-project-multi-app",
             subdomain: "second",
+            domainId: "domain-id-1",
         });
         expect(mockCreateResourceTarget).toHaveBeenCalledWith({
             resourceId: "res-002",

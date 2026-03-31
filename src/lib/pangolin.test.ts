@@ -23,7 +23,6 @@ mock.module("openapi-fetch", () => ({
 mock.module("../config", () => ({
   config: {
     pangolin: {
-      mainDomain: "example.com",
       apiBaseUrl: "https://api.example.com",
       apiKey: "test-key",
       orgId: "test-org-123",
@@ -36,7 +35,6 @@ mock.module("../config", () => ({
 const {
   createResource,
   createResourceTarget,
-  fetchMainDomain,
   getMainSite,
   listDomains,
   listResources,
@@ -100,74 +98,6 @@ describe("Pangolin API Functions", () => {
       });
 
       const result = await listDomains();
-
-      expect(result).toBeUndefined();
-    });
-  });
-
-  describe("fetchMainDomain", () => {
-    test("should return main domain when found", async () => {
-      const mockDomains: Domain[] = [
-        {
-          baseDomain: "other.com",
-          name: "Other Domain",
-          id: "domain-1",
-          domainId: "domain-id-1",
-        },
-        {
-          baseDomain: "example.com",
-          name: "Main Domain",
-          id: "domain-2",
-          domainId: "domain-id-2",
-        },
-      ];
-
-      mockGET.mockResolvedValue({
-        data: {
-          data: {
-            domains: mockDomains,
-          },
-        },
-        error: undefined,
-      });
-
-      const result = await fetchMainDomain();
-
-      expect(result).toEqual(mockDomains[1]);
-      expect(result?.baseDomain).toBe("example.com");
-    });
-
-    test("should return undefined when main domain not found", async () => {
-      const mockDomains: Domain[] = [
-        {
-          baseDomain: "other.com",
-          name: "Other Domain",
-          id: "domain-1",
-          domainId: "domain-id-1",
-        },
-      ];
-
-      mockGET.mockResolvedValue({
-        data: {
-          data: {
-            domains: mockDomains,
-          },
-        },
-        error: undefined,
-      });
-
-      const result = await fetchMainDomain();
-
-      expect(result).toBeUndefined();
-    });
-
-    test("should return undefined when listDomains fails", async () => {
-      mockGET.mockResolvedValue({
-        data: undefined,
-        error: { message: "API Error" },
-      });
-
-      const result = await fetchMainDomain();
 
       expect(result).toBeUndefined();
     });
@@ -321,29 +251,11 @@ describe("Pangolin API Functions", () => {
 
   describe("createResource", () => {
     test("should create resource successfully", async () => {
-      const mockDomains: Domain[] = [
-        {
-          baseDomain: "example.com",
-          name: "Main Domain",
-          id: "domain-1",
-          domainId: "domain-id-1",
-        },
-      ];
-
       const mockResource: Resource = {
         name: "test-resource",
         fullDomain: "test.example.com",
         resourceId: "res-123",
       };
-
-      mockGET.mockResolvedValue({
-        data: {
-          data: {
-            domains: mockDomains,
-          },
-        },
-        error: undefined,
-      });
 
       mockPUT.mockResolvedValue({
         data: {
@@ -355,9 +267,11 @@ describe("Pangolin API Functions", () => {
       const result = await createResource({
         name: "test-resource",
         subdomain: "test",
+        domainId: "domain-id-1",
       });
 
       expect(result).toEqual(mockResource);
+      expect(mockGET).not.toHaveBeenCalled();
       expect(mockPUT).toHaveBeenCalledTimes(1);
       expect(mockPUT.mock.calls[0][0]).toBe("/org/{orgId}/resource");
       expect(mockPUT.mock.calls[0][1].body).toMatchObject({
@@ -371,72 +285,7 @@ describe("Pangolin API Functions", () => {
       });
     });
 
-    test("should return undefined when main domain not available", async () => {
-      mockGET.mockResolvedValue({
-        data: {
-          data: {
-            domains: [],
-          },
-        },
-        error: undefined,
-      });
-
-      const result = await createResource({
-        name: "test-resource",
-        subdomain: "test",
-      });
-
-      expect(result).toBeUndefined();
-      expect(mockPUT).not.toHaveBeenCalled();
-    });
-
-    test("should return undefined when domain has no domainId", async () => {
-      const mockDomains = [
-        {
-          baseDomain: "example.com",
-          name: "Main Domain",
-          id: "domain-1",
-          domainId: "",
-        },
-      ];
-
-      mockGET.mockResolvedValue({
-        data: {
-          data: {
-            domains: mockDomains,
-          },
-        },
-        error: undefined,
-      });
-
-      const result = await createResource({
-        name: "test-resource",
-        subdomain: "test",
-      });
-
-      expect(result).toBeUndefined();
-      expect(mockPUT).not.toHaveBeenCalled();
-    });
-
     test("should return undefined on PUT error", async () => {
-      const mockDomains: Domain[] = [
-        {
-          baseDomain: "example.com",
-          name: "Main Domain",
-          id: "domain-1",
-          domainId: "domain-id-1",
-        },
-      ];
-
-      mockGET.mockResolvedValue({
-        data: {
-          data: {
-            domains: mockDomains,
-          },
-        },
-        error: undefined,
-      });
-
       mockPUT.mockResolvedValue({
         data: undefined,
         error: { message: "Creation failed" },
@@ -445,6 +294,7 @@ describe("Pangolin API Functions", () => {
       const result = await createResource({
         name: "test-resource",
         subdomain: "test",
+        domainId: "domain-id-1",
       });
 
       expect(result).toBeUndefined();

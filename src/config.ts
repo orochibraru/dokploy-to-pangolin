@@ -4,7 +4,6 @@ export const config = {
 		apiKey: process.env.PANGOLIN_API_KEY as string,
 		orgId: process.env.PANGOLIN_ORG_ID as string,
 		mainSiteName: process.env.PANGOLIN_MAIN_SITE_NAME as string,
-		mainDomain: process.env.PANGOLIN_MAIN_DOMAIN as string,
 	},
 	webhookSecret: process.env.WEBHOOK_SECRET as string,
 };
@@ -29,11 +28,6 @@ export function validateConfig() {
 
 	if (!pangolin.mainSiteName) {
 		console.error("PANGOLIN_MAIN_SITE_NAME environment variable is not set.");
-		process.exit(1);
-	}
-
-	if (!pangolin.mainDomain) {
-		console.error("PANGOLIN_MAIN_DOMAIN environment variable is not set.");
 		process.exit(1);
 	}
 

@@ -43,23 +43,6 @@ export async function listDomains(): Promise<Domain[] | undefined> {
 	return data?.data.domains;
 }
 
-export async function fetchMainDomain(): Promise<Domain | undefined> {
-	const domains = await listDomains();
-	const main = domains?.find(
-		(d: Domain) => d.baseDomain === config.pangolin.mainDomain,
-	);
-
-	if (!main) {
-		console.error(
-			`Main domain ${config.pangolin.mainDomain} not found in Pangolin.`,
-		);
-		return;
-	}
-
-	console.log(`Main domain found: ${main.name} (${main.id})`);
-	return main;
-}
-
 export async function listResources(): Promise<Resource[] | undefined> {
 	// @ts-expect-error - OAS paths are broken, using custom types
 	const { data, error } = (await client.GET("/org/{orgId}/resources", {
@@ -81,19 +64,14 @@ export async function listResources(): Promise<Resource[] | undefined> {
 export interface ICreateResourceParams {
 	name: string;
 	subdomain: string;
+	domainId: string;
 }
 
 export async function createResource({
 	name,
 	subdomain,
+	domainId,
 }: ICreateResourceParams): Promise<Resource | undefined> {
-	const domain = await fetchMainDomain();
-
-	if (!domain?.domainId) {
-		console.error("Cannot create resource without main domain.");
-		return;
-	}
-
 	// @ts-expect-error - OAS paths are broken, using custom types
 	const { data, error } = (await client.PUT("/org/{orgId}/resource", {
 		params: {
@@ -105,7 +83,7 @@ export async function createResource({
 			name: name,
 			subdomain: subdomain,
 			http: true,
-			domainId: domain.domainId,
+			domainId: domainId,
 			stickySession: true,
 			postAuthPath: "/",
 			protocol: "tcp",

@@ -1,7 +1,7 @@
-import { config } from "../config";
 import {
 	createResource,
 	createResourceTarget,
+	listDomains,
 	listResources,
 } from "./pangolin";
 import type { Resource } from "./types";
@@ -47,8 +47,23 @@ async function handleResourcecreation({
 			"No matching resource found in Pangolin for the provided domain.",
 		);
 
+		const domains = await listDomains();
+		const matchingDomain = domains?.find((d) =>
+			domain.endsWith(`.${d.baseDomain}`),
+		);
+
+		if (!matchingDomain) {
+			console.error(
+				"No matching Pangolin domain found for the provided domain.",
+			);
+			return {
+				success: false,
+				message: "No matching Pangolin domain found for the provided domain",
+			};
+		}
+
 		const extractedSubdomain = domain
-			.replace(`.${config.pangolin.mainDomain}`, "")
+			.slice(0, -`.${matchingDomain.baseDomain}`.length)
 			.trim();
 		if (!extractedSubdomain) {
 			console.error("No subdomain could be extracted from the event domain.");
@@ -73,6 +88,7 @@ async function handleResourcecreation({
 		const createdResource = await createResource({
 			name: resourceName,
 			subdomain: extractedSubdomain,
+			domainId: matchingDomain.domainId,
 		});
 
 		if (!createdResource) {
@@ -145,7 +161,7 @@ export async function handleWebhook(event: DokployEvent): Promise<Result> {
 
 		const resources = await listResources();
 		for (const domain of domainList) {
-			handleResourcecreation({ domain, resources, event });
+			await handleResourcecreation({ domain, resources, event });
 		}
 	} else {
 		console.log("Webhook payload received:", event);
