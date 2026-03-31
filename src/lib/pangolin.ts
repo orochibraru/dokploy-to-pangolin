@@ -89,7 +89,7 @@ export async function createResource({
 }: ICreateResourceParams): Promise<Resource | undefined> {
 	const domain = await fetchMainDomain();
 
-	if (!domain || !domain.domainId) {
+	if (!domain?.domainId) {
 		console.error("Cannot create resource without main domain.");
 		return;
 	}
