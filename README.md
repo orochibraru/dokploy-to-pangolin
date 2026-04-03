@@ -1,7 +1,6 @@
 # Dokploy Hook Pangolin
 
 [![Docker Hub](https://img.shields.io/docker/v/orochibraru/dokploy-to-pangolin?sort=semver&logo=docker&label=Docker%20Hub)](https://hub.docker.com/r/orochibraru/dokploy-to-pangolin)
-[![coverage](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/orochibraru/YOUR_GIST_ID/raw/coverage.json)](https://github.com/orochibraru/dokploy-to-pangolin/actions/workflows/typescript.yaml)
 
 A webhook service that automatically registers new Dokploy applications with Pangolin VPN, creating resources and targets for seamless integration.
 
@@ -104,6 +103,16 @@ Configure the following environment variables in your `.env` file:
 3. Navigate to API settings
 4. Generate a new API key
 5. Note your organization ID from the URL or settings
+
+## Configuring Dokploy
+
+1. In your Dokploy project settings, navigate to Webhooks
+2. Add a new webhook:
+    - **URL**: `http://your-service-url:3000/webhook`
+    - **Headers**: Set `x-webhook-secret` to your configured `WEBHOOK_SECRET` environment variable
+    - **Actions**: Select "App Deploy" events
+3. Save and deploy your application
+4. Check the logs to verify webhook processing
 
 ## API Endpoints
 
@@ -215,16 +224,6 @@ Webhook endpoint for Dokploy events
 
 - This is expected - the Pangolin OpenAPI spec is poorly defined
 - We use custom types in `src/lib/types.ts` with `@ts-expect-error` comments
-
-## Configuring Dokploy
-
-1. In your Dokploy project settings, navigate to Webhooks
-2. Add a new webhook:
-    - **URL**: `http://your-service-url:3000/webhook`
-    - **Headers**: Set `x-webhook-secret` to your configured `WEBHOOK_SECRET` environment variable
-    - **Actions**: Select "App Deploy" events
-3. Save and deploy your application
-4. Check the logs to verify webhook processing
 
 ## Security Considerations
 

@@ -165,7 +165,7 @@ describe("handleWebhook", () => {
         expect(result.message).toBe("Webhook processed successfully");
         expect(mockListResources).toHaveBeenCalledTimes(1);
         expect(mockCreateResource).toHaveBeenCalledWith({
-            name: "new-project-new-app",
+            name: "new-project-new-app-new",
             subdomain: "new",
             domainId: "domain-id-1",
         });
@@ -214,7 +214,7 @@ describe("handleWebhook", () => {
 
         expect(result.success).toBe(true);
         expect(mockCreateResource).toHaveBeenCalledWith({
-            name: "api-project-api-app",
+            name: "api-project-api-app-api",
             subdomain: "api",
             domainId: "domain-id-1",
         });
@@ -438,7 +438,7 @@ describe("handleWebhook", () => {
         expect(result.message).toBe("Webhook processed successfully");
         expect(mockListResources).toHaveBeenCalledTimes(1);
         expect(mockCreateResource).toHaveBeenCalledWith({
-            name: "multi-project-multi-app",
+            name: "multi-project-multi-app-second",
             subdomain: "second",
             domainId: "domain-id-1",
         });

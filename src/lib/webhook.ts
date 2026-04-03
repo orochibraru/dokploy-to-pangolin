@@ -85,7 +85,9 @@ async function handleResourcecreation({
 			};
 		}
 
-		const resourceName = `${event.projectName.toLowerCase()}-${event.applicationName.toLowerCase()}`;
+		const resourceName = extractedSubdomain
+			? `${event.projectName.toLowerCase()}-${event.applicationName.toLowerCase()}-${extractedSubdomain}`
+			: `${event.projectName.toLowerCase()}-${event.applicationName.toLowerCase()}`;
 
 		const createdResource = await createResource({
 			name: resourceName,
