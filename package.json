@@ -19,7 +19,7 @@
   "devDependencies": {
     "@biomejs/biome": "2.4.10",
     "@types/bun": "^1.3.11",
-    "@types/node": "^25.5.0",
+    "@types/node": "^25.5.2",
     "changelogen": "^0.6.2",
     "husky": "^9.1.7",
     "openapi-typescript": "^7.13.0"
@@ -28,7 +28,7 @@
     "typescript": "^6.0.2"
   },
   "dependencies": {
-    "hono": "^4.12.9",
+    "hono": "^4.12.12",
     "openapi-fetch": "^0.17.0"
   },
   "packageManager": "bun@1.3.10"
