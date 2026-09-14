@@ -38,7 +38,7 @@ jobs:
         run: bun run build
 
       - name: Test
-        run: bun test
+        run: bun run test
 
       # - name: Extract coverage percentage
       #   if: github.ref == 'refs/heads/main'

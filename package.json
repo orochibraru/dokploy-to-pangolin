@@ -15,6 +15,7 @@
     "lint": "biome check .",
     "prepare": "husky",
     "check": "tsc --noEmit",
+    "test": "for f in $(find src -name '*.test.ts' | sort); do bun test \"$f\" || exit 1; done",
     "release": "changelogen release"
   },
   "devDependencies": {
