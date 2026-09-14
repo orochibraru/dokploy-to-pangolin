@@ -1,5 +1,25 @@
 # Changelog
 
+## [1.4.0](https://github.com/orochibraru/dokploy-to-pangolin/compare/v1.3.0...v1.4.0) (2026-09-14)
+
+
+### Features
+
+* support all pangolin domains ([4fbd3a5](https://github.com/orochibraru/dokploy-to-pangolin/commit/4fbd3a52979cea6f64984aa8d094ec26e13a477a))
+* support root level domain ([bbb6b8f](https://github.com/orochibraru/dokploy-to-pangolin/commit/bbb6b8fb1f50952e6d875c08a6ee307a30705487))
+
+
+### Bug Fixes
+
+* dependabot ([bc9335f](https://github.com/orochibraru/dokploy-to-pangolin/commit/bc9335ff4c91f5c49bc1f0dad5f1db2588f453e1))
+* duplicate entries ([54db52d](https://github.com/orochibraru/dokploy-to-pangolin/commit/54db52df396c10fb595d28845ec46780440912b0))
+* handle different dokploy envs ([c36c8a4](https://github.com/orochibraru/dokploy-to-pangolin/commit/c36c8a44aaf4ddd6a23451eeebdfd264cf7c661d))
+* root level domain ([90731af](https://github.com/orochibraru/dokploy-to-pangolin/commit/90731af3913b9c0325ca3a7be6482c71e76ba016))
+* test cmd ([7f40c3d](https://github.com/orochibraru/dokploy-to-pangolin/commit/7f40c3de92b22b1896988c3e88f05f37f4b8cd83))
+* tests ([5d5ff8a](https://github.com/orochibraru/dokploy-to-pangolin/commit/5d5ff8aa601650eb1cf0c6d24547cb58c1900191))
+* tests ([46105bc](https://github.com/orochibraru/dokploy-to-pangolin/commit/46105bcfc111e4f3734774616ce12db45e1d71b7))
+* tsc ([1f34f6d](https://github.com/orochibraru/dokploy-to-pangolin/commit/1f34f6df04c08926a16f21b7225714fdfd98e907))
+
 ## [1.3.0](https://github.com/orochibraru/dokploy-to-pangolin/compare/v1.2.0...v1.3.0) (2026-03-20)
 
 
