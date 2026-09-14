@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, mock, test } from "bun:test";
 import type { DokployEvent } from "./webhook";
-import { handleWebhook } from "./webhook";
+import { buildResourceName, handleWebhook } from "./webhook";
 
 // Mock the pangolin module
 const mockListResources = mock(() => Promise.resolve(undefined));
@@ -445,5 +445,157 @@ describe("handleWebhook", () => {
         expect(mockCreateResourceTarget).toHaveBeenCalledWith({
             resourceId: "res-002",
         });
+    });
+});
+
+describe("buildResourceName", () => {
+    test("collapses repeated segments instead of sergios-sergios-sergios", () => {
+        expect(buildResourceName("sergios", "sergios", "sergios")).toBe("sergios");
+        expect(buildResourceName("penombre", "penombre", "drive")).toBe(
+            "penombre-drive",
+        );
+        expect(buildResourceName("stremio", "flaresolverr", "flaresolverr")).toBe(
+            "stremio-flaresolverr",
+        );
+    });
+
+    test("keeps distinct segments in order", () => {
+        expect(buildResourceName("homelab", "kopia", "backups")).toBe(
+            "homelab-kopia-backups",
+        );
+    });
+
+    test("omits the subdomain for a root domain", () => {
+        expect(buildResourceName("orochibraru", "website", null)).toBe(
+            "orochibraru-website",
+        );
+    });
+
+    test("normalises case and whitespace", () => {
+        expect(buildResourceName("  Nuvio ", "APP", " Nuvio")).toBe("nuvio-app");
+    });
+
+    test("keeps parts that merely share a word", () => {
+        expect(buildResourceName("new-project", "new-app", "new")).toBe(
+            "new-project-new-app-new",
+        );
+    });
+});
+
+describe("duplicate prevention", () => {
+    beforeEach(() => {
+        mockListResources.mockClear();
+        mockListDomains.mockClear();
+        mockCreateResource.mockClear();
+        mockCreateResourceTarget.mockClear();
+    });
+
+    test("matches an existing resource regardless of host name casing", async () => {
+        mockListResources.mockResolvedValue([
+            {
+                name: "existing",
+                fullDomain: "Drive.Example.com",
+                resourceId: "res-1",
+            },
+        ]);
+
+        const result = await handleWebhook({
+            title: "Build Success",
+            message: "Build completed",
+            timestamp: "2026-03-03T12:00:00Z",
+            type: "build",
+            status: "success",
+            projectName: "p",
+            applicationName: "a",
+            domains: "drive.example.com.",
+        });
+
+        expect(result.success).toBe(true);
+        expect(mockCreateResource).not.toHaveBeenCalled();
+    });
+
+    test("creates one resource when an event repeats the same domain", async () => {
+        mockListResources.mockResolvedValue([]);
+        mockListDomains.mockResolvedValue([
+            { baseDomain: "example.com", domainId: "domain-id-1" },
+        ]);
+        mockCreateResource.mockResolvedValue({
+            name: "p-a-dup",
+            fullDomain: "dup.example.com",
+            resourceId: "res-9",
+        });
+        mockCreateResourceTarget.mockResolvedValue({ targetId: "t-1" });
+
+        const result = await handleWebhook({
+            title: "Build Success",
+            message: "Build completed",
+            timestamp: "2026-03-03T12:00:00Z",
+            type: "build",
+            status: "success",
+            projectName: "p",
+            applicationName: "a",
+            domains: "dup.example.com, DUP.example.com",
+        });
+
+        expect(result.success).toBe(true);
+        expect(mockCreateResource).toHaveBeenCalledTimes(1);
+    });
+
+    test("skips creation when the resource list is unavailable", async () => {
+        mockListResources.mockResolvedValue(undefined);
+
+        const result = await handleWebhook({
+            title: "Build Success",
+            message: "Build completed",
+            timestamp: "2026-03-03T12:00:00Z",
+            type: "build",
+            status: "success",
+            projectName: "p",
+            applicationName: "a",
+            domains: "new.example.com",
+        });
+
+        expect(result.success).toBe(false);
+        expect(result.message).toBe("Could not list existing Pangolin resources");
+        expect(mockCreateResource).not.toHaveBeenCalled();
+    });
+
+    test("serialises overlapping events so they cannot both create", async () => {
+        const resources: unknown[] = [];
+        mockListResources.mockImplementation(() =>
+            Promise.resolve([...resources] as never),
+        );
+        mockListDomains.mockResolvedValue([
+            { baseDomain: "example.com", domainId: "domain-id-1" },
+        ]);
+        mockCreateResource.mockImplementation(() => {
+            const created = {
+                name: "p-a-race",
+                fullDomain: "race.example.com",
+                resourceId: "res-race",
+            };
+            resources.push(created);
+            return Promise.resolve(created as never);
+        });
+        mockCreateResourceTarget.mockResolvedValue({ targetId: "t-1" });
+
+        const event: DokployEvent = {
+            title: "Build Success",
+            message: "Build completed",
+            timestamp: "2026-03-03T12:00:00Z",
+            type: "build",
+            status: "success",
+            projectName: "p",
+            applicationName: "a",
+            domains: "race.example.com",
+        };
+
+        await Promise.all([
+            handleWebhook(event),
+            handleWebhook(event),
+            handleWebhook(event),
+        ]);
+
+        expect(mockCreateResource).toHaveBeenCalledTimes(1);
     });
 });

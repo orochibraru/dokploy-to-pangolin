@@ -1,3 +1,4 @@
+import { normalizeDomain } from "./dedupe";
 import {
 	createResource,
 	createResourceTarget,
@@ -25,9 +26,28 @@ type Result = {
 	message: string;
 };
 
+/**
+ * Dokploy often repeats itself - project "sergios" holding application
+ * "sergios" served from subdomain "sergios" used to become the resource
+ * "sergios-sergios-sergios". Keep each distinct segment once.
+ */
+export function buildResourceName(
+	projectName: string,
+	applicationName: string,
+	subdomain: string | null,
+): string {
+	// Deliberately compared whole, not word by word: "new-project" and
+	// "new-app" are different names that merely share a word.
+	const parts = [projectName, applicationName, subdomain]
+		.map((part) => part?.trim().toLowerCase())
+		.filter((part): part is string => Boolean(part));
+
+	return [...new Set(parts)].join("-");
+}
+
 interface HandleResourceCreationParams {
 	domain: string;
-	resources?: Resource[];
+	resources: Resource[];
 	event: DokployEvent;
 }
 
@@ -36,7 +56,11 @@ async function handleResourcecreation({
 	resources,
 	event,
 }: HandleResourceCreationParams) {
-	const match = resources?.find((res) => domain === res.fullDomain);
+	const normalizedDomain = normalizeDomain(domain);
+	const match = resources.find(
+		(res) =>
+			res.fullDomain && normalizeDomain(res.fullDomain) === normalizedDomain,
+	);
 
 	if (match) {
 		console.log(
@@ -49,7 +73,9 @@ async function handleResourcecreation({
 
 		const domains = await listDomains();
 		const matchingDomain = domains?.find(
-			(d) => domain === d.baseDomain || domain.endsWith(`.${d.baseDomain}`),
+			(d) =>
+				normalizedDomain === normalizeDomain(d.baseDomain) ||
+				normalizedDomain.endsWith(`.${normalizeDomain(d.baseDomain)}`),
 		);
 
 		if (!matchingDomain) {
@@ -62,10 +88,11 @@ async function handleResourcecreation({
 			};
 		}
 
-		const isRootDomain = domain === matchingDomain.baseDomain;
+		const baseDomain = normalizeDomain(matchingDomain.baseDomain);
+		const isRootDomain = normalizedDomain === baseDomain;
 		const extractedSubdomain = isRootDomain
 			? null
-			: domain.slice(0, -`.${matchingDomain.baseDomain}`.length).trim();
+			: normalizedDomain.slice(0, -`.${baseDomain}`.length).trim();
 
 		if (!isRootDomain && !extractedSubdomain) {
 			console.error("No subdomain could be extracted from the event domain.");
@@ -85,9 +112,11 @@ async function handleResourcecreation({
 			};
 		}
 
-		const resourceName = extractedSubdomain
-			? `${event.projectName.toLowerCase()}-${event.applicationName.toLowerCase()}-${extractedSubdomain}`
-			: `${event.projectName.toLowerCase()}-${event.applicationName.toLowerCase()}`;
+		const resourceName = buildResourceName(
+			event.projectName,
+			event.applicationName,
+			extractedSubdomain,
+		);
 
 		const createdResource = await createResource({
 			name: resourceName,
@@ -102,12 +131,16 @@ async function handleResourcecreation({
 			};
 		}
 
+		// Record it so a second domain in the same event resolving to this host
+		// name matches instead of creating another copy.
+		resources.push(createdResource);
+
 		console.log(
 			`Resource created successfully in Pangolin: ${createdResource.name} (${createdResource.fullDomain})`,
 		);
 
 		const resourceTarget = await createResourceTarget({
-			resourceId: createdResource.resourceId,
+			resourceId: String(createdResource.resourceId),
 		});
 
 		if (!resourceTarget) {
@@ -123,7 +156,20 @@ async function handleResourcecreation({
 	}
 }
 
-export async function handleWebhook(event: DokployEvent): Promise<Result> {
+let pending: Promise<unknown> = Promise.resolve();
+
+/**
+ * Dokploy fires a webhook per deploy, so two overlapping deploys would both
+ * read the resource list before either had created anything and each would
+ * then create its own copy. Handling one event at a time removes that race.
+ */
+function serialize<T>(work: () => Promise<T>): Promise<T> {
+	const result = pending.then(work, work);
+	pending = result.catch(() => {});
+	return result;
+}
+
+async function processWebhook(event: DokployEvent): Promise<Result> {
 	if (event.type && event.type === "build") {
 		console.log(
 			`Build event received for project: ${event.projectName} (${event.applicationName})`,
@@ -164,6 +210,19 @@ export async function handleWebhook(event: DokployEvent): Promise<Result> {
 		console.log(`Extracted domains from event: ${domainList.join(", ")}`);
 
 		const resources = await listResources();
+
+		// Creating resources against an unknown state is what produced the
+		// duplicates in the first place - bail out instead of guessing.
+		if (!resources) {
+			console.error(
+				"Could not list existing Pangolin resources, skipping to avoid creating duplicates.",
+			);
+			return {
+				success: false,
+				message: "Could not list existing Pangolin resources",
+			};
+		}
+
 		for (const domain of domainList) {
 			await handleResourcecreation({ domain, resources, event });
 		}
@@ -175,4 +234,8 @@ export async function handleWebhook(event: DokployEvent): Promise<Result> {
 		success: true,
 		message: "Webhook processed successfully",
 	};
+}
+
+export function handleWebhook(event: DokployEvent): Promise<Result> {
+	return serialize(() => processWebhook(event));
 }

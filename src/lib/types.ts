@@ -14,8 +14,11 @@ export interface Domain {
 
 export interface Resource {
 	name: string;
-	fullDomain: string;
-	resourceId: string;
+	// null for non-http resources (raw TCP/UDP), which are keyed by proxyPort
+	fullDomain: string | null;
+	resourceId: string | number;
+	niceId?: string;
+	enabled?: boolean;
 }
 
 export interface Site {
@@ -38,12 +41,19 @@ export interface ApiResponse<T> {
 	data: T;
 }
 
+export interface Pagination {
+	total: number;
+	pageSize: number;
+	page: number;
+}
+
 export interface DomainsResponse {
 	domains: Domain[];
 }
 
 export interface ResourcesResponse {
 	resources: Resource[];
+	pagination?: Pagination;
 }
 
 export interface SitesResponse {

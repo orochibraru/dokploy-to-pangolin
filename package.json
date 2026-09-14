@@ -9,6 +9,7 @@
     "dev": "bun run --watch ./src/index.ts",
     "build": "bun run build.ts",
     "start": "bun ./build/index.js",
+    "reconcile": "bun ./src/reconcile.ts",
     "gen:api": "openapi-typescript ./assets/pangolin-openapi.yml --output src/lib/pangolin.d.ts",
     "lint:fix": "biome check --write .",
     "lint": "biome check .",

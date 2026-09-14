@@ -34,6 +34,7 @@ This service acts as a bridge between [Dokploy](https://dokploy.com/) (deploymen
 
 - Automatic resource creation in Pangolin when new domains are deployed
 - Intelligent domain matching to avoid duplicates
+- Duplicate detection and cleanup for resources that already got cloned
 - Webhook authentication with secret token
 - Comprehensive error handling and logging
 - Graceful shutdown handling (SIGINT/SIGTERM)
@@ -154,6 +155,66 @@ Webhook endpoint for Dokploy events
 - `401 Unauthorized`: Invalid webhook secret
 - `500 Internal Server Error`: Processing error
 
+### `GET /duplicates`
+
+Reports resources that share a host name, without changing anything.
+
+**Headers:**
+
+- `x-webhook-secret`: Must match `WEBHOOK_SECRET` environment variable
+
+**Response:**
+
+```json
+{
+    "scanned": 256,
+    "applied": false,
+    "deleted": 0,
+    "renamed": [],
+    "failed": 0,
+    "groups": [
+        {
+            "fullDomain": "app.example.com",
+            "keep": { "resourceId": 61, "name": "my-app" },
+            "duplicates": [{ "resourceId": 91, "name": "my-app" }]
+        }
+    ]
+}
+```
+
+### `DELETE /duplicates`
+
+Same report, but deletes the duplicates and tidies up the names that survive.
+See [Duplicate cleanup](#duplicate-cleanup).
+
+## Duplicate cleanup
+
+Two resources sharing a host name are a routing conflict: Pangolin serves
+whichever one it happens to pick. The oldest resource in each group is kept,
+because it is the one that was configured deliberately - its SSO, auth and
+rule settings are the ones you set - and the later copies are deleted.
+
+Review first, then apply:
+
+```bash
+# Report what would change
+bun run reconcile
+
+# Delete the duplicates and tidy up the surviving names
+bun run reconcile --apply
+
+# Delete the duplicates but leave names alone
+bun run reconcile --apply --no-rename
+```
+
+Renaming collapses repeated words in a name, so
+`sergios-sergios-sergios` becomes `sergios`. It has only the existing name to
+work from, so it would also shorten a deliberate `new-project-new-app` - which
+is why the dry run comes first.
+
+The service logs a warning at startup when duplicates exist, but never deletes
+anything on its own.
+
 ## How It Works
 
 ### Workflow
@@ -219,6 +280,15 @@ Webhook endpoint for Dokploy events
 **"No subdomain extracted from event domains"**
 
 - Domain format should be: `subdomain.maindomain.com`
+
+**Duplicate resources keep appearing for the same domain**
+
+- Fixed: the resource listing now pages through the whole collection. The API
+  defaults to 20 items per page, so the service used to miss anything past the
+  first page and re-create resources it already had
+- Events are also handled one at a time, so two overlapping deploys can no
+  longer both decide a resource is missing
+- Run `bun run reconcile` to clean up copies made before the fix
 
 **Type errors about "never" types**
 
@@ -290,6 +360,9 @@ bun run check
 
 # Generate Pangolin API types (from OpenAPI spec)
 bun run gen:api
+
+# Report duplicate resources (add --apply to clean them up)
+bun run reconcile
 ```
 
 ## Testing
