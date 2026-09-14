@@ -29,6 +29,18 @@ const mockClient = {
   use: mock(() => {}),
 };
 
+const domain = (baseDomain: string, domainId: string): Domain => ({
+  domainId,
+  baseDomain,
+  verified: true,
+  type: "ns",
+  failed: false,
+  tries: 0,
+  configManaged: false,
+  certResolver: null,
+  preferWildcardCert: false,
+});
+
 mock.module("openapi-fetch", () => ({
   default: mock(() => mockClient),
 }));
@@ -59,26 +71,16 @@ const {
 
 describe("Pangolin API Functions", () => {
   beforeEach(() => {
-    mockGET.mockClear();
-    mockPUT.mockClear();
-    mockDELETE.mockClear();
+    mockGET.mockReset();
+    mockPUT.mockReset();
+    mockDELETE.mockReset();
   });
 
   describe("listDomains", () => {
     test("should return domains on success", async () => {
       const mockDomains: Domain[] = [
-        {
-          baseDomain: "example.com",
-          name: "Example Domain",
-          id: "domain-1",
-          domainId: "domain-id-1",
-        },
-        {
-          baseDomain: "test.com",
-          name: "Test Domain",
-          id: "domain-2",
-          domainId: "domain-id-2",
-        },
+        domain("example.com", "domain-id-1"),
+        domain("test.com", "domain-id-2"),
       ];
 
       mockGET.mockResolvedValue({
@@ -422,7 +424,7 @@ describe("Pangolin API Functions", () => {
 
 describe("listResources pagination", () => {
   beforeEach(() => {
-    mockGET.mockClear();
+    mockGET.mockReset();
   });
 
   const page = (from: number, count: number, total: number) => ({
@@ -484,7 +486,7 @@ describe("listResources pagination", () => {
 
 describe("deleteResource", () => {
   beforeEach(() => {
-    mockDELETE.mockClear();
+    mockDELETE.mockReset();
   });
 
   test("returns true and targets the resource path", async () => {
@@ -505,7 +507,7 @@ describe("deleteResource", () => {
 
 describe("renameResource", () => {
   beforeEach(() => {
-    mockPOST.mockClear();
+    mockPOST.mockReset();
   });
 
   test("posts the new name to the resource", async () => {

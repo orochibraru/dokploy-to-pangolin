@@ -86,9 +86,9 @@ describe("findDuplicateGroups", () => {
 
 describe("reconcileDuplicates", () => {
     beforeEach(() => {
-        mockListResources.mockClear();
-        mockDeleteResource.mockClear();
-        mockRenameResource.mockClear();
+        mockListResources.mockReset();
+        mockDeleteResource.mockReset();
+        mockRenameResource.mockReset();
         mockDeleteResource.mockResolvedValue(true);
         mockRenameResource.mockResolvedValue(true);
     });
@@ -183,9 +183,9 @@ describe("collapseResourceName", () => {
 
 describe("reconcileDuplicates renaming", () => {
     beforeEach(() => {
-        mockListResources.mockClear();
-        mockDeleteResource.mockClear();
-        mockRenameResource.mockClear();
+        mockListResources.mockReset();
+        mockDeleteResource.mockReset();
+        mockRenameResource.mockReset();
         mockDeleteResource.mockResolvedValue(true);
         mockRenameResource.mockResolvedValue(true);
     });

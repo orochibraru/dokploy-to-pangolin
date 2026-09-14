@@ -1,12 +1,44 @@
 import { beforeEach, describe, expect, mock, test } from "bun:test";
+import type { Domain, Resource, ResourceTarget } from "./types";
 import type { DokployEvent } from "./webhook";
 import { buildResourceName, handleWebhook } from "./webhook";
 
+// Test data factories, so the mocks hand back values the real types accept.
+const domain = (baseDomain: string, domainId: string): Domain => ({
+    domainId,
+    baseDomain,
+    verified: true,
+    type: "ns",
+    failed: false,
+    tries: 0,
+    configManaged: false,
+    certResolver: null,
+    preferWildcardCert: false,
+});
+
+const target = (targetId: string, resourceId: string): ResourceTarget => ({
+    targetId,
+    resourceId,
+    siteId: "site-123",
+    port: 443,
+    method: "https",
+    enabled: true,
+    ip: "localhost",
+});
+
 // Mock the pangolin module
-const mockListResources = mock(() => Promise.resolve(undefined));
-const mockListDomains = mock(() => Promise.resolve(undefined));
-const mockCreateResource = mock(() => Promise.resolve(undefined));
-const mockCreateResourceTarget = mock(() => Promise.resolve(undefined));
+const mockListResources = mock(
+    (): Promise<Resource[] | undefined> => Promise.resolve(undefined),
+);
+const mockListDomains = mock(
+    (): Promise<Domain[] | undefined> => Promise.resolve(undefined),
+);
+const mockCreateResource = mock(
+    (): Promise<Resource | undefined> => Promise.resolve(undefined),
+);
+const mockCreateResourceTarget = mock(
+    (): Promise<ResourceTarget | undefined> => Promise.resolve(undefined),
+);
 
 mock.module("./pangolin", () => ({
     listResources: mockListResources,
@@ -29,10 +61,10 @@ mock.module("../config", () => ({
 
 describe("handleWebhook", () => {
     beforeEach(() => {
-        mockListResources.mockClear();
-        mockListDomains.mockClear();
-        mockCreateResource.mockClear();
-        mockCreateResourceTarget.mockClear();
+        mockListResources.mockReset();
+        mockListDomains.mockReset();
+        mockCreateResource.mockReset();
+        mockCreateResourceTarget.mockReset();
     });
 
     test("should handle non-build events successfully", async () => {
@@ -135,12 +167,7 @@ describe("handleWebhook", () => {
         ]);
 
         mockListDomains.mockResolvedValue([
-            {
-                baseDomain: "example.com",
-                name: "Example Domain",
-                id: "domain-1",
-                domainId: "domain-id-1",
-            },
+            domain("example.com", "domain-id-1"),
         ]);
 
         mockCreateResource.mockResolvedValue({
@@ -149,15 +176,7 @@ describe("handleWebhook", () => {
             resourceId: "res-789",
         });
 
-        mockCreateResourceTarget.mockResolvedValue({
-            targetId: "target-123",
-            resourceId: "res-789",
-            siteId: "site-123",
-            port: 443,
-            method: "https",
-            enabled: true,
-            ip: "localhost",
-        });
+        mockCreateResourceTarget.mockResolvedValue(target("target-123", "res-789"));
 
         const result = await handleWebhook(event);
 
@@ -188,27 +207,14 @@ describe("handleWebhook", () => {
 
         mockListResources.mockResolvedValue([]);
         mockListDomains.mockResolvedValue([
-            {
-                baseDomain: "example.com",
-                name: "Example Domain",
-                id: "domain-1",
-                domainId: "domain-id-1",
-            },
+            domain("example.com", "domain-id-1"),
         ]);
         mockCreateResource.mockResolvedValue({
             name: "api-project-api-app",
             fullDomain: "api.example.com",
             resourceId: "res-999",
         });
-        mockCreateResourceTarget.mockResolvedValue({
-            targetId: "target-999",
-            resourceId: "res-999",
-            siteId: "site-123",
-            port: 443,
-            method: "https",
-            enabled: true,
-            ip: "localhost",
-        });
+        mockCreateResourceTarget.mockResolvedValue(target("target-999", "res-999"));
 
         const result = await handleWebhook(event);
 
@@ -234,27 +240,14 @@ describe("handleWebhook", () => {
 
         mockListResources.mockResolvedValue([]);
         mockListDomains.mockResolvedValue([
-            {
-                baseDomain: "example.com",
-                name: "Example Domain",
-                id: "domain-1",
-                domainId: "domain-id-1",
-            },
+            domain("example.com", "domain-id-1"),
         ]);
         mockCreateResource.mockResolvedValue({
             name: "root-project-root-app",
             fullDomain: "example.com",
             resourceId: "res-root",
         });
-        mockCreateResourceTarget.mockResolvedValue({
-            targetId: "target-root",
-            resourceId: "res-root",
-            siteId: "site-123",
-            port: 443,
-            method: "https",
-            enabled: true,
-            ip: "localhost",
-        });
+        mockCreateResourceTarget.mockResolvedValue(target("target-root", "res-root"));
 
         const result = await handleWebhook(event);
 
@@ -282,12 +275,7 @@ describe("handleWebhook", () => {
 
         mockListResources.mockResolvedValue([]);
         mockListDomains.mockResolvedValue([
-            {
-                baseDomain: "example.com",
-                name: "Example Domain",
-                id: "domain-1",
-                domainId: "domain-id-1",
-            },
+            domain("example.com", "domain-id-1"),
         ]);
 
         const result = await handleWebhook(event);
@@ -311,12 +299,7 @@ describe("handleWebhook", () => {
 
         mockListResources.mockResolvedValue([]);
         mockListDomains.mockResolvedValue([
-            {
-                baseDomain: "example.com",
-                name: "Example Domain",
-                id: "domain-1",
-                domainId: "domain-id-1",
-            },
+            domain("example.com", "domain-id-1"),
         ]);
 
         const result = await handleWebhook(event);
@@ -340,12 +323,7 @@ describe("handleWebhook", () => {
 
         mockListResources.mockResolvedValue([]);
         mockListDomains.mockResolvedValue([
-            {
-                baseDomain: "example.com",
-                name: "Example Domain",
-                id: "domain-1",
-                domainId: "domain-id-1",
-            },
+            domain("example.com", "domain-id-1"),
         ]);
         mockCreateResource.mockResolvedValue(undefined);
 
@@ -370,12 +348,7 @@ describe("handleWebhook", () => {
 
         mockListResources.mockResolvedValue([]);
         mockListDomains.mockResolvedValue([
-            {
-                baseDomain: "example.com",
-                name: "Example Domain",
-                id: "domain-1",
-                domainId: "domain-id-1",
-            },
+            domain("example.com", "domain-id-1"),
         ]);
         mockCreateResource.mockResolvedValue({
             name: "test-project",
@@ -410,27 +383,14 @@ describe("handleWebhook", () => {
             },
         ]);
         mockListDomains.mockResolvedValue([
-            {
-                baseDomain: "example.com",
-                name: "Example Domain",
-                id: "domain-1",
-                domainId: "domain-id-1",
-            },
+            domain("example.com", "domain-id-1"),
         ]);
         mockCreateResource.mockResolvedValue({
             name: "multi-project-multi-app",
             fullDomain: "second.example.com",
             resourceId: "res-002",
         });
-        mockCreateResourceTarget.mockResolvedValue({
-            targetId: "target-002",
-            resourceId: "res-002",
-            siteId: "site-123",
-            port: 443,
-            method: "https",
-            enabled: true,
-            ip: "localhost",
-        });
+        mockCreateResourceTarget.mockResolvedValue(target("target-002", "res-002"));
 
         const result = await handleWebhook(event);
 
@@ -484,10 +444,10 @@ describe("buildResourceName", () => {
 
 describe("duplicate prevention", () => {
     beforeEach(() => {
-        mockListResources.mockClear();
-        mockListDomains.mockClear();
-        mockCreateResource.mockClear();
-        mockCreateResourceTarget.mockClear();
+        mockListResources.mockReset();
+        mockListDomains.mockReset();
+        mockCreateResource.mockReset();
+        mockCreateResourceTarget.mockReset();
     });
 
     test("matches an existing resource regardless of host name casing", async () => {
@@ -517,14 +477,14 @@ describe("duplicate prevention", () => {
     test("creates one resource when an event repeats the same domain", async () => {
         mockListResources.mockResolvedValue([]);
         mockListDomains.mockResolvedValue([
-            { baseDomain: "example.com", domainId: "domain-id-1" },
+            domain("example.com", "domain-id-1"),
         ]);
         mockCreateResource.mockResolvedValue({
             name: "p-a-dup",
             fullDomain: "dup.example.com",
             resourceId: "res-9",
         });
-        mockCreateResourceTarget.mockResolvedValue({ targetId: "t-1" });
+        mockCreateResourceTarget.mockResolvedValue(target("t-1", "res-1"));
 
         const result = await handleWebhook({
             title: "Build Success",
@@ -561,23 +521,21 @@ describe("duplicate prevention", () => {
     });
 
     test("serialises overlapping events so they cannot both create", async () => {
-        const resources: unknown[] = [];
-        mockListResources.mockImplementation(() =>
-            Promise.resolve([...resources] as never),
-        );
+        const resources: Resource[] = [];
+        mockListResources.mockImplementation(() => Promise.resolve([...resources]));
         mockListDomains.mockResolvedValue([
-            { baseDomain: "example.com", domainId: "domain-id-1" },
+            domain("example.com", "domain-id-1"),
         ]);
         mockCreateResource.mockImplementation(() => {
-            const created = {
+            const created: Resource = {
                 name: "p-a-race",
                 fullDomain: "race.example.com",
                 resourceId: "res-race",
             };
             resources.push(created);
-            return Promise.resolve(created as never);
+            return Promise.resolve(created);
         });
-        mockCreateResourceTarget.mockResolvedValue({ targetId: "t-1" });
+        mockCreateResourceTarget.mockResolvedValue(target("t-1", "res-1"));
 
         const event: DokployEvent = {
             title: "Build Success",
