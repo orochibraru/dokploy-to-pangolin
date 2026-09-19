@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.4.1](https://github.com/orochibraru/dokploy-to-pangolin/compare/v1.4.0...v1.4.1) (2026-09-19)
+
+### Bug Fixes
+
+* biome conf ([4187703](https://github.com/orochibraru/dokploy-to-pangolin/commit/4187703fcf775f6b688dd42c956ac0ab33850f77))
+
 ## [1.4.0](https://github.com/orochibraru/dokploy-to-pangolin/compare/v1.3.0...v1.4.0) (2026-09-19)
 
 ### Features
