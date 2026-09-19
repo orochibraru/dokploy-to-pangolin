@@ -43,22 +43,94 @@ export async function listDomains(): Promise<Domain[] | undefined> {
 	return data?.data.domains;
 }
 
+/**
+ * The API defaults to a page size of 20, so an unparameterised call silently
+ * hides every resource past the first page - which made the hook re-create
+ * resources it already had. Always walk the whole collection.
+ */
 export async function listResources(): Promise<Resource[] | undefined> {
+	const pageSize = 500;
+	const resources: Resource[] = [];
+
+	for (let page = 1; ; page++) {
+		// @ts-expect-error - OAS paths are broken, using custom types
+		const { data, error } = (await client.GET("/org/{orgId}/resources", {
+			params: {
+				path: {
+					orgId: config.pangolin.orgId,
+				},
+				query: {
+					page,
+					pageSize,
+				},
+			},
+		})) as { data?: ApiResponse<ResourcesResponse>; error?: unknown };
+
+		if (error) {
+			console.error("Error fetching Pangolin resources:", error);
+			return;
+		}
+
+		const batch = data?.data.resources;
+
+		if (!batch) {
+			return page === 1 ? undefined : resources;
+		}
+
+		resources.push(...batch);
+
+		const total = data?.data.pagination?.total;
+		const done =
+			batch.length === 0 ||
+			batch.length < pageSize ||
+			(total !== undefined && resources.length >= total);
+
+		if (done) {
+			return resources;
+		}
+	}
+}
+
+export async function deleteResource(
+	resourceId: string | number,
+): Promise<boolean> {
 	// @ts-expect-error - OAS paths are broken, using custom types
-	const { data, error } = (await client.GET("/org/{orgId}/resources", {
+	const { error } = await client.DELETE("/resource/{resourceId}", {
 		params: {
 			path: {
-				orgId: config.pangolin.orgId,
+				resourceId: String(resourceId),
 			},
 		},
-	})) as { data?: ApiResponse<ResourcesResponse>; error?: unknown };
+	});
 
 	if (error) {
-		console.error("Error fetching Pangolin resources:", error);
-		return;
+		console.error(`Error deleting Pangolin resource ${resourceId}:`, error);
+		return false;
 	}
 
-	return data?.data.resources;
+	return true;
+}
+
+export async function renameResource(
+	resourceId: string | number,
+	name: string,
+): Promise<boolean> {
+	// @ts-expect-error - OAS paths are broken, using custom types
+	const { error } = await client.POST("/resource/{resourceId}", {
+		params: {
+			path: {
+				resourceId: String(resourceId),
+			},
+		},
+		body: { name },
+	});
+
+	if (error) {
+		console.error(`Error renaming Pangolin resource ${resourceId}:`, error);
+		return false;
+	}
+
+	return true;
 }
 
 export interface ICreateResourceParams {

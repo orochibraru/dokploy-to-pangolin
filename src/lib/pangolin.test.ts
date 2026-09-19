@@ -11,11 +11,35 @@ const mockPUT = mock(
     Promise.resolve({ data: undefined, error: undefined }),
 );
 
+const mockDELETE = mock(
+  (_path: string, _opts?: unknown): Promise<{ data: unknown; error: unknown }> =>
+    Promise.resolve({ data: undefined, error: undefined }),
+);
+
+const mockPOST = mock(
+  (_path: string, _opts?: unknown): Promise<{ data: unknown; error: unknown }> =>
+    Promise.resolve({ data: undefined, error: undefined }),
+);
+
 const mockClient = {
   GET: mockGET,
   PUT: mockPUT,
+  POST: mockPOST,
+  DELETE: mockDELETE,
   use: mock(() => {}),
 };
+
+const domain = (baseDomain: string, domainId: string): Domain => ({
+  domainId,
+  baseDomain,
+  verified: true,
+  type: "ns",
+  failed: false,
+  tries: 0,
+  configManaged: false,
+  certResolver: null,
+  preferWildcardCert: false,
+});
 
 mock.module("openapi-fetch", () => ({
   default: mock(() => mockClient),
@@ -37,7 +61,9 @@ mock.module("../config", () => ({
 const {
   createResource,
   createResourceTarget,
+  deleteResource,
   getMainSite,
+  renameResource,
   listDomains,
   listResources,
   listSites,
@@ -45,25 +71,16 @@ const {
 
 describe("Pangolin API Functions", () => {
   beforeEach(() => {
-    mockGET.mockClear();
-    mockPUT.mockClear();
+    mockGET.mockReset();
+    mockPUT.mockReset();
+    mockDELETE.mockReset();
   });
 
   describe("listDomains", () => {
     test("should return domains on success", async () => {
       const mockDomains: Domain[] = [
-        {
-          baseDomain: "example.com",
-          name: "Example Domain",
-          id: "domain-1",
-          domainId: "domain-id-1",
-        },
-        {
-          baseDomain: "test.com",
-          name: "Test Domain",
-          id: "domain-2",
-          domainId: "domain-id-2",
-        },
+        domain("example.com", "domain-id-1"),
+        domain("test.com", "domain-id-2"),
       ];
 
       mockGET.mockResolvedValue({
@@ -402,5 +419,110 @@ describe("Pangolin API Functions", () => {
 
       expect(result).toBeUndefined();
     });
+  });
+});
+
+describe("listResources pagination", () => {
+  beforeEach(() => {
+    mockGET.mockReset();
+  });
+
+  const page = (from: number, count: number, total: number) => ({
+    data: {
+      data: {
+        resources: Array.from({ length: count }, (_, i) => ({
+          name: `r${from + i}`,
+          fullDomain: `r${from + i}.example.com`,
+          resourceId: from + i,
+        })),
+        pagination: { total, pageSize: 500, page: 1 },
+      },
+    },
+    error: undefined,
+  });
+
+  test("always asks for a page size, so page 2 is not silently dropped", async () => {
+    mockGET.mockResolvedValue(page(1, 3, 3));
+
+    await listResources();
+
+    const opts = mockGET.mock.calls[0]?.[1] as {
+      params: { query: { page: number; pageSize: number } };
+    };
+    expect(opts.params.query.pageSize).toBeGreaterThan(20);
+    expect(opts.params.query.page).toBe(1);
+  });
+
+  test("walks every page and returns the whole collection", async () => {
+    mockGET
+      .mockResolvedValueOnce(page(1, 500, 620))
+      .mockResolvedValueOnce(page(501, 120, 620));
+
+    const result = await listResources();
+
+    expect(result).toHaveLength(620);
+    expect(mockGET).toHaveBeenCalledTimes(2);
+    expect(result?.at(-1)?.resourceId).toBe(620);
+  });
+
+  test("stops at a short page even without a total", async () => {
+    mockGET.mockResolvedValue({
+      data: { data: { resources: [{ name: "r", fullDomain: "r.example.com", resourceId: 1 }] } },
+      error: undefined,
+    });
+
+    expect(await listResources()).toHaveLength(1);
+    expect(mockGET).toHaveBeenCalledTimes(1);
+  });
+
+  test("returns undefined when a later page errors", async () => {
+    mockGET
+      .mockResolvedValueOnce(page(1, 500, 620))
+      .mockResolvedValueOnce({ data: undefined, error: { message: "boom" } });
+
+    expect(await listResources()).toBeUndefined();
+  });
+});
+
+describe("deleteResource", () => {
+  beforeEach(() => {
+    mockDELETE.mockReset();
+  });
+
+  test("returns true and targets the resource path", async () => {
+    mockDELETE.mockResolvedValue({ data: {}, error: undefined });
+
+    expect(await deleteResource(42)).toBe(true);
+    expect(mockDELETE).toHaveBeenCalledWith("/resource/{resourceId}", {
+      params: { path: { resourceId: "42" } },
+    });
+  });
+
+  test("returns false on error", async () => {
+    mockDELETE.mockResolvedValue({ data: undefined, error: { message: "nope" } });
+
+    expect(await deleteResource("res-1")).toBe(false);
+  });
+});
+
+describe("renameResource", () => {
+  beforeEach(() => {
+    mockPOST.mockReset();
+  });
+
+  test("posts the new name to the resource", async () => {
+    mockPOST.mockResolvedValue({ data: {}, error: undefined });
+
+    expect(await renameResource(7, "sergios")).toBe(true);
+    expect(mockPOST).toHaveBeenCalledWith("/resource/{resourceId}", {
+      params: { path: { resourceId: "7" } },
+      body: { name: "sergios" },
+    });
+  });
+
+  test("returns false on error", async () => {
+    mockPOST.mockResolvedValue({ data: undefined, error: { message: "nope" } });
+
+    expect(await renameResource(7, "sergios")).toBe(false);
   });
 });
