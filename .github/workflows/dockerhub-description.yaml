@@ -1,0 +1,31 @@
+name: Docker Hub description
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - README.md
+      - .github/workflows/dockerhub-description.yaml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  sync:
+    name: Sync README to Docker Hub
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      # The token needs Docker Hub's "Read, Write, Delete" scope: the
+      # description endpoint refuses anything narrower.
+      - uses: peter-evans/dockerhub-description@1b9a80c056b620d92cedb9d9b5a223409c68ddfa # v5.0.0
+        with:
+          username: ${{ vars.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          repository: orochibraru/dokploy-to-pangolin
+          short-description: "Webhook that creates Pangolin resources and targets for every new Dokploy deployment."
+          enable-url-completion: true
