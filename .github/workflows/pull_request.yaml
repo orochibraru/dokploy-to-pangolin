@@ -1,0 +1,40 @@
+name: Pull Request
+on:
+  pull_request:
+
+concurrency:
+  group: pull-request-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+env:
+  TZ: Europe/Paris
+
+permissions:
+  contents: read
+
+jobs:
+  code_quality:
+    name: Code Quality
+    uses: ./.github/workflows/code_quality.yaml
+
+  docker:
+    name: Docker
+    uses: ./.github/workflows/docker.yaml
+
+  gate:
+    name: CI Gate
+    if: always()
+    needs: [code_quality, docker]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check results
+        env:
+          RESULTS: ${{ join(needs.*.result, ' ') }}
+        run: |
+          for result in $RESULTS; do
+            if [[ "$result" == "failure" || "$result" == "cancelled" ]]; then
+              echo "::error::One or more jobs failed or were cancelled"
+              exit 1
+            fi
+          done
+          echo "All checks passed (skipped jobs are OK)"
