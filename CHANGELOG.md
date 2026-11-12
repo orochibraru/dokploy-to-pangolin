@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.4.2](https://github.com/zedensix/dokploy-to-pangolin/compare/v1.4.1...v1.4.2) (2026-11-12)
+
+### Bug Fixes
+
+* docs and refs (oro to zn6) ([0d2fd86](https://github.com/zedensix/dokploy-to-pangolin/commit/0d2fd8677c667073644f693533b74a39a6550b23))
+
 ## [1.4.1](https://github.com/zedensix/dokploy-to-pangolin/compare/v1.4.0...v1.4.1) (2026-09-19)
 
 ### Bug Fixes
