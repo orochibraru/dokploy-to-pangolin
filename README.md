@@ -1,6 +1,6 @@
 # Dokploy Hook Pangolin
 
-[![Docker Hub](https://img.shields.io/docker/v/orochibraru/dokploy-to-pangolin?sort=semver&logo=docker&label=Docker%20Hub)](https://hub.docker.com/r/orochibraru/dokploy-to-pangolin)
+[![Docker Hub](https://img.shields.io/docker/v/zedensix/dokploy-to-pangolin?sort=semver&logo=docker&label=Docker%20Hub)](https://hub.docker.com/r/zedensix/dokploy-to-pangolin)
 
 A webhook service that automatically registers new Dokploy applications with Pangolin VPN, creating resources and targets for seamless integration.
 
@@ -72,7 +72,7 @@ docker run -p 3000:3000 \
 ```yaml
 services:
     hook:
-        image: orochibraru/dokploy-to-pangolin:latest
+        image: zedensix/dokploy-to-pangolin:latest
         ports:
             - "3000:3000"
         environment:
