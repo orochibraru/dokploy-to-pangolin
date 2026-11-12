@@ -62,7 +62,7 @@ docker run -p 3000:3000 \
   -e PANGOLIN_ORG_ID=your-org \
   -e PANGOLIN_MAIN_SITE_NAME=your-site \
   -e PANGOLIN_API_BASE_URL=https://api.pangolin.com \
-  orochibraru/dokploy-to-pangolin
+  zedensix/dokploy-to-pangolin
 ```
 
 ### With Docker Compose
@@ -310,7 +310,7 @@ anything on its own.
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/orochibraru/dokploy-to-pangolin.git
+git clone https://github.com/zedensix/dokploy-to-pangolin.git
 cd dokploy-to-pangolin
 ```
 

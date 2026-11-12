@@ -426,8 +426,8 @@ describe("buildResourceName", () => {
     });
 
     test("omits the subdomain for a root domain", () => {
-        expect(buildResourceName("orochibraru", "website", null)).toBe(
-            "orochibraru-website",
+        expect(buildResourceName("zedensix", "website", null)).toBe(
+            "zedensix-website",
         );
     });
 
