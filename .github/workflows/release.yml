@@ -31,7 +31,7 @@ jobs:
         with:
           ssh-key: ${{ secrets.RELEASE_DEPLOY_KEY }}
       - id: release
-        uses: orochibraru/releaser@v1
+        uses: zedensix/releaser@ba23a5840fb7ec8db1aa81bff4d4478f6e499020 # v1.7.3
 
   docker:
     needs: release
