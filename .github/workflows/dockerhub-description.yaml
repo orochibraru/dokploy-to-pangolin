@@ -26,6 +26,6 @@ jobs:
         with:
           username: ${{ vars.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-          repository: orochibraru/dokploy-to-pangolin
+          repository: zedensix/dokploy-to-pangolin
           short-description: "Webhook that creates Pangolin resources and targets for every new Dokploy deployment."
           enable-url-completion: true
